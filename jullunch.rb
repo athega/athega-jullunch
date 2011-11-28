@@ -62,7 +62,6 @@ class Jullunch < Sinatra::Base
     seatings = [
       Seating.db.name,
       Seating.collection.name,
-      Seating.db.inspect,
       Seating.sort([:starts_at, -1]).all
     ]
 
