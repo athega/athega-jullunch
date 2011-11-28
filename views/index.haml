@@ -1,0 +1,57 @@
+.row
+  .six.columns
+    - if has_valid_token?
+      %form{ :action => '/accept_invitation', :method => 'post' }
+        %h2 Svara på inbjudan
+
+        %fieldset
+          %label{ :for => 'guest_name' } Ditt namn
+          %input#guest_name{ :type => 'text', :name => 'guest_name', :value => 'Namn' }
+
+          %label{ :for => 'guest_company' } Företag
+          %input#guest_company{ :type => 'text', :name => 'guest_company', :value => 'Företagsnamn' }
+
+          %label{ :for => 'guest_phone' } Telefon
+          %input#guest_phone{ :type => 'text', :name => 'guest_phone', :value => '000-0000 00 00 ' }
+
+          %label{ :for => 'guest_email'} E-post
+          %input#guest_email{ :type => 'text', :name => 'guest_email', :value => 'guest@guestcompany.se' }
+
+        %fieldset
+          %h4 Sittningar
+
+          %small.alert-message Om alla kommer samtidigt kan det bli lite |
+                               trångt. Vi skulle därför uppskatta om ni  |
+                               vill ange på ett ungefär när ni planerar  |
+                               att komma till oss.                       |
+
+          - seatings.each do |seating|
+            %li= seating.inspect
+
+        %input{ :type => 'submit', :value => 'Skicka anmälan' }
+
+        %hr
+
+  .nine.offset-by-one.columns
+    %h1 Nu är det snart dags för Athegas traditionella jullunch!
+
+    %p Vi dukar fram det goda julbordet fredagen 0 december kl. 11.30 och   |
+       ser till att faten är fyllda och stämningen hög fram till ca. 14.30. |
+
+    %p #{'<a href="mailto:fredrik.soder@athega.se">Fredrik Söder</a>'} svarar gärna på dina frågor.
+
+    %h2 Vägbeskrivning
+    %p
+      Vårt kontor ligger på
+      %strong Hantverkargatan 21, 3tr.
+
+    %p
+      Närmaste tunnelbanestation är Rådhuset
+      %em (uppgång Parmmätargatan).
+
+    :plain
+      <iframe class="scale-with-grid"
+          frameborder="0" scrolling="no"
+          marginheight="0" marginwidth="0"
+          src="http://maps.google.se/maps?f=q&amp;source=s_q&amp;hl=sv&amp;geocode=&amp;q=Athega+AB,+Stockholm&amp;aq=0&amp;sll=59.328436,18.046762&amp;sspn=0.011909,0.04107&amp;vpsrc=0&amp;g=Hantverkargatan+21,+Stockholm&amp;ie=UTF8&amp;hq=Athega+AB,&amp;hnear=Stockholm,+Stockholms+L%C3%A4n&amp;t=m&amp;cid=7789517228462845170&amp;z=14&amp;iwloc=A&amp;output=embed"></iframe>
+

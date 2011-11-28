@@ -1,0 +1,41 @@
+!!!5
+%html{ :lang => 'sv' }
+  %head
+    %meta{ :charset => 'utf-8' }
+    %title= page_title
+
+    /[if lt IE 9]
+      %script{:src => "http://html5shiv.googlecode.com/svn/trunk/html5.js"}
+
+    / http://t.co/dKP3o1e
+    %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1" }
+    %meta{ :name => "HandheldFriendly", :content => "true" }
+
+    / Apple
+    %meta{ :name => "apple-mobile-web-app-capable", :content => "yes" }
+    %meta{ :name => "apple-mobile-web-app-status-bar-style", :content => "black-translucent" }
+
+    / Microsoft
+    %meta{ :'http-equiv' => "cleartype", :content => "on" }
+    %meta{ :'http-equiv' => "X-UA-Compatible", :content => "IE=edge,chrome=1" }
+
+    / Favicon
+    %link{ :rel => "shortcut icon", :href => "/favicon.ico", :type => "image/x-icon" }
+
+    %link{ :rel => "stylesheet", :href => "/stylesheets/main.css", :type => "text/css" }
+  %body
+    .container
+      = haml :_header, :layout => false
+      = yield
+      = haml :_footer, :layout => false
+
+    :javascript
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-5633854-5']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
