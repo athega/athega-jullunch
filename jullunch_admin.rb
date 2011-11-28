@@ -1,11 +1,29 @@
 # encoding: UTF-8
 
+require 'uri'
 require 'openid'
 require 'openid/store/filesystem'
 require 'omniauth/openid'
 
+require 'mongo'
+
 class JullunchAdmin < Sinatra::Base
-  set :root, File.dirname(__FILE__)
+
+  configure do
+    set :root, File.dirname(__FILE__)
+    set :sessions, true
+  end
+
+  configure :development do
+    set :mongodb_uri, 'mongodb://localhost'
+    set :mongodb_database, 'athega_jullunch'
+  end
+
+  configure :production do
+    mongodb_uri = URI.parse(ENV['MONGOLAB_URI'])
+    set :mongodb_uri, mongodb_uri.to_s
+    set :mongodb_database, mongodb_uri.path.gsub(/^\//, '')
+  end
 
   helpers do
     def logged_in?
@@ -15,10 +33,9 @@ class JullunchAdmin < Sinatra::Base
 
   before /\/admin.*/ do
     redirect '/auth/athega' unless logged_in?
-  end
 
-  configure do |m|
-    set :sessions, true
+    @conn  = Mongo::Connection.from_uri(settings.mongodb_uri)
+    @db    = @conn.db(settings.mongodb_database)
   end
 
   OpenID.fetcher.ca_file = './config/ca-bundle.crt'
@@ -55,6 +72,10 @@ class JullunchAdmin < Sinatra::Base
   end
 
   get '/admin' do
-    'Jullunch ADMIN!' + session[:current_user_email]
+    collections = []
+
+    @db.collection_names.each { |name| collections << name }
+
+    'Jullunch ADMIN!' + session[:current_user_email] + settings.mongodb_database + collections.join(':')
   end
 end
