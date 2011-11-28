@@ -3,6 +3,8 @@
 require 'openid'
 require 'openid/store/filesystem'
 
+require_relative 'lib/database'
+
 ###############################################################################
 # Web Application
 ###############################################################################
@@ -53,7 +55,7 @@ class JullunchAdmin < Sinatra::Base
   end
 
   #############################################################################
-  # Authentication
+  # Authentication routes
   #############################################################################
 
   post '/auth/:name/callback' do
@@ -76,7 +78,7 @@ class JullunchAdmin < Sinatra::Base
   end
 
   #############################################################################
-  # Administration
+  # Application routes
   #############################################################################
 
   get '/admin' do
