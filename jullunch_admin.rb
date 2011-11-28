@@ -43,7 +43,6 @@ class JullunchAdmin < Sinatra::Base
   end
 
   get '/auth/failure' do
-    # Add an error message :)
     redirect '/'
   end
 
@@ -56,9 +55,6 @@ class JullunchAdmin < Sinatra::Base
   end
 
   get '/admin' do
-    Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://development.db') do |db|
-    end
-
     'Jullunch ADMIN!' + session[:current_user_email]
   end
 end
