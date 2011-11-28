@@ -1,13 +1,27 @@
 # encoding: UTF-8
 
-require 'uri'
 require 'openid'
 require 'openid/store/filesystem'
-require 'omniauth/openid'
 
-require 'mongo'
+###############################################################################
+# Web Application
+###############################################################################
 
 class JullunchAdmin < Sinatra::Base
+
+  OpenID.fetcher.ca_file = './config/ca-bundle.crt'
+
+  use Rack::Session::Cookie, :key    => 'athega_jullunch',
+                             :secret => 'Knowledge is power and true Sith do not share power.'
+
+  use OmniAuth::Strategies::GoogleApps,
+        OpenID::Store::Filesystem.new('/tmp'),
+          :name   => 'athega',
+          :domain => 'athega.se'
+
+  #############################################################################
+  # Configuration
+  #############################################################################
 
   configure do
     set :root, File.dirname(__FILE__)
@@ -34,19 +48,13 @@ class JullunchAdmin < Sinatra::Base
   before /\/admin.*/ do
     redirect '/auth/athega' unless logged_in?
 
-    @conn  = Mongo::Connection.from_uri(settings.mongodb_uri)
-    @db    = @conn.db(settings.mongodb_database)
+    conn  = Mongo::Connection.from_uri(settings.mongodb_uri)
+    @db   = conn.db(settings.mongodb_database)
   end
 
-  OpenID.fetcher.ca_file = './config/ca-bundle.crt'
-
-  use Rack::Session::Cookie, :key    => 'athega_jullunch',
-                             :secret => 'Knowledge is power and true Sith do not share power.'
-
-  use OmniAuth::Strategies::GoogleApps,
-        OpenID::Store::Filesystem.new('/tmp'),
-          :name   => 'athega',
-          :domain => 'athega.se'
+  #############################################################################
+  # Authentication
+  #############################################################################
 
   post '/auth/:name/callback' do
     auth = request.env['omniauth.auth']
@@ -59,10 +67,6 @@ class JullunchAdmin < Sinatra::Base
     redirect '/'
   end
 
-  get '/auth/failure' do
-    redirect '/'
-  end
-
   get '/logout/?' do
     redirect '/auth/logout'
   end
@@ -70,6 +74,10 @@ class JullunchAdmin < Sinatra::Base
   get '/login/?' do
     redirect '/auth/athega'
   end
+
+  #############################################################################
+  # Administration
+  #############################################################################
 
   get '/admin' do
     collections = []
