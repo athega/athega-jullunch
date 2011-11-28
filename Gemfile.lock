@@ -2,8 +2,8 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.2.6)
-    bson (1.5.0)
-    bson_ext (1.5.0)
+    bson (1.4.0)
+    bson_ext (1.4.0)
     daemons (1.1.4)
     em-websocket (0.3.5)
       addressable (>= 2.1.1)
@@ -23,7 +23,7 @@ GEM
       sass (>= 3.1)
     guard-shell (0.1.1)
       guard (>= 0.2.0)
-    haml (3.1.3)
+    haml (3.1.4)
     heroku (2.14.0)
       launchy (>= 0.3.2)
       rest-client (~> 1.6.1)
@@ -32,8 +32,8 @@ GEM
     launchy (2.0.5)
       addressable (~> 2.2.6)
     mime-types (1.17.2)
-    mongo (1.5.0)
-      bson (= 1.5.0)
+    mongo (1.4.0)
+      bson (= 1.4.0)
     mongodb (2.0.2)
       mongo (~> 1.4)
     mongodb_model (2.0.2)
@@ -61,7 +61,7 @@ GEM
       ruby-openid (>= 2.1.7)
     ruby_ext (4.0.2)
     rubyzip (0.9.5)
-    sass (3.1.10)
+    sass (3.1.11)
     sinatra (1.3.1)
       rack (~> 1.3, >= 1.3.4)
       rack-protection (~> 1.1, >= 1.1.2)
@@ -79,8 +79,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bson (~> 1.5)
-  bson_ext (~> 1.5)
+  bson (~> 1.4.0)
+  bson_ext (~> 1.4.0)
   foreman
   guard (~> 0.8)
   guard-livereload (~> 0.3)
@@ -88,7 +88,7 @@ DEPENDENCIES
   guard-shell (~> 0.1)
   haml (~> 3.1)
   heroku
-  mongo (~> 1.5)
+  mongo (~> 1.4.0)
   mongodb_model (~> 2.0)
   oa-openid (~> 0.3)
   rake

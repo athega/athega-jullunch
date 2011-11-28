@@ -6,9 +6,9 @@ gem "oa-openid", "~> 0.3"
 gem "sinatra",   "~> 1.3", :require => "sinatra/base"
 gem "haml",      "~> 3.1"
 
-gem "bson",          "~> 1.5"
-gem "bson_ext",      "~> 1.5"
-gem "mongo",         "~> 1.5"
+gem "bson",          "~> 1.4.0"
+gem "bson_ext",      "~> 1.4.0"
+gem "mongo",         "~> 1.4.0"
 gem "mongodb_model", "~> 2.0", :require => "mongo/model"
 
 group :development do
