@@ -33,7 +33,7 @@ class Jullunch < Sinatra::Base
     end
 
     def guest_by_token
-      Guest.by_token(params[:token])
+      Guest.by_token(params[:token]) unless params[:token].nil?
     end
   end
 
@@ -42,11 +42,10 @@ class Jullunch < Sinatra::Base
   #############################################################################
 
   get '/' do
-    sittings = Sitting.sort([:starts_at, -1]).all
+    sittings = Sitting.sort([:starts_at, 1]).all
 
     haml :index, locals: {
-      page_title: 'Athega Jullunch',
-      sittings: sittings
+      page_title: 'Athega Jullunch', sittings: sittings, guest: guest_by_token
     }
   end
 
@@ -62,16 +61,30 @@ class Jullunch < Sinatra::Base
 
     Guest.delete_all
 
-    Guest.new(name: 'Peter',   company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter').save
+    Guest.new(name: 'Peter',   company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter', token: 'p').save
     Guest.new(name: 'Peter 1', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter').save
     Guest.new(name: 'Peter 2', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter').save
     Guest.new(name: 'Peter 3', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter').save
     Guest.new(name: 'Peter 4', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter').save
   end
 
+  post '/rsvp' do
+    guest = guest_by_token
 
-  get '/rsvp' do
-    haml :rsvp, :locals => { :page_title => 'Tack - Athega Jullunch' }
+    unless guest.nil?
+      guest.name        = params[:name]
+      guest.company     = params[:company]
+      guest.phone       = params[:phone]
+      guest.email       = params[:email]
+      guest.sitting_key = params[:sitting_key].to_i
+
+      if guest.valid?
+        guest.save
+        redirect to("/?token=#{guest.token}&rsvp=true")
+      end
+    end
+
+    redirect to("/?token=#{params[:token]}")
   end
 
   get '/about' do

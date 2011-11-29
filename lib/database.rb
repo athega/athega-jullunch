@@ -4,8 +4,8 @@
 require 'time'
 require 'mongo/model'
 
-require './lib/sitting'
 require './lib/guest'
+require './lib/sitting'
 
 db_name = 'athega_jullunch'
 

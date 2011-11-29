@@ -1,8 +1,5 @@
 # encoding: UTF-8
 
-require 'openid'
-require 'openid/store/filesystem'
-
 require_relative 'lib/database'
 
 ###############################################################################
@@ -11,10 +8,8 @@ require_relative 'lib/database'
 
 class JullunchAdmin < Sinatra::Base
 
-  OpenID.fetcher.ca_file = './config/ca-bundle.crt'
-
-  use Rack::Session::Cookie, :key    => 'athega_jullunch',
-                             :secret => 'Knowledge is power and true Sith do not share power.'
+  use Rack::Session::Cookie, key:    'athega_jullunch',
+                             secret: 'Knowledge is power and true Sith do not share power.'
 
   #############################################################################
   # Configuration
@@ -32,6 +27,12 @@ class JullunchAdmin < Sinatra::Base
   end
 
   configure :production do
+    require 'openid'
+
+    OpenID.fetcher.ca_file = './config/ca-bundle.crt'
+
+    require 'openid/store/filesystem'
+
     mongodb_uri = URI.parse(ENV['MONGOLAB_URI'])
     set :mongodb_uri, mongodb_uri.to_s
     set :mongodb_database, mongodb_uri.path.gsub(/^\//, '')
@@ -89,8 +90,6 @@ class JullunchAdmin < Sinatra::Base
   end
 
   get '/admin/guests' do
-    # Guest.new()
-
     haml :'admin/guests/index', locals: {
       page_title: 'Gäster - Athega Jullunch',
       guests: Guest.sort([:starts_at, -1]).all

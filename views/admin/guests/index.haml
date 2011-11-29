@@ -17,7 +17,7 @@
             %label Telefon
             %input{ :type => 'text', :name => 'phone' }
           .three.columns
-            %label Email
+            %label E-post
             %input{ :type => 'text', :name => 'email' }
           .two.columns.omega
             %label Inbjuden av
@@ -38,14 +38,28 @@
           .two.offset-by-two.columns.omega
             %input{ :type => 'submit', :value => 'Lägg till ny gäst' }
 
+    .row
+      .two.columns.alpha
+        %label Namn
+      .two.columns
+        %label Företag
+      .three.columns
+        %label E-post
+      .two.columns
+        %label Inbjuden av
+      .two.columns.omega
+        %label Sittning
+
     - guests.each do |guest|
       .row.guest
-        .four.columns.alpha
-          FOUR
-        .four.columns
-          FOUR
+        .two.columns.alpha
+          %small
+            %a{ href: "/?token=#{guest.token}" }= guest.name
         .two.columns
-          TWO
+          %small= guest.company
+        .three.columns
+          %small= guest.email
+        .two.columns
+          %small= guest.invited_by
         .two.columns.omega
-          TWO
-
+          %small= guest.sitting

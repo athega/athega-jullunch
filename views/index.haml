@@ -1,43 +1,53 @@
 .row
   .six.columns
     - if has_valid_token?
-      %form{ :action => '/accept_invitation', :method => 'post' }
-        %h2 Svara på inbjudan
+      - if params[:rsvp].nil?
+        %form{ action: '/rsvp', method: 'post' }
+          %h2 Svara på inbjudan
 
-        %fieldset
-          %label{ :for => 'guest_name' } Ditt namn
-          %input#guest_name{ :type => 'text', :name => 'guest_name', :value => guest.name }
+          %fieldset
+            %label{ for: 'guest_name' } Ditt namn
+            %input#guest_name{ type: 'text', name: 'name', value: guest.name }
 
-          %label{ :for => 'guest_company' } Företag
-          %input#guest_company{ :type => 'text', :name => 'guest_company', :value => guest.company }
+            %label{ for: 'guest_company' } Företag
+            %input#guest_company{ type: 'text', name: 'company', value: guest.company }
 
-          %label{ :for => 'guest_phone' } Telefon
-          %input#guest_phone{ :type => 'text', :name => 'guest_phone', :value => guest.phone }
+            %label{ for: 'guest_phone' } Telefon
+            %input#guest_phone{ type: 'text', name: 'phone', value: guest.phone }
 
-          %label{ :for => 'guest_email'} E-post
-          %input#guest_email{ :type => 'text', :name => 'guest_email', :value => guest.email }
+            %label{ for: 'guest_email'} E-post
+            %input#guest_email{ type: 'text', name: 'email', value: guest.email }
 
-        %fieldset
-          %h4 Sittningar
+          %fieldset
+            %h4 Sittningar
 
-          %small.add-bottom.alert-message Om alla kommer samtidigt kan det bli lite |
-                               trångt. Vi skulle därför uppskatta om ni  |
-                               vill ange på ett ungefär när ni planerar  |
-                               att komma till oss.                       |
+            %small.add-bottom.alert-message Om alla kommer samtidigt kan det bli lite |
+                                 trångt. Vi skulle därför uppskatta om ni  |
+                                 vill ange på ett ungefär när ni planerar  |
+                                 att komma till oss.                       |
 
-          %ul.sittings
-            - sittings.each do |sitting|
-              %li.sitting{ class: sitting.guest_status_class }
-                %label
-                  - if guest.has_checked_sitting?(sitting)
-                    %input{ type: 'radio', name: 'sittings', value: sitting.key, checked: '' }
-                  - else
-                    %input{ type: 'radio', name: 'sittings', value: sitting.key }
+            %ul.sittings
+              - sittings.each do |sitting|
+                %li.sitting{ class: sitting.guest_status_class }
+                  %label
+                    - if guest.has_checked_sitting?(sitting)
+                      %input{ type: 'radio', name: 'sitting_key', value: sitting.key, checked: '' }
+                    - else
+                      %input{ type: 'radio', name: 'sitting_key', value: sitting.key }
 
-                  //%span
-                  = sitting.title
-                  %small= sitting.guest_status_text
-          %input{ :type => 'submit', :value => 'Skicka' }
+                    %span
+                      = sitting.title
+                      %small= sitting.guest_status_text
+            %input{ type: 'hidden', name: 'token', value: guest.token }
+            %input{ :type => 'submit', :value => 'Skicka' }
+      - else
+        %h2= "Tack #{guest.name}!"
+        %p Nu är det bara att räkna ner dagarna till julbordet.
+
+        %small.alert-message
+          Det är fortfarande möjligt att
+          %a{ href: "/?token=#{params[:token]}" } ändra
+          ditt svar.
     - else
       %img{ src: 'http://farm5.staticflickr.com/4087/5196894990_ece309ac67.jpg' }
       %small

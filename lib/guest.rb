@@ -17,5 +17,22 @@ class Guest
   def has_checked_sitting?(sitting)
     sitting_key == sitting.key
   end
+
+  def sitting
+    s = Sitting.by_key(sitting_key)
+
+    s.nil? ? 'Ej valt' : s.title
+  end
+
+  protected
+
+  def set_token
+    if @token.nil?
+      @token = _id
+      save
+    end
+  end
+
+  after_create :set_token
 end
 
