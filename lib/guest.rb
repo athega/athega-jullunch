@@ -5,7 +5,7 @@ class Guest
 
   collection "guests_#{Time.now.year}"
 
-  attr_accessor :name, :company, :phone, :email
+  attr_accessor :name, :company, :email
   attr_accessor :invited_by, :sitting_key, :status, :token
   attr_accessor :invited_manually, :notified, :reminded, :arrived
 
@@ -21,6 +21,10 @@ class Guest
   def sitting
     s = Sitting.by_key(sitting_key)
     s.nil? ? 'Ej valt' : s.title
+  end
+
+  def declined?
+    sitting_key == 0
   end
 
   protected

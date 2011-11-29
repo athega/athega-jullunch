@@ -1,6 +1,6 @@
 .row.guests
   .twelve.offset-by-four.columns
-    %h1 Gäster
+    %h1 Administrera gäster
   .three.columns
     = haml :'admin/menu', :layout => false
 
@@ -20,13 +20,10 @@
           .three.columns.alpha
             %label Namn
             %input{ :type => 'text', :name => 'name' }
-          .two.columns
+          .three.columns
             %label Företag
             %input{ :type => 'text', :name => 'company' }
-          .two.columns
-            %label Telefon
-            %input{ :type => 'text', :name => 'phone' }
-          .three.columns
+          .four.columns
             %label E-post
             %input{ :type => 'text', :name => 'email' }
           .two.columns.omega
@@ -35,7 +32,7 @@
         .row.remove-bottom
           .nine.columns.alpha
             %label
-              %input{ type: 'checkbox', name: 'invited_manually', value: true }
+              %input{ type: 'checkbox', name: 'invited_manually', value: 'yes' }
               %span Manuell inbjudan
 
             %small.alert-message
@@ -47,34 +44,38 @@
 
           .two.offset-by-one.columns.omega
             %input{ :type => 'submit', :value => 'Lägg till ny gäst' }
+    %form{ :action => "/admin/guests/import_from_spreadsheet", :method => 'POST' }
+      %input{ type: 'submit', value: 'Importera nya gäster från Google Docs', onclick: 'return confirm("Är du säker på att du vill importera?");' }
 
-.row
-  %div
-    .three.columns
-      %label Namn
-    .three.columns
-      %label Företag
-    .three.columns
-      %label E-post
-    .two.columns
-      %label Inbjuden av
-    .four.columns
-      %label Sittning
+.row.guests
+  - if Guest.count > 0
+    %div
+      .three.columns
+        %label Namn
+      .three.columns
+        %label Företag
+      .five.columns
+        %label E-post
+      .three.columns
+        %label Inbjuden av
+      .one.columns
+        %label Sittning
 
   - guests.each do |guest|
-    .row.guest.remove-bottom
+    .row.guest.remove-bottom{ class: (guest.invited_manually == true ? 'manual' : 'auto' ) }
       %hr.half-bottom
       .three.columns
         %small
           %a{ href: "/?token=#{guest.token}" }= guest.name
       .three.columns
         %small= guest.company
-      .three.columns
+      .five.columns
         %small= guest.email
-      .two.columns
+      .three.columns
         %small= guest.invited_by
-      .four.columns
+      .one.column
         %small= guest.sitting
       .one.column
-        %form{ action: '/foo', method: 'GET' }
+        %form{ action: "/admin/guests/#{guest.token}", method: 'POST' }
+          %input{ type: 'hidden', name: '_method', value: 'DELETE' }
           %input.remove-bottom{ type: 'submit', value: 'X', onclick: 'return confirm("Är du säker på att du vill ta bort ' + guest.name + '?");' }

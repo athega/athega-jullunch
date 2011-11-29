@@ -12,9 +12,6 @@
             %label{ for: 'guest_company' } Företag
             %input#guest_company{ type: 'text', name: 'company', value: guest.company }
 
-            %label{ for: 'guest_phone' } Telefon
-            %input#guest_phone{ type: 'text', name: 'phone', value: guest.phone }
-
             %label{ for: 'guest_email'} E-post
             %input#guest_email{ type: 'text', name: 'email', value: guest.email }
 
@@ -41,25 +38,33 @@
             %input{ type: 'hidden', name: 'token', value: guest.token }
             %input{ :type => 'submit', :value => 'Skicka' }
       - else
-        %h2= "Tack #{guest.name}!"
-        %p Nu är det bara att räkna ner dagarna till julbordet.
+        - if guest.declined?
+          %h2 Vad synd
+          %p Hoppas att du kan vara med nästa år.
+        - else
+          %h2= "Tack #{guest.name}!"
+          %p Nu är det bara att räkna ner dagarna till julbordet.
 
         %small.alert-message
           Det är fortfarande möjligt att
           %a{ href: "/?token=#{params[:token]}" } ändra
           ditt svar.
     - else
-      %img{ src: 'http://farm5.staticflickr.com/4087/5196894990_ece309ac67.jpg' }
-      %small
-        Fotograf:
-        %a{ href: 'http://www.flickr.com/photos/shandilee/5196894990/' } Shandi-lee
+      %figure.add-bottom
+        %img{ src: 'http://farm5.staticflickr.com/4087/5196894990_ece309ac67.jpg' }
+        %small
+          Foto:
+          %a{ href: 'http://www.flickr.com/photos/shandilee/5196894990/' } Shandi-lee
   .nine.offset-by-one.columns
     %h1 Nu är det snart dags för Athegas traditionella jullunch!
 
-    %p Vi dukar fram det goda julbordet fredagen 0 december kl. 11.30 och   |
-       ser till att faten är fyllda och stämningen hög fram till ca. 14.30. |
+    %p
+      Vi dukar fram det goda julbordet fredagen
+      %strong 16 december kl. 11.30
+      och ser till att faten är fyllda och stämningen hög fram till
+      %strong ca. 14.30.
 
-    %p #{'<a href="mailto:fredrik.soder@athega.se">Fredrik Söder</a>'} svarar gärna på dina frågor.
+    %p #{'<a href="mailto:torbjorn.nilsson@athega.se">Torbjörn Nilsson</a>'} svarar gärna på dina frågor.
 
     %h2 Vägbeskrivning
     %p
