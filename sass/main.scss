@@ -35,6 +35,19 @@
   margin: 1em 0;
 }
 
+.admin_menu { .button { display: block; } }
+.seatings { input[type="submit"] { width: 100%; } }
+
+.guests a.guests,
+.seatings a.seatings,
+.notifications a.notifications {
+  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(100%, rgba(0, 0, 0, 0.4)));
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
+  background: -o-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
+  background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
+  background: linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
+}
 
 iframe.scale-with-grid { width: 100%; height: 450px; }
 
@@ -48,7 +61,7 @@ h1,h2,h3,h4,h5 {
 }
 
 header {
-  margin-top: 60px; margin-bottom: 60px;
+  margin-top: 60px; margin-bottom: 40px;
 
   a {
     text-decoration: none;
