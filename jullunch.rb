@@ -18,8 +18,11 @@ class Jullunch < Sinatra::Base
   end
 
   configure :production do
+    set :static_cache_control, [:public, :max_age => 300]
+
     use Rack::Cache,
       :verbose => false,
+      :default_ttl => 30,
       :metastore => "memcached://#{ENV['MEMCACHE_SERVERS']}",
       :entitystore => "memcached://#{ENV['MEMCACHE_SERVERS']}"
   end

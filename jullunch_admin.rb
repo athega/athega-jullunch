@@ -27,6 +27,8 @@ class JullunchAdmin < Sinatra::Base
   end
 
   configure :production do
+    set :static_cache_control, [:public, :max_age => 300]
+
     require 'openid'
 
     OpenID.fetcher.ca_file = './config/ca-bundle.crt'
