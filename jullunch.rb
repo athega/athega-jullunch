@@ -62,11 +62,11 @@ class Jullunch < Sinatra::Base
 
     Guest.delete_all
 
-    Guest.new name: 'Peter',   company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter'
-    Guest.new name: 'Peter 1', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter'
-    Guest.new name: 'Peter 2', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter'
-    Guest.new name: 'Peter 3', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter'
-    Guest.new name: 'Peter 4', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter'
+    Guest.new(name: 'Peter',   company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter').save
+    Guest.new(name: 'Peter 1', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter').save
+    Guest.new(name: 'Peter 2', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter').save
+    Guest.new(name: 'Peter 3', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter').save
+    Guest.new(name: 'Peter 4', company: 'Code7', email: 'peter@c7.se', invited_by: 'Peter').save
   end
 
 
