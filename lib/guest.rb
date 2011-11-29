@@ -7,7 +7,7 @@ class Guest
 
   attr_accessor :name, :company, :phone, :email
   attr_accessor :invited_by, :sitting_key, :status, :token
-  attr_accessor :invited_manually
+  attr_accessor :invited_manually, :notified, :reminded
 
   validates_presence_of :name
   validates_presence_of :company
@@ -26,6 +26,11 @@ class Guest
 
   protected
 
+  def set_default_values
+    @notified = false
+    @reminded = false
+  end
+
   def set_token
     if @token.nil?
       @token = _id
@@ -33,6 +38,7 @@ class Guest
     end
   end
 
-  after_create :set_token
+  before_create :set_default_values
+  after_create  :set_token
 end
 
