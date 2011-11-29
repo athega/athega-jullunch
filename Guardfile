@@ -4,7 +4,7 @@ guard 'shell' do
 end
 
 guard 'livereload' do
-  watch(%r{public/.+\.(css|js)|.+\.rb})
+  watch(%r{public/.+\.(css|js)})
   watch(%r{views/.+\.haml})
 end
 
