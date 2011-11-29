@@ -57,7 +57,10 @@
 .sittings .yellow { background: #EDE574; border-color: darken(#EDE574, 15) }
 .sittings .red { background: #FC913A; border-color: darken(#FC913A, 15) }
 
-.admin_menu { .button { display: block; } }
+.admin_menu {
+  a:visited, a:hover { color: #222; }
+  .button { display: block; }
+}
 .sittings { input[type="submit"] { width: 100%; } }
 
 .guests a.guests,
@@ -73,6 +76,9 @@
 }
 
 iframe.scale-with-grid { width: 100%; height: 450px; }
+
+a, a:focus, a:visited { color: $athega_orange; }
+a:hover { color: brighten($athega_orange, 20); }
 
 body {
   border-top: 8px solid $athega_orange;
@@ -108,6 +114,13 @@ header {
   background: transparent url("/images/athega_logo.png") no-repeat top left;
   text-indent: -5000em;
   margin: 0;
+}
+
+#footer {
+  font-size: 0.9em;
+  li { float: left; margin-right: 1em; }
+  ul { padding-bottom: 3em; }
+  a, a:visited, a:hover { color: #AAA; text-decoration: none; }
 }
 
 /* #Media Queries
