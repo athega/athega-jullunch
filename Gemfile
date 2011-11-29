@@ -2,6 +2,7 @@ source :rubygems
 
 gem "thin",      "~> 1.3.1"
 gem "oa-openid", "~> 0.3"
+gem "yajl-ruby", "~> 1.1.0", :require => "yajl"
 
 gem "sinatra",   "~> 1.3", :require => "sinatra/base"
 gem "haml",      "~> 3.1"

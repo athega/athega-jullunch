@@ -74,6 +74,7 @@ GEM
     thor (0.14.6)
     tilt (1.3.3)
     validatable2 (0.0.13)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -96,3 +97,4 @@ DEPENDENCIES
   sass (~> 3.1)
   sinatra (~> 1.3)
   thin (~> 1.3.1)
+  yajl-ruby (~> 1.1.0)
