@@ -22,8 +22,8 @@ class Sitting
     return 'sitting' if key == 0
 
     case guest_count
-      when  0..5 then 'sitting green'
-      when 6..20 then 'sitting yellow'
+      when  0..8 then 'sitting green'
+      when  9..20 then 'sitting yellow'
       else 'sitting red'
     end
   end
@@ -32,8 +32,8 @@ class Sitting
     return '' if key == 0
 
     case guest_count
-      when  0..10 then '(Det finns gott om plats)'
-      when 11..20 then '(Det finns plats)'
+      when  0..8 then '(Det finns gott om plats)'
+      when  9..20 then '(Det finns plats)'
       else '(Det kan bli lite trångt)'
     end
   end
