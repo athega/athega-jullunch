@@ -20,26 +20,20 @@ class Guest
 
   def sitting
     s = Sitting.by_key(sitting_key)
-
     s.nil? ? 'Ej valt' : s.title
   end
 
   protected
 
   def set_default_values
+    @token = _id if @token.nil?
     @notified = false
     @reminded = false
     @arrived  = false
+
+    save
   end
 
-  def set_token
-    if @token.nil?
-      @token = _id
-      save
-    end
-  end
-
-  before_create :set_default_values
-  after_create  :set_token
+  after_create :set_default_values
 end
 
