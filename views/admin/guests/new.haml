@@ -1,1 +1,17 @@
-%h1 Titel
+.row.new_guest
+  .twelve.offset-by-four.columns
+    %h1 Lägg till en ny gäst
+  .three.columns
+    = haml :'admin/menu', :layout => false
+  .twelve.offset-by-one.columns
+    - guests.each do |guest|
+      .row.guest
+        .four.columns.alpha
+          FOUR
+        .four.columns
+          FOUR
+        .two.columns
+          TWO
+        .two.columns.omega
+          TWO
+

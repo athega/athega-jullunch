@@ -4,5 +4,48 @@
   .three.columns
     = haml :'admin/menu', :layout => false
   .twelve.offset-by-one.columns
-    Foo
+    %form{ :action => "/admin/guests", :method => 'POST' }
+      %fieldset
+        .row.remove-bottom
+          .three.columns.alpha
+            %label Namn
+            %input{ :type => 'text', :name => 'name' }
+          .two.columns
+            %label Företag
+            %input{ :type => 'text', :name => 'company' }
+          .two.columns
+            %label Telefon
+            %input{ :type => 'text', :name => 'phone' }
+          .three.columns
+            %label Email
+            %input{ :type => 'text', :name => 'email' }
+          .two.columns.omega
+            %label Inbjuden av
+            %input{ :type => 'text', :name => 'invited_by' }
+        .row.remove-bottom
+          .eight.columns.alpha
+            %small.alert-message
+              %strong Notera:
+              Om manuell inbjudan är ikryssad är det upp till          |
+              inbjudaren att se till att den inbjudne får ett mail med |
+              inbjudningslänken. Lite mer manuellt jobb men öppnar     |
+              för betydligt mer personliga inbjudningar.               |
+
+            %label
+              %input{ type: 'checkbox', name: 'invited_manually', value: 'manually' }
+              %span Manuell inbjudan
+
+          .two.offset-by-two.columns.omega
+            %input{ :type => 'submit', :value => 'Lägg till ny gäst' }
+
+    - guests.each do |guest|
+      .row.guest
+        .four.columns.alpha
+          FOUR
+        .four.columns
+          FOUR
+        .two.columns
+          TWO
+        .two.columns.omega
+          TWO
 
