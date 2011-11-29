@@ -33,7 +33,11 @@
             %label Inbjuden av
             %input{ :type => 'text', :name => 'invited_by' }
         .row.remove-bottom
-          .eight.columns.alpha
+          .nine.columns.alpha
+            %label
+              %input{ type: 'checkbox', name: 'invited_manually', value: 'manually' }
+              %span Manuell inbjudan
+
             %small.alert-message
               %strong Notera:
               Om manuell inbjudan är ikryssad är det upp till          |
@@ -41,11 +45,7 @@
               inbjudningslänken. Lite mer manuellt jobb men öppnar     |
               för betydligt mer personliga inbjudningar.               |
 
-            %label
-              %input{ type: 'checkbox', name: 'invited_manually', value: 'manually' }
-              %span Manuell inbjudan
-
-          .two.offset-by-two.columns.omega
+          .two.offset-by-one.columns.omega
             %input{ :type => 'submit', :value => 'Lägg till ny gäst' }
 
     .row
@@ -61,7 +61,8 @@
         %label Sittning
 
     - guests.each do |guest|
-      .row.guest
+      .row.guest.remove-bottom
+        %hr.half-bottom
         .two.columns.alpha
           %small
             %a{ href: "/?token=#{guest.token}" }= guest.name
@@ -71,5 +72,8 @@
           %small= guest.email
         .two.columns
           %small= guest.invited_by
-        .two.columns.omega
+        .two.columns
           %small= guest.sitting
+        .one.column.omega
+          %form{ action: '/foo', method: 'GET' }
+            %input.remove-bottom{ type: 'submit', value: 'X', onclick: 'return confirm("Är du säker på att du vill ta bort ' + guest.name + '?");' }
