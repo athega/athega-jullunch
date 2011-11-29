@@ -132,7 +132,7 @@ class JullunchAdmin < Sinatra::Base
   end
 
   post '/admin/sittings/:key' do
-    sittings = Sitting.by_key(params[:key].to_i)
+    sitting = Sitting.by_key(params[:key].to_i)
 
     unless sitting.nil?
       if params[:title].empty? || params[:starts_at].empty?
