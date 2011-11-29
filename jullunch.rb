@@ -17,14 +17,6 @@ class Jullunch < Sinatra::Base
     set :root, File.dirname(__FILE__)
   end
 
-  configure :development do
-    set :db_name, 'athega_jullunch'
-  end
-
-  configure :production do
-    set :db_name, URI.parse(ENV['MONGOLAB_URI']).path.gsub(/^\//, '')
-  end
-
   #############################################################################
   # Admin
   #############################################################################
@@ -49,10 +41,6 @@ class Jullunch < Sinatra::Base
   # Application routes
   #############################################################################
 
-  before do
-    Mongo::Model.default_database_name = settings.db_name
-  end
-
   get '/' do
     sittings = Sitting.sort([:starts_at, -1]).all
 
@@ -71,6 +59,8 @@ class Jullunch < Sinatra::Base
     Sitting.new(key: 1300, title: '13:00', starts_at: Time.parse('2011-12-16 13:00:00 CET').utc).save
     Sitting.new(key: 1330, title: '13:30', starts_at: Time.parse('2011-12-16 13:30:00 CET').utc).save
     Sitting.new(key: 0000, title: 'Jag måste tyvärr tacka nej').save
+
+    Sitting.new(key: 0000, title: 'Jag måste tyvärr tacka nej').errors.inspect
   end
 
 

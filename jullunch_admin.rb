@@ -97,6 +97,18 @@ class JullunchAdmin < Sinatra::Base
     }
   end
 
+  post '/admin/guests' do
+    guest = Guest.new name:       params[:name],
+                      company:    params[:company],
+                      phone:      params[:phone],
+                      email:      params[:email],
+                      invited_by: params[:invited_by]
+
+    guest.save if guest.valid?
+
+    guest.errors.inspect
+  end
+
   get '/admin/sittings' do
     haml :'admin/sittings', locals: {
       page_title: 'Sittningar - Athega Jullunch',

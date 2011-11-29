@@ -3,7 +3,7 @@
 class Sitting
   inherit Mongo::Model
 
-  collection "#{Time.now.year}_sittings"
+  collection "sittings_#{Time.now.year}"
 
   attr_accessor :title, :key, :starts_at
 

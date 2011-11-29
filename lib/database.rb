@@ -2,9 +2,18 @@
 
 # Require models
 require 'time'
+require 'mongo/model'
 
-require_relative 'sitting'
-require_relative 'guest'
+require './lib/sitting'
+require './lib/guest'
+
+db_name = 'athega_jullunch'
+
+if ENV['MONGOLAB_URI']
+  db_name = URI.parse(ENV['MONGOLAB_URI']).path.gsub(/^\//, '')
+end
+
+Mongo::Model.default_database_name = db_name
 
 Mongo.class_eval do
   class << self

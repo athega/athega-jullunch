@@ -10,7 +10,7 @@ gem "haml",      "~> 3.1"
 gem "bson",          "~> 1.4.0"
 gem "bson_ext",      "~> 1.4.0"
 gem "mongo",         "~> 1.4.0"
-gem "mongodb_model", "~> 2.0", :require => "mongo/model"
+gem "mongodb_model", "~> 2.0"
 
 group :development do
   gem "foreman"
