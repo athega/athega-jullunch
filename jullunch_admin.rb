@@ -45,7 +45,7 @@ class JullunchAdmin < Sinatra::Base
 
   helpers do
     def logged_in?
-      return true unless settings.forced_authentication.nil?
+      return true if settings.respond_to?(:forced_authentication)
       !session[:current_user_email].nil?
     end
   end
