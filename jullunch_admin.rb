@@ -34,7 +34,7 @@ class JullunchAdmin < Sinatra::Base
     require 'openid/store/filesystem'
 
     use OmniAuth::Strategies::GoogleApps,
-        OpenID::Store::Filesystem.new('/tmp'),
+        OpenID::Store::Filesystem.new('./tmp'),
           :name   => 'athega',
           :domain => 'athega.se'
   end
