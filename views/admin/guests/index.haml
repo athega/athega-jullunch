@@ -35,7 +35,7 @@
         .row.remove-bottom
           .nine.columns.alpha
             %label
-              %input{ type: 'checkbox', name: 'invited_manually', value: 'manually' }
+              %input{ type: 'checkbox', name: 'invited_manually', value: true }
               %span Manuell inbjudan
 
             %small.alert-message
@@ -48,32 +48,33 @@
           .two.offset-by-one.columns.omega
             %input{ :type => 'submit', :value => 'Lägg till ny gäst' }
 
-    .row
-      .two.columns.alpha
-        %label Namn
-      .two.columns
-        %label Företag
-      .three.columns
-        %label E-post
-      .two.columns
-        %label Inbjuden av
-      .two.columns.omega
-        %label Sittning
+.row
+  %div
+    .three.columns
+      %label Namn
+    .three.columns
+      %label Företag
+    .three.columns
+      %label E-post
+    .two.columns
+      %label Inbjuden av
+    .four.columns
+      %label Sittning
 
-    - guests.each do |guest|
-      .row.guest.remove-bottom
-        %hr.half-bottom
-        .two.columns.alpha
-          %small
-            %a{ href: "/?token=#{guest.token}" }= guest.name
-        .two.columns
-          %small= guest.company
-        .three.columns
-          %small= guest.email
-        .two.columns
-          %small= guest.invited_by
-        .two.columns
-          %small= guest.sitting
-        .one.column.omega
-          %form{ action: '/foo', method: 'GET' }
-            %input.remove-bottom{ type: 'submit', value: 'X', onclick: 'return confirm("Är du säker på att du vill ta bort ' + guest.name + '?");' }
+  - guests.each do |guest|
+    .row.guest.remove-bottom
+      %hr.half-bottom
+      .three.columns
+        %small
+          %a{ href: "/?token=#{guest.token}" }= guest.name
+      .three.columns
+        %small= guest.company
+      .three.columns
+        %small= guest.email
+      .two.columns
+        %small= guest.invited_by
+      .four.columns
+        %small= guest.sitting
+      .one.column
+        %form{ action: '/foo', method: 'GET' }
+          %input.remove-bottom{ type: 'submit', value: 'X', onclick: 'return confirm("Är du säker på att du vill ta bort ' + guest.name + '?");' }
