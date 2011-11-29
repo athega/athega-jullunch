@@ -21,7 +21,7 @@ Mongo.class_eval do
       name = name.to_s
       @databases ||= {}
       @databases[name] ||= begin
-        connection = Mongo::Connection.from_uri(ENV['MONGOLAB_URI'] || 'mongodb://jullunch.dev')
+        connection = Mongo::Connection.from_uri(ENV['MONGOLAB_URI'] || 'mongodb://localhost')
         connection.db name
       end
     end
