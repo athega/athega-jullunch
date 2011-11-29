@@ -45,7 +45,7 @@
           .two.offset-by-one.columns.omega
             %input{ :type => 'submit', :value => 'Lägg till ny gäst' }
     %form{ :action => "/admin/guests/import_from_spreadsheet", :method => 'POST' }
-      %input{ type: 'submit', value: 'Importera nya gäster från Google Docs', onclick: 'return confirm("Är du säker på att du vill importera?");' }
+      %input{ type: 'submit', value: 'Importera (eventuella) nya gäster från Google Docs', onclick: 'return confirm("Är du säker på att du vill importera?");' }
 
 .row.guests
   - if Guest.count > 0
