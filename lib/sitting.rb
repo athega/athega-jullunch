@@ -15,15 +15,15 @@ class Sitting
   end
 
   def guest_count
-    @guest_count ||= Guest.all_by_sitting(key).count
+    Guest.count(sitting_key: key)
   end
 
   def guest_status_class
     return 'sitting' if key == 0
 
     case guest_count
-      when  0..10 then 'sitting green'
-      when 11..20 then 'sitting yellow'
+      when  0..5 then 'sitting green'
+      when 6..20 then 'sitting yellow'
       else 'sitting red'
     end
   end
