@@ -105,7 +105,7 @@ class JullunchAdmin < Sinatra::Base
 
     guest.save if guest.valid?
 
-    guest.errors.inspect
+    redirect '/admin/guests'
   end
 
   get '/admin/sittings' do
