@@ -7,7 +7,7 @@ class Guest
 
   attr_accessor :name, :company, :phone, :email
   attr_accessor :invited_by, :sitting_key, :status, :token
-  attr_accessor :invited_manually, :notified, :reminded
+  attr_accessor :invited_manually, :notified, :reminded, :arrived
 
   validates_presence_of :name
   validates_presence_of :company
@@ -29,6 +29,7 @@ class Guest
   def set_default_values
     @notified = false
     @reminded = false
+    @arrived  = false
   end
 
   def set_token
