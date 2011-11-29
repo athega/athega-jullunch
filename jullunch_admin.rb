@@ -21,8 +21,6 @@ class JullunchAdmin < Sinatra::Base
   end
 
   configure :development do
-    set :mongodb_uri, 'mongodb://localhost'
-    set :mongodb_database, 'athega_jullunch'
     set :forced_authentication, true
   end
 
@@ -33,15 +31,10 @@ class JullunchAdmin < Sinatra::Base
 
     require 'openid/store/filesystem'
 
-    mongodb_uri = URI.parse(ENV['MONGOLAB_URI'])
-    set :mongodb_uri, mongodb_uri.to_s
-    set :mongodb_database, mongodb_uri.path.gsub(/^\//, '')
-
     use OmniAuth::Strategies::GoogleApps,
         OpenID::Store::Filesystem.new('/tmp'),
           :name   => 'athega',
           :domain => 'athega.se'
-
   end
 
   helpers do
@@ -53,9 +46,6 @@ class JullunchAdmin < Sinatra::Base
 
   before /\/admin.*/ do
     redirect '/auth/athega' unless logged_in?
-
-    conn  = Mongo::Connection.from_uri(settings.mongodb_uri)
-    @db   = conn.db(settings.mongodb_database)
   end
 
   #############################################################################
