@@ -1,6 +1,8 @@
 # Require models
+require 'time'
+
 require_relative 'seating'
-# require_relative 'guest'
+require_relative 'guest'
 
 Mongo.class_eval do
   class << self
