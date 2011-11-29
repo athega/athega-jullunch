@@ -1,7 +1,9 @@
+# encoding: UTF-8
+
 # Require models
 require 'time'
 
-require_relative 'seating'
+require_relative 'sitting'
 require_relative 'guest'
 
 Mongo.class_eval do

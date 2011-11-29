@@ -97,43 +97,43 @@ class JullunchAdmin < Sinatra::Base
     }
   end
 
-  get '/admin/seatings' do
-    haml :'admin/seatings', locals: {
+  get '/admin/sittings' do
+    haml :'admin/sittings', locals: {
       page_title: 'Sittningar - Athega Jullunch',
-      seatings: Seating.sort([:starts_at, -1]).all
+      sittings: Sitting.sort([:starts_at, -1]).all
     }
   end
 
-  post '/admin/seatings' do
-    seating = Seating.by_key(params[:key].to_i)
+  post '/admin/sittings' do
+    sitting = Sitting.by_key(params[:key].to_i)
 
-    if seating.nil?
-      seating = Seating.new
+    if sitting.nil?
+      sitting = Sitting.new
 
-      seating.key       = params[:key].to_i
-      seating.title     = params[:title]
-      seating.starts_at = Time.parse(params[:starts_at]).utc
+      sitting.key       = params[:key].to_i
+      sitting.title     = params[:title]
+      sitting.starts_at = Time.parse(params[:starts_at]).utc
 
-      seating.save
+      sitting.save
     end
 
-    redirect to('/admin/seatings')
+    redirect to('/admin/sittings')
   end
 
-  post '/admin/seatings/:key' do
-    seating = Seating.by_key(params[:key].to_i)
+  post '/admin/sittings/:key' do
+    sittings = Sitting.by_key(params[:key].to_i)
 
-    unless seating.nil?
+    unless sitting.nil?
       if params[:title].empty? || params[:starts_at].empty?
-        seating.delete
+        sitting.delete
       else
-        seating.title = params[:title]
-        seating.starts_at = Time.parse(params[:starts_at]).utc
-        seating.save
+        sitting.title = params[:title]
+        sitting.starts_at = Time.parse(params[:starts_at]).utc
+        sitting.save
       end
     end
 
-    redirect to('/admin/seatings')
+    redirect to('/admin/sittings')
   end
 
   get '/admin/notifications' do

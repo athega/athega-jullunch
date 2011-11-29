@@ -6,32 +6,43 @@
 
         %fieldset
           %label{ :for => 'guest_name' } Ditt namn
-          %input#guest_name{ :type => 'text', :name => 'guest_name', :value => 'Namn' }
+          %input#guest_name{ :type => 'text', :name => 'guest_name', :value => guest.name }
 
           %label{ :for => 'guest_company' } Företag
-          %input#guest_company{ :type => 'text', :name => 'guest_company', :value => 'Företagsnamn' }
+          %input#guest_company{ :type => 'text', :name => 'guest_company', :value => guest.company }
 
           %label{ :for => 'guest_phone' } Telefon
-          %input#guest_phone{ :type => 'text', :name => 'guest_phone', :value => '000-0000 00 00 ' }
+          %input#guest_phone{ :type => 'text', :name => 'guest_phone', :value => guest.phone }
 
           %label{ :for => 'guest_email'} E-post
-          %input#guest_email{ :type => 'text', :name => 'guest_email', :value => 'guest@guestcompany.se' }
+          %input#guest_email{ :type => 'text', :name => 'guest_email', :value => guest.email }
 
         %fieldset
           %h4 Sittningar
 
-          %small.alert-message Om alla kommer samtidigt kan det bli lite |
+          %small.add-bottom.alert-message Om alla kommer samtidigt kan det bli lite |
                                trångt. Vi skulle därför uppskatta om ni  |
                                vill ange på ett ungefär när ni planerar  |
                                att komma till oss.                       |
 
-          - seatings.each do |seating|
-            %li= seating.inspect
+          %ul.sittings
+            - sittings.each do |sitting|
+              %li.sitting{ class: sitting.guest_status_class }
+                %label
+                  - if guest.has_checked_sitting?(sitting)
+                    %input{ type: 'radio', name: 'sittings', value: sitting.key, checked: '' }
+                  - else
+                    %input{ type: 'radio', name: 'sittings', value: sitting.key }
 
-        %input{ :type => 'submit', :value => 'Skicka anmälan' }
-
-        %hr
-
+                  //%span
+                  = sitting.title
+                  %small= sitting.guest_status_text
+          %input{ :type => 'submit', :value => 'Skicka' }
+    - else
+      %img{ src: 'http://farm5.staticflickr.com/4087/5196894990_ece309ac67.jpg' }
+      %small
+        Fotograf:
+        %a{ href: 'http://www.flickr.com/photos/shandilee/5196894990/' } Shandi-lee
   .nine.offset-by-one.columns
     %h1 Nu är det snart dags för Athegas traditionella jullunch!
 
@@ -44,7 +55,6 @@
     %p
       Vårt kontor ligger på
       %strong Hantverkargatan 21, 3tr.
-
     %p
       Närmaste tunnelbanestation är Rådhuset
       %em (uppgång Parmmätargatan).

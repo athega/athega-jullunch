@@ -21,8 +21,8 @@
 
 .alert-message {
   background-color: #fdf5d9;
+  border: 1px solid #fceec1;
   padding: 0.5em 0.9em;
-  border-color: #fceec1;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -35,11 +35,33 @@
   margin: 1em 0;
 }
 
+.sitting {
+  border: 1px solid #fff;
+
+  label {
+    display: block;
+    cursor: pointer;
+    padding: 0.5em 0.9em;
+
+    small {
+      vertical-align: top;
+    }
+  }
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.sittings .green { background: #E1F5C4; border-color: darken(#E1F5C4, 15) }
+.sittings .yellow { background: #EDE574; border-color: darken(#EDE574, 15) }
+.sittings .red { background: #FC913A; border-color: darken(#FC913A, 15) }
+
 .admin_menu { .button { display: block; } }
-.seatings { input[type="submit"] { width: 100%; } }
+.sittings { input[type="submit"] { width: 100%; } }
 
 .guests a.guests,
-.seatings a.seatings,
+.sittings a.sittings,
 .notifications a.notifications {
   background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(100%, rgba(0, 0, 0, 0.4)));

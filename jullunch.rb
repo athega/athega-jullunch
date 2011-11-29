@@ -37,7 +37,11 @@ class Jullunch < Sinatra::Base
 
   helpers do
     def has_valid_token?
-      true
+      !guest_by_token.nil?
+    end
+
+    def guest_by_token
+      Guest.by_token(params[:token])
     end
   end
 
@@ -50,23 +54,25 @@ class Jullunch < Sinatra::Base
   end
 
   get '/' do
-    Seating.db.clear
+    sittings = Sitting.sort([:starts_at, -1]).all
 
-    Seating.new(key: 1130, title: 'Ankomsttid - 11:30', starts_at: Time.parse('2011-12-16 11:30:00 CET').utc).save
-    Seating.new(key: 1200, title: 'Ankomsttid - 12:00', starts_at: Time.parse('2011-12-16 12:00:00 CET').utc).save
-    Seating.new(key: 1230, title: 'Ankomsttid - 12:30', starts_at: Time.parse('2011-12-16 12:30:00 CET').utc).save
-    Seating.new(key: 1300, title: 'Ankomsttid - 13:00', starts_at: Time.parse('2011-12-16 13:00:00 CET').utc).save
-    Seating.new(key: 1330, title: 'Ankomsttid - 13:30', starts_at: Time.parse('2011-12-16 13:30:00 CET').utc).save
-    Seating.new(key: 0000, title: 'Jag måste tyvärr tacka nej').save
-
-    seatings = [
-      Seating.db.name,
-      Seating.collection.name,
-      Seating.sort([:starts_at, -1]).all
-    ]
-
-    haml :index, :locals => { :page_title => 'Athega Jullunch', :seatings => seatings }
+    haml :index, locals: {
+      page_title: 'Athega Jullunch',
+      sittings: sittings
+    }
   end
+
+  get '/prepare_db' do
+    Sitting.delete_all
+
+    Sitting.new(key: 1130, title: '11:30', starts_at: Time.parse('2011-12-16 11:30:00 CET').utc).save
+    Sitting.new(key: 1200, title: '12:00', starts_at: Time.parse('2011-12-16 12:00:00 CET').utc).save
+    Sitting.new(key: 1230, title: '12:30', starts_at: Time.parse('2011-12-16 12:30:00 CET').utc).save
+    Sitting.new(key: 1300, title: '13:00', starts_at: Time.parse('2011-12-16 13:00:00 CET').utc).save
+    Sitting.new(key: 1330, title: '13:30', starts_at: Time.parse('2011-12-16 13:30:00 CET').utc).save
+    Sitting.new(key: 0000, title: 'Jag måste tyvärr tacka nej').save
+  end
+
 
   get '/rsvp' do
     haml :rsvp, :locals => { :page_title => 'Tack - Athega Jullunch' }
