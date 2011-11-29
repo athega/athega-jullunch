@@ -12,19 +12,18 @@ class ImportFromSpreadsheet
       headers: true,
       converters: :all
     }) do |row|
-      name        = row[0].strip
-      company     = row[1].strip
-      email       = row[2].strip
-      invited_by  = row[3].strip
 
-      unless Guest.exist?(email: email)
-        Guest.create name: name, company: company, email: email, invited_by: invited_by
+      if !row.nil? && !row[0].nil? && !row[1].nil? && !row[2].nil? && !row[3].nil?
+        name        = row[0].strip
+        company     = row[1].strip
+        email       = row[2].strip
+        invited_by  = row[3].strip
+
+        unless Guest.exist?(email: email)
+          Guest.create name: name, company: company, email: email, invited_by: invited_by
+        end
       end
     end
-  end
-
-  def get_data
-
   end
 
   def csv_uri
