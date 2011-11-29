@@ -17,6 +17,13 @@ class Jullunch < Sinatra::Base
     set :root, File.dirname(__FILE__)
   end
 
+  configure :production do
+    use Rack::Cache,
+      :verbose => true,
+      :metastore => "memcached://#{ENV['MEMCACHE_SERVERS']}",
+      :entitystore => "memcached://#{ENV['MEMCACHE_SERVERS']}"
+  end
+
   #############################################################################
   # Admin
   #############################################################################

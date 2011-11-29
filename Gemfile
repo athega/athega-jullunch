@@ -1,11 +1,14 @@
 source :rubygems
 
+gem "dalli",         "~> 1.1.3", :require => "dalli"
+gem "rack-cache",    "~> 1.1",   :require => "rack/cache"
+
 gem "thin",          "~> 1.3.1"
 gem "oa-openid",     "~> 0.3"
 gem "yajl-ruby",     "~> 1.1.0", :require => "yajl"
 gem "rest-client",   "~> 1.6.7"
 
-gem "sinatra",       "~> 1.3", :require => "sinatra/base"
+gem "sinatra",       "~> 1.3",   :require => "sinatra/base"
 gem "haml",          "~> 3.1"
 
 gem "bson",          "~> 1.4.0"
