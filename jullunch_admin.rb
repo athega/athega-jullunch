@@ -8,6 +8,8 @@ require_relative 'lib/database'
 
 class JullunchAdmin < Sinatra::Base
 
+  use Rack::MethodOverride
+
   use Rack::Session::Cookie, key:    'athega_jullunch',
                              secret: 'Knowledge is power and true Sith do not share power.'
 
@@ -82,20 +84,33 @@ class JullunchAdmin < Sinatra::Base
   get '/admin/guests' do
     haml :'admin/guests/index', locals: {
       page_title: 'Gäster - Athega Jullunch',
-      guests: Guest.sort([:starts_at, -1]).all
+      guests: Guest.sort([:company, 1], [:name, 1]).all
     }
   end
 
+  post '/admin/guests/import_from_spreadsheet' do
+    ImportFromSpreadsheet.run!
+    redirect '/admin/guests'
+  end
+
   post '/admin/guests' do
-    guest = Guest.new name:       params[:name],
-                      company:    params[:company],
-                      phone:      params[:phone],
-                      email:      params[:email],
-                      invited_by: params[:invited_by]
+    guest = Guest.new name:             params[:name],
+                      company:          params[:company],
+                      email:            params[:email],
+                      invited_by:       params[:invited_by],
+                      invited_manually: (params[:invited_manually] == 'yes')
 
     guest.save if guest.valid?
 
     redirect '/admin/guests'
+  end
+
+  delete '/admin/guests/:token' do
+    guest = Guest.by_token(params[:token])
+
+    guest.delete unless guest.nil?
+
+    redirect to('/admin/guests')
   end
 
   get '/admin/sittings' do
@@ -141,5 +156,21 @@ class JullunchAdmin < Sinatra::Base
     haml :'admin/notifications', locals: {
       page_title: 'Notifikationer - Athega Jullunch'
     }
+  end
+
+  get '/admin/prepare_db_qwerty1234' do
+    Sitting.delete_all
+    Guest.delete_all
+
+    Sitting.new(key: 1130, title: '11:30', starts_at: Time.parse('2011-12-16 11:30:00 CET').utc).save
+    Sitting.new(key: 1200, title: '12:00', starts_at: Time.parse('2011-12-16 12:00:00 CET').utc).save
+    Sitting.new(key: 1230, title: '12:30', starts_at: Time.parse('2011-12-16 12:30:00 CET').utc).save
+    Sitting.new(key: 1300, title: '13:00', starts_at: Time.parse('2011-12-16 13:00:00 CET').utc).save
+    Sitting.new(key: 1330, title: '13:30', starts_at: Time.parse('2011-12-16 13:30:00 CET').utc).save
+    Sitting.new(key: 0000, title: 'Jag måste tyvärr tacka nej').save
+
+    ImportFromSpreadsheet.run!
+
+    redirect '/admin/guests'
   end
 end

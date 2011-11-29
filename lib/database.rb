@@ -6,6 +6,7 @@ require 'mongo/model'
 
 require './lib/guest'
 require './lib/sitting'
+require './lib/import_from_spreadsheet'
 
 db_name = 'athega_jullunch'
 
