@@ -19,7 +19,7 @@ class Jullunch < Sinatra::Base
 
   configure :production do
     use Rack::Cache,
-      :verbose => true,
+      :verbose => false,
       :metastore => "memcached://#{ENV['MEMCACHE_SERVERS']}",
       :entitystore => "memcached://#{ENV['MEMCACHE_SERVERS']}"
   end
@@ -75,6 +75,8 @@ class Jullunch < Sinatra::Base
   end
 
   get '/about' do
+    cache_control :public, :max_age => 5
+
     haml :about, :locals => { :page_title => 'Om applikationen - Athega Jullunch' }
   end
 end
