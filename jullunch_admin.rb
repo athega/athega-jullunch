@@ -1,6 +1,7 @@
 # encoding: UTF-8
 
 require_relative 'lib/database'
+require_relative 'lib/notification'
 
 ###############################################################################
 # Web Application
@@ -158,6 +159,11 @@ class JullunchAdmin < Sinatra::Base
     haml :'admin/notifications', locals: {
       page_title: 'Notifikationer - Athega Jullunch'
     }
+  end
+
+  post '/admin/notifications/send_all_pending_invitations' do
+    sent_count = Notification.send_all_pending_invitations!
+    redirect to("/admin/notifications?number_of_invitations_sent=#{sent_count}")
   end
 
   get '/admin/prepare_db_qwerty1234' do
