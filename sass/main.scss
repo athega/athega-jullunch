@@ -81,6 +81,16 @@
   }
 }
 
+.guest {
+  padding-bottom: 12px;
+  hr {
+    margin: 0;
+  }
+  form {
+    margin-bottom: 0;
+  }
+}
+
 iframe.scale-with-grid { width: 100%; height: 450px; }
 
 a, a:focus, a:visited { color: $athega_orange; }
