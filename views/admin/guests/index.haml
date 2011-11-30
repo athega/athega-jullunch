@@ -62,7 +62,7 @@
         %label Sittning
 
   - guests.each do |guest|
-    .row.guest.remove-bottom{ class: (guest.invited_manually == true ? 'manual' : 'auto' ) }
+    .row.remove-bottom{ class: guest.css_classes }
       %hr.half-bottom
       .three.columns
         %small
