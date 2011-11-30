@@ -36,6 +36,10 @@ class Guest
     sitting_key == 0
   end
 
+  def token_uri
+    "http://jullunch.athega.se/?token=#{token}"
+  end
+
   protected
 
   def set_default_values
