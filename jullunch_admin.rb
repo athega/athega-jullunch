@@ -47,6 +47,9 @@ class JullunchAdmin < Sinatra::Base
       return true if settings.respond_to?(:forced_authentication)
       !session[:current_user_email].nil?
     end
+
+    include Rack::Utils
+    alias_method :h, :escape_html
   end
 
   before /\/admin.*/ do
@@ -85,15 +88,24 @@ class JullunchAdmin < Sinatra::Base
   end
 
   get '/admin/guests' do
+
+    statistics = [
+      OpenStruct.new(text: 'Totalt antal:',   count: Guest.count),
+      OpenStruct.new(text: '✔ Inbjudningar:', count: Guest.invited.count),
+      OpenStruct.new(text: '✔ Påminnelser:',  count: Guest.reminded.count),
+      OpenStruct.new(text: '✔ Manuella:',     count: Guest.invited_manually.count),
+    ]
+
     haml :'admin/guests/index', locals: {
       page_title: 'Gäster - Athega Jullunch',
-      guests: Guest.sort([:company, 1], [:name, 1]).all
+      guests: Guest.sort([:company, 1], [:name, 1]).all,
+      statistics: statistics
     }
   end
 
   post '/admin/guests/import_from_spreadsheet' do
-    ImportFromSpreadsheet.run!
-    redirect '/admin/guests'
+    import_count = ImportFromSpreadsheet.run!
+    redirect to("/admin/guests?number_of_imported_guests=#{import_count}")
   end
 
   post '/admin/guests' do
