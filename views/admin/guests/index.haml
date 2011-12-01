@@ -54,7 +54,7 @@
 
 .guests
   - if Guest.not_invited_yet.count > 0
-    = haml :'admin/guests/_list', locals: { title: 'Gäster som inte fått någon inbjudan än', guests: Guest.not_invited_yet.all }
+    = haml :'admin/guests/_list', locals: { title: 'Gäster som inte fått någon inbjudan än', guests: Guest.not_invited_yet.sort([:company, 1], [:name, 1]).all }
 
   - if Guest.invited.count > 0
-    = haml :'admin/guests/_list', locals: { title: 'Redan inbjudna gäster', guests: Guest.invited.all }
+    = haml :'admin/guests/_list', locals: { title: 'Redan inbjudna gäster', guests: Guest.invited.sort([:company, 1], [:name, 1]).all }
