@@ -17,7 +17,7 @@ class Notification
 
     sent_count = 0
 
-    Guest.invited_manually.not_invited_yet.each do |g|
+    Guest.not_invited_yet.each do |g|
       html = renderer.call link:       g.token_uri,
                            name:       g.name,
                            company:    g.company,
