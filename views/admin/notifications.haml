@@ -1,6 +1,6 @@
 .row.notifications
   .twelve.offset-by-four.columns
-    %h1 Notifieringar
+    %h1 Hantera notifieringar
   .three.columns
     = haml :'admin/menu', :layout => false
   .twelve.offset-by-one.columns
@@ -14,10 +14,12 @@
       %label.half-bottom
         Bjud in alla gäster som inte redan fått en inbjudan.
         %small (Max 1 mail per gäst)
-      %input{ type: 'submit', value: 'Skicka inbjudningarna', onclick: 'return confirm("Är du HELT säker på att du vill skicka inbjudningarna?");' }
+      %input{ type: 'submit', value: 'Skicka inbjudningar', onclick: 'return confirm("Är du HELT säker på att du vill skicka inbjudningarna?");' }
+
+    %hr
 
     %form{ action: '/admin/notifications/send_all_pending_reminders', method: 'POST' }
       %label.half-bottom
-        Påminnelse till alla gäster som inte redan fått en påminnelse.
+        Skicka en påminnelse till alla gäster som inte redan fått en.
         %small (Max 1 mail per gäst)
-      %input{ type: 'submit', value: 'Skicka påminnelserna', onclick: 'return confirm("Är du HELT säker på att du vill skicka påminnelserna?");' }
+      %input{ type: 'submit', value: 'Skicka påminnelser', onclick: 'return confirm("Är du HELT säker på att du vill skicka påminnelserna?");' }
