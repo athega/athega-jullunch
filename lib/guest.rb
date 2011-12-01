@@ -7,7 +7,17 @@ class Guest
 
   attr_accessor :name, :company, :email
   attr_accessor :invited_by, :sitting_key, :status, :token
-  attr_accessor :invited_manually, :notified, :reminded, :arrived
+  attr_accessor :invited_manually, :invitation_email_sent, :reminder_email_sent, :arrived
+
+  scope :invited_manually, invited_manually: true
+
+  scope :not_invited_yet,  invitation_email_sent: false
+  scope :not_reminded_yet, reminder_email_sent: false
+  scope :not_arrived_yet,  arrived:  false
+
+  scope :invited,  invitation_email_sent: true
+  scope :reminded, reminder_email_sent: true
+  scope :arrived,  arrived:  true
 
   validates_presence_of :name
   validates_presence_of :company
@@ -43,10 +53,10 @@ class Guest
   protected
 
   def set_default_values
-    @token = _id if @token.nil?
-    @notified = false
-    @reminded = false
-    @arrived  = false
+    @token                  = _id if @token.nil?
+    @invitation_email_sent  = false
+    @reminder_email_sent    = false
+    @arrived                = false
 
     save
   end
