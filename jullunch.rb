@@ -45,6 +45,9 @@ class Jullunch < Sinatra::Base
     def guest_by_token
       Guest.by_token(params[:token]) unless params[:token].nil?
     end
+
+    include Rack::Utils
+    alias_method :h, :escape_html
   end
 
   #############################################################################
