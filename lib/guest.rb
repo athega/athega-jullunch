@@ -38,6 +38,18 @@ class Guest
     end
   end
 
+  def status_string
+    output = 'Inte fått inbjudan än'
+
+    if invitation_email_sent
+      output  = 'Fått inbjudan'
+      output += ', blivit påmind' if reminder_email_sent
+      output += ' och har dykt upp på Jullunchen' if arrived
+    end
+
+    output
+  end
+
   def css_classes
     "guest #{sitting_class} #{invite_class}"
   end

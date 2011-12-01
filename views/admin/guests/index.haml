@@ -71,7 +71,7 @@
       %hr.half-bottom
       .three.columns
         %small
-          %a{ href: "/?token=#{guest.token}" }= h guest.name
+          %a{ href: "/?token=#{guest.token}", title: guest.status_string }= h guest.name
       .three.columns
         %small= h guest.company
       .five.columns
