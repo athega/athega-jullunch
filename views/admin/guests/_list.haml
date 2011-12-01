@@ -1,0 +1,20 @@
+%h2.add-bottom= title
+.row
+  %label.three.columns Namn
+  %label.three.columns Företag
+  %label.five.columns  E-post
+  %label.three.columns Inbjuden av
+  %label.one.columns   Sittning
+- guests.each do |guest|
+  .row.remove-bottom{ class: guest.css_classes }
+    %hr.half-bottom
+    %small.three.columns
+      %a{ href: "/?token=#{guest.token}", title: guest.status_string }= h guest.name
+    %small.three.columns= h guest.company
+    %small.five.columns=  h guest.email
+    %small.three.columns= h guest.invited_by
+    %small.one.column= h guest.sitting
+    .one.column
+      %form{ action: "/admin/guests/#{guest.token}", method: 'POST' }
+        %input{ type: 'hidden', name: '_method', value: 'DELETE' }
+        %input.remove-bottom{ type: 'submit', value: 'X', onclick: 'return confirm("Är du säker på att du vill ta bort ' + h(guest.name) + '?");' }

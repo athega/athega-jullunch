@@ -52,35 +52,9 @@
     %form{ :action => "/admin/guests/import_from_spreadsheet", :method => 'POST' }
       %input{ type: 'submit', value: 'Importera (eventuella) nya gäster från Google Docs', onclick: 'return confirm("Är du säker på att du vill importera?");' }
 
-.row.guests
-  - if Guest.count > 0
-    %div
-      .three.columns
-        %label Namn
-      .three.columns
-        %label Företag
-      .five.columns
-        %label E-post
-      .three.columns
-        %label Inbjuden av
-      .one.columns
-        %label Sittning
+.guests
+  - if Guest.not_invited_yet.count > 0
+    = haml :'admin/guests/_list', locals: { title: 'Gäster som inte fått någon inbjudan än', guests: Guest.not_invited_yet.all }
 
-  - guests.each do |guest|
-    .row.remove-bottom{ class: guest.css_classes }
-      %hr.half-bottom
-      .three.columns
-        %small
-          %a{ href: "/?token=#{guest.token}", title: guest.status_string }= h guest.name
-      .three.columns
-        %small= h guest.company
-      .five.columns
-        %small= h guest.email
-      .three.columns
-        %small= h guest.invited_by
-      .one.column
-        %small= h guest.sitting
-      .one.column
-        %form{ action: "/admin/guests/#{guest.token}", method: 'POST' }
-          %input{ type: 'hidden', name: '_method', value: 'DELETE' }
-          %input.remove-bottom{ type: 'submit', value: 'X', onclick: 'return confirm("Är du säker på att du vill ta bort ' + h(guest.name) + '?");' }
+  - if Guest.invited.count > 0
+    = haml :'admin/guests/_list', locals: { title: 'Redan inbjudna gäster', guests: Guest.invited.all }
