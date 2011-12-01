@@ -13,12 +13,16 @@ class Notification
 
     # Get the templates
     template = IO.read('views/notifications/invitation.haml')
-    renderer = Haml::Engine.new(template).render_proc({}, :link, :name, :company)
+    renderer = Haml::Engine.new(template).render_proc({}, :link, :name, :company, :invited_by)
 
     sent_count = 0
 
     Guest.invited_manually.not_invited_yet.each do |g|
-      html = renderer.call link: g.token_uri, name: g.name, company: g.company
+      html = renderer.call link:       g.token_uri,
+                           name:       g.name,
+                           company:    g.company,
+                           invited_by: g.invited_by
+
       text = html.gsub(/<\/?[^>]*>/, "")
 
       response    = Mailer.mail(from, g.email, subject, text, html)
