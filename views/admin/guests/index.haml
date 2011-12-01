@@ -20,35 +20,32 @@
 
   .twelve.offset-by-one.columns
     %form{ :action => "/admin/guests", :method => 'POST' }
-      %fieldset
-        .row.remove-bottom
-          .three.columns.alpha
-            %label Namn
-            %input{ :type => 'text', :name => 'name' }
-          .three.columns
-            %label Företag
-            %input{ :type => 'text', :name => 'company' }
-          .four.columns
-            %label E-post
-            %input{ :type => 'text', :name => 'email' }
-          .two.columns.omega
-            %label Inbjuden av
-            %input{ :type => 'text', :name => 'invited_by' }
-        .row.remove-bottom
-          .nine.columns.alpha
-            %label
-              %input{ type: 'checkbox', name: 'invited_manually', value: 'yes' }
-              %span Manuell inbjudan
+      .three.columns.alpha
+        %label Namn
+        %input{ :type => 'text', :name => 'name' }
+      .three.columns
+        %label Företag
+        %input{ :type => 'text', :name => 'company' }
+      .four.columns
+        %label E-post
+        %input{ :type => 'text', :name => 'email' }
+      .two.columns.omega
+        %label Inbjuden av
+        %input.full-width{ :type => 'text', :name => 'invited_by' }
+      .nine.columns.alpha
+        %label
+          %input{ type: 'checkbox', name: 'invited_manually', value: 'yes' }
+          %span Manuell inbjudan
 
-            %small.alert-message
-              %strong Notera:
-              Om manuell inbjudan är ikryssad är det upp till          |
-              inbjudaren att se till att den inbjudne får ett mail med |
-              inbjudningslänken. Lite mer manuellt jobb men öppnar     |
-              för betydligt mer personliga inbjudningar.               |
+        %small.alert-message
+          %strong Notera:
+          Om manuell inbjudan är ikryssad är det upp till          |
+          inbjudaren att se till att den inbjudne får ett mail med |
+          inbjudningslänken. Lite mer manuellt jobb men öppnar     |
+          för betydligt mer personliga inbjudningar.               |
 
-          .two.offset-by-one.columns.omega
-            %input{ :type => 'submit', :value => 'Lägg till ny gäst' }
+      .two.offset-by-one.columns.omega
+        %input{ :type => 'submit', :value => 'Lägg till gäst' }
     %form{ :action => "/admin/guests/import_from_spreadsheet", :method => 'POST' }
       %input{ type: 'submit', value: 'Importera (eventuella) nya gäster från Google Docs', onclick: 'return confirm("Är du säker på att du vill importera?");' }
 
