@@ -23,10 +23,15 @@ class Notification
                            company:    g.company,
                            invited_by: g.invited_by
 
-      text = html.gsub(/<\/?[^>]*>/, "")
+      text     = html.gsub(/<\/?[^>]*>/, "")
+      response = Mailer.mail(from, g.email, subject, text, html)
 
-      response    = Mailer.mail(from, g.email, subject, text, html)
-      sent_count += 1 if response["message"] == "Queued. Thank you."
+      if response["message"] == "Queued. Thank you."
+        g.invitation_email_sent = true
+        g.save
+
+        sent_count += 1
+      end
     end
 
     sent_count
