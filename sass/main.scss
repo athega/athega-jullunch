@@ -18,9 +18,7 @@
 
 .hidden { display: none; }
 
-.alert-message {
-  background-color: #fdf5d9;
-  border: 1px solid #fceec1;
+.alert-message, .info-message {
   padding: 0.5em 0.9em;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -32,6 +30,16 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: 1em 0;
+}
+
+.alert-message {
+  background-color: #fdf5d9;
+  border: 1px solid #fceec1;
+}
+
+.info-message {
+  background-color: #E9FFE1;
+  border: 1px solid darken(#E9FFE1, 5);
 }
 
 .sitting {
