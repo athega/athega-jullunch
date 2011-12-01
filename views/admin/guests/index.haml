@@ -1,17 +1,22 @@
 .row.guests
   .twelve.offset-by-four.columns
+    - unless params[:number_of_imported_guests].nil?
+      %div.alert-message
+        Importerade
+        %strong= params[:number_of_imported_guests]
+        nya gäster!
     %h1 Administrera gäster
   .three.columns
     = haml :'admin/menu', :layout => false
 
-    .guest_info
-      %label Statistik
-
+    .guest_statistics.info-message
+      %label.half-bottom Statistik
       %ul
-        %li
-          %small
-            Totalt antal gäster:
-            %strong= guests.count
+        - statistics.each do |s|
+          %li
+            %small
+              = s.text
+              %strong= s.count
 
   .twelve.offset-by-one.columns
     %form{ :action => "/admin/guests", :method => 'POST' }
@@ -66,16 +71,16 @@
       %hr.half-bottom
       .three.columns
         %small
-          %a{ href: "/?token=#{guest.token}" }= guest.name
+          %a{ href: "/?token=#{guest.token}" }= h guest.name
       .three.columns
-        %small= guest.company
+        %small= h guest.company
       .five.columns
-        %small= guest.email
+        %small= h guest.email
       .three.columns
-        %small= guest.invited_by
+        %small= h guest.invited_by
       .one.column
-        %small= guest.sitting
+        %small= h guest.sitting
       .one.column
         %form{ action: "/admin/guests/#{guest.token}", method: 'POST' }
           %input{ type: 'hidden', name: '_method', value: 'DELETE' }
-          %input.remove-bottom{ type: 'submit', value: 'X', onclick: 'return confirm("Är du säker på att du vill ta bort ' + guest.name + '?");' }
+          %input.remove-bottom{ type: 'submit', value: 'X', onclick: 'return confirm("Är du säker på att du vill ta bort ' + h(guest.name) + '?");' }
