@@ -68,7 +68,6 @@ class Jullunch < Sinatra::Base
     unless guest.nil?
       guest.name        = params[:name]
       guest.company     = params[:company]
-      guest.email       = params[:email]
       guest.sitting_key = params[:sitting_key].to_i
 
       if guest.valid?
