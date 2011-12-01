@@ -14,7 +14,12 @@ class Mailer
       testmode = true
 
       # Only enable real emails to a few accounts
-      testmode = false if ['peter@c7.se', 'christian.lizell@schibsted.se', 'mats.ygfors@seb.se'].include?(to)
+      testmode = false if [
+        'peter@c7.se',
+        'christian.lizell@schibsted.se',
+        'mats.ygfors@seb.se',
+        'torbjorn.nilsson@gmail.com'
+      ].include?(to)
 
       response = RestClient.post api_url+"/messages",
         :from => from,
