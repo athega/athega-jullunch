@@ -6,7 +6,8 @@ class ImportFromSpreadsheet
   end
 
   def run!
-    csv_data = RestClient.get(csv_uri)
+    csv_data     = RestClient.get(csv_uri)
+    import_count = 0
 
     CSV.parse(csv_data, {
       headers: true,
@@ -21,9 +22,12 @@ class ImportFromSpreadsheet
 
         unless Guest.exist?(email: email)
           Guest.create name: name, company: company, email: email, invited_by: invited_by
+          import_count += 1
         end
       end
     end
+
+    import_count
   end
 
   def csv_uri
