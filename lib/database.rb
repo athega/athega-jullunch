@@ -1,6 +1,7 @@
 # encoding: UTF-8
 
 # Require models
+require 'uri'
 require 'time'
 require 'mongo/model'
 
