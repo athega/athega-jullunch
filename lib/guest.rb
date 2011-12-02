@@ -10,9 +10,10 @@ class Guest
   attr_accessor :invited_manually, :invitation_email_sent, :reminder_email_sent, :arrived
 
   scope :invited_manually, invited_manually: true
+  scope :not_invited_manually, invited_manually: false
 
-  scope :not_invited_yet,  invitation_email_sent: false
-  scope :not_reminded_yet, reminder_email_sent: false
+  scope :not_invited_yet,  invitation_email_sent: false, invited_manually: false
+  scope :not_reminded_yet, reminder_email_sent: false, invited_manually: false
   scope :not_arrived_yet,  arrived:  false
 
   scope :invited,  invitation_email_sent: true
@@ -66,6 +67,7 @@ class Guest
 
   def set_default_values
     @token                  = _id if @token.nil?
+    @invited_manually       = false if @invited_manually.nil?
     @invitation_email_sent  = false
     @reminder_email_sent    = false
     @arrived                = false
