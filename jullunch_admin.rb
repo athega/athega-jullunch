@@ -90,10 +90,17 @@ class JullunchAdmin < Sinatra::Base
   get '/admin/guests' do
 
     statistics = [
-      OpenStruct.new(text: 'Totalt antal:',   count: Guest.count),
-      OpenStruct.new(text: '✔ Inbjudningar:', count: Guest.invited.count),
-      OpenStruct.new(text: '✔ Påminnelser:',  count: Guest.reminded.count),
-      OpenStruct.new(text: '✔ Manuella:',     count: Guest.invited_manually.count),
+      OpenStruct.new(text: 'TOTALT:',       count: Guest.count),
+      OpenStruct.new(text: 'Inbjudningar:', count: Guest.invited.count),
+      OpenStruct.new(text: 'Påminnelser:',  count: Guest.reminded.count),
+      OpenStruct.new(text: 'Manuella:',     count: Guest.invited_manually.count),
+      OpenStruct.new(text: '11:30:',        count: Guest.all_by_sitting_key(1130).count),
+      OpenStruct.new(text: '12:00:',        count: Guest.all_by_sitting_key(1200).count),
+      OpenStruct.new(text: '12:30:',        count: Guest.all_by_sitting_key(1200).count),
+      OpenStruct.new(text: '13:00:',        count: Guest.all_by_sitting_key(1300).count),
+      OpenStruct.new(text: '13:30:',        count: Guest.all_by_sitting_key(1330).count),
+      OpenStruct.new(text: 'Tackat nej:',   count: Guest.all_by_sitting_key(0).count),
+      OpenStruct.new(text: 'Ej valt:',      count: Guest.all_by_sitting_key(nil).count),
     ]
 
     haml :'admin/guests/index', locals: {
