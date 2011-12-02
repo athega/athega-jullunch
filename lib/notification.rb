@@ -17,7 +17,7 @@ class Notification
 
     sent_count = 0
 
-    Guest.not_invited_yet.sort([:company, 1], [:name, 1]).limit(30).each do |g|
+    Guest.not_invited_yet.not_invited_manually.sort([:company, 1], [:name, 1]).limit(30).each do |g|
       html = renderer.call link:       g.token_uri,
                            name:       g.name,
                            company:    g.company,
