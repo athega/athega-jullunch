@@ -1,9 +1,9 @@
 .row.notifications
   .twelve.offset-by-four.columns
     %h1 Hantera notiﬁeringar
-  .three.columns
+  .four.columns
     = haml :'admin/menu', :layout => false
-  .twelve.offset-by-one.columns
+  .twelve.columns
     - unless params[:number_of_invitations_sent].nil?
       %div.alert-message
         Skickade

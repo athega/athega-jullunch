@@ -6,7 +6,7 @@
         Importerade
         %strong= params[:number_of_imported_guests]
         nya gäster!
-  .three.columns
+  .four.columns
     = haml :'admin/menu', :layout => false
 
     .guest_statistics.info-message
@@ -18,7 +18,7 @@
               = s.text
               %strong= s.count
 
-  .twelve.offset-by-one.columns
+  .twelve.columns
     %form{ :action => "/admin/guests", :method => 'POST' }
       .three.columns.alpha
         %label Namn
@@ -45,7 +45,7 @@
           för betydligt mer personliga inbjudningar.               |
 
       .two.offset-by-one.columns.omega
-        %input{ :type => 'submit', :value => 'Lägg till gäst' }
+        %input{ :type => 'submit', :value => 'Lägg till' }
     %form{ :action => "/admin/guests/import_from_spreadsheet", :method => 'POST' }
       %input{ type: 'submit', value: 'Importera (eventuella) nya gäster från Google Docs', onclick: 'return confirm("Är du säker på att du vill importera?");' }
 

@@ -1,9 +1,9 @@
 .row.sittings
   .twelve.offset-by-four.columns
     %h1 Uppdatera sittningar
-  .three.columns
+  .four.columns
     = haml :'admin/menu', :layout => false
-  .twelve.offset-by-one.columns
+  .twelve.columns
     %form{ :action => "/admin/sittings", :method => 'POST' }
       %fieldset
         .row.remove-bottom
