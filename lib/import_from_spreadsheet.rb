@@ -19,7 +19,7 @@ class ImportFromSpreadsheet
         converters: :all
       }) do |row|
 
-        if !row.nil? && !row[0].nil? && !row[1].nil? && !row[2].nil? && !row[3].nil?
+        if !row.nil? && !row.include?(nil)
           name        = row[0].strip
           company     = row[1].strip
           email       = row[2].strip.downcase
