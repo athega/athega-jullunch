@@ -3,6 +3,8 @@ require 'rest_client'
 
 class Mailer
   def self.mail(from, to, subject, text, html, testmode = false)
+    testmode = true if ENV['POW_DOMAINS'] == 'dev,test'
+
     api_key = ENV['MAILGUN_API_KEY']
 
     response = '{ "error": "No Mailgun API key" }'
