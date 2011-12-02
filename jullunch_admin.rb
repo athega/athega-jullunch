@@ -180,7 +180,6 @@ class JullunchAdmin < Sinatra::Base
 
   get '/admin/prepare_db_qwerty1234' do
     Sitting.delete_all
-    Guest.delete_all
 
     Sitting.new(key: 1130, title: '11:30', starts_at: Time.parse('2011-12-16 11:30:00 CET').utc).save
     Sitting.new(key: 1200, title: '12:00', starts_at: Time.parse('2011-12-16 12:00:00 CET').utc).save
@@ -193,18 +192,7 @@ class JullunchAdmin < Sinatra::Base
   end
 
   get '/admin/load_test_users_qwerty1234' do
-    Sitting.delete_all
-    Guest.delete_all
-
-    Sitting.new(key: 1130, title: '11:30', starts_at: Time.parse('2011-12-16 11:30:00 CET').utc).save
-    Sitting.new(key: 1200, title: '12:00', starts_at: Time.parse('2011-12-16 12:00:00 CET').utc).save
-    Sitting.new(key: 1230, title: '12:30', starts_at: Time.parse('2011-12-16 12:30:00 CET').utc).save
-    Sitting.new(key: 1300, title: '13:00', starts_at: Time.parse('2011-12-16 13:00:00 CET').utc).save
-    Sitting.new(key: 1330, title: '13:30', starts_at: Time.parse('2011-12-16 13:30:00 CET').utc).save
-    Sitting.new(key: 0000, title: 'Jag måste tyvärr tacka nej').save
-
     import_count = ImportFromSpreadsheet.test!
-
     redirect "/admin/guests?imported_test_users=#{import_count}"
   end
 end
