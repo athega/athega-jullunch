@@ -10,27 +10,6 @@ class Mailer
     unless api_key.nil?
       api_url = "https://api:#{api_key}@api.mailgun.net/v2/athega.mailgun.org"
 
-      # Disable all emails
-      testmode = true
-
-      # Only enable real emails to a few accounts
-      testmode = false if [
-        'peter@c7.se',
-        'torbjorn.nilsson@gmail.com',
-        'mats.ygfors@seb.se',
-        'christian.lizell@schibsted.se',
-        'johan.beronius@athega.se',
-        'mikael.forsberg@athega.se',
-        'peter.hellberg@athega.se',
-        'christian.lizell@athega.se',
-        'torbjorn.nilsson@athega.se',
-        'alex.robsahm@athega.se',
-        'krister.soderstrom@athega.se',
-        'mats.ygfors@athega.se',
-        'petter.petersson@athega.se',
-        'fredrik.soder@athega.se'
-      ].include?(to)
-
       response = RestClient.post api_url+"/messages",
         :from => from,
         :to => to,
