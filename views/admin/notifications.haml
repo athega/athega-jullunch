@@ -12,14 +12,14 @@
 
     %form{ action: '/admin/notifications/send_all_pending_invitations', method: 'POST' }
       %label.half-bottom
-        Bjud in alla gäster som inte redan fått en inbjudan.
+        Bjud in gäster som inte redan fått en inbjudan.
         %small (Max 1 mail per gäst)
-      %input{ type: 'submit', value: 'Skicka inbjudningar', onclick: 'return confirm("Är du HELT säker på att du vill skicka inbjudningarna?");' }
+      %input{ type: 'submit', value: 'Skicka inbjudningar (30 i taget)', onclick: 'return confirm("Är du HELT säker på att du vill skicka inbjudningarna?");' }
 
     %hr
 
     %form{ action: '/admin/notifications/send_all_pending_reminders', method: 'POST' }
       %label.half-bottom
-        Skicka en påminnelse till alla gäster som inte redan fått en.
+        Skicka en påminnelse gäster som inte redan fått en.
         %small (Max 1 mail per gäst)
-      %input{ type: 'submit', value: 'Skicka påminnelser', onclick: 'return confirm("Är du HELT säker på att du vill skicka påminnelserna?");' }
+      %input{ type: 'submit', value: 'Skicka påminnelser (30 i taget)', onclick: 'return confirm("Är du HELT säker på att du vill skicka påminnelserna?");' }
