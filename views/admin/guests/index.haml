@@ -50,6 +50,9 @@
       %input{ type: 'submit', value: 'Importera (eventuella) nya gäster från Google Docs', onclick: 'return confirm("Är du säker på att du vill importera?");' }
 
 .guests
+  - if Guest.invited_manually.count > 0
+    = haml :'admin/guests/_list', locals: { title: 'Manuellt inbjudna gäster', guests: Guest.invited_manually.sort([:company, 1], [:name, 1]).all }
+
   - if Guest.not_invited_yet.count > 0
     = haml :'admin/guests/_list', locals: { title: 'Gäster som inte fått någon inbjudan än', guests: Guest.not_invited_yet.sort([:company, 1], [:name, 1]).all }
 
