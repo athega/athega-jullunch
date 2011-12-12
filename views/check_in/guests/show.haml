@@ -1,2 +1,7 @@
 .sixteen.columns
   %h1= guest.name
+.row.alpha.omega
+  - latest_images.each do |url|
+    .four.columns
+      %form{ action: '/check-in/guests', method: 'POST', onsubmit: "return confirm('Vill du checka in med denna bild?')" }
+        %input.button{ style: "width: 100%;", type: 'image', src: url }

@@ -85,8 +85,14 @@ class Jullunch < Sinatra::Base
   get '/check-in/guests/:token' do
     guest = Guest.by_token(params[:token])
 
+    # Get the latest images
+    url  = 'http://assets.athega.se/jullunch/latest_images.json'
+    data = Yajl::Parser.parse(RestClient.get(url))
+
+    latest_images = data[0, 8].map { |image| image['url'] }
+
     haml :'check_in/guests/show',
-      locals: { guest: guest },
+      locals: { guest: guest, latest_images: latest_images },
       layout: :'check_in/layout'
   end
 
