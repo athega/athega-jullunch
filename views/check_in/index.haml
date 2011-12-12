@@ -1,0 +1,8 @@
+.sixteen.columns
+  %h1 Välj företag
+  .companies
+    - companies.each do |company|
+      %hr
+      %h1.company.add-bottom
+        %a{ href: "/check-in/guests?company=#{URI.escape(company)}" }= company
+

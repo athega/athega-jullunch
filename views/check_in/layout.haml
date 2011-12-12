@@ -1,0 +1,27 @@
+!!!5
+%html{ :lang => 'sv' }
+  %head
+    %meta{ :charset => 'utf-8' }
+    %title Athega Jullunch
+
+    / http://t.co/dKP3o1e
+    %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1" }
+    %meta{ :name => "HandheldFriendly", :content => "true" }
+
+    / Apple
+    %meta{ :name => "apple-mobile-web-app-capable", :content => "yes" }
+    %meta{ :name => "apple-mobile-web-app-status-bar-style", :content => "black-translucent" }
+
+    / Favicon
+    %link{ :rel => "shortcut icon", :href => "/favicon.ico", :type => "image/x-icon" }
+
+    %link{ :rel => "stylesheet", :href => "/stylesheets/main.css", :type => "text/css" }
+  %body
+    .container
+      .row
+        .sixteen.columns
+          %header
+            %a{ href: '/check-in' }
+              %h1#logo.remove-bottom Athega
+              %h2 Stockholms nyttigaste systemutvecklare
+      = yield

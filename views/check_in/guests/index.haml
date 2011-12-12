@@ -1,0 +1,7 @@
+.sixteen.columns
+  %h1.add-bottom= company
+  %hr
+  .guests
+    - guests.each do |guest|
+      %h1.guest.add-bottom
+        %a{ href: "/check-in/guests/#{guest.token}" }= guest.name

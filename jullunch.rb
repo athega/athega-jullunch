@@ -1,5 +1,7 @@
 # encoding: UTF-8
 
+require 'uri'
+
 require_relative 'lib/database'
 require_relative 'jullunch_admin'
 
@@ -62,6 +64,32 @@ class Jullunch < Sinatra::Base
     }
   end
 
+  get '/check-in' do
+    guests    = Guest.not_arrived_yet.all
+    companies = guests.to_a.map(&:company).uniq.sort
+    haml :'check_in/index',
+      locals: { companies: companies },
+      layout: :'check_in/layout'
+  end
+
+  get '/check-in/guests' do
+    redirect to('/check-in') if params[:company].blank?
+
+    guests = Guest.not_arrived_yet.all_by_company(params[:company])
+
+    haml :'check_in/guests/index',
+      locals: { company: params[:company], guests:  guests },
+      layout: :'check_in/layout'
+  end
+
+  get '/check-in/guests/:token' do
+    guest = Guest.by_token(params[:token])
+
+    haml :'check_in/guests/show',
+      locals: { guest: guest },
+      layout: :'check_in/layout'
+  end
+
   post '/rsvp' do
     guest = guest_by_token
 
@@ -81,7 +109,6 @@ class Jullunch < Sinatra::Base
 
   get '/about' do
     cache_control :public, :max_age => 5
-
-    haml :about, :locals => { :page_title => 'Om applikationen - Athega Jullunch' }
+    haml :about, locals: { page_title: 'Om applikationen - Athega Jullunch' }
   end
 end
