@@ -63,6 +63,7 @@ class Jullunch < Sinatra::Base
     def public_json_response(obj)
       content_type 'application/json', :charset => 'utf-8'
       response['Access-Control-Allow-Origin'] = '*'
+      response['X-XSS-Protection'] = '0'
       Yajl::Encoder.encode(obj)
     end
 
