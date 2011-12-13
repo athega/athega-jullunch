@@ -5,9 +5,10 @@ class Guest
 
   collection "guests_#{Time.now.year}"
 
-  attr_accessor :name, :company, :email
+  attr_accessor :name, :company, :email, :image_url
   attr_accessor :invited_by, :sitting_key, :status, :token
-  attr_accessor :invited_manually, :invitation_email_sent, :reminder_email_sent, :arrived
+  attr_accessor :invited_manually, :invitation_email_sent, :reminder_email_sent
+  attr_accessor :arrived, :arrived_at
 
   scope :invited_manually, invited_manually: true
   scope :not_invited_manually, invited_manually: false
