@@ -9,4 +9,8 @@ guard 'livereload' do
   watch(%r{.+\.rb})
 end
 
+guard 'coffeescript', :output => 'public/javascripts' do
+  watch /^coffeescripts\/(.*)\.coffee/
+end
+
 guard 'sass', :input => 'sass', :output => 'public/stylesheets', :style => :compressed
