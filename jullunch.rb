@@ -88,7 +88,8 @@ class Jullunch < Sinatra::Base
   get '/check-in/guests' do
     redirect to('/check-in') if params[:company].blank?
 
-    guests = Guest.not_arrived_yet.all_by_company(params[:company])
+    guests = Guest.not_arrived_yet.sort([:name, 1]).
+                                   all_by_company(params[:company])
 
     if params[:guests] == 'all'
       guests = Guest.all_by_company(params[:company])
@@ -106,7 +107,7 @@ class Jullunch < Sinatra::Base
     url  = 'http://assets.athega.se/jullunch/latest_images.json'
     data = Yajl::Parser.parse(RestClient.get(url))
 
-    latest_images = data[0, 8].map { |image| image['url'] }
+    latest_images = data[0, 16].map { |image| image['url'] }
 
     haml :'check_in/guests/show',
       locals: { guest: guest, latest_images: latest_images },
@@ -114,7 +115,14 @@ class Jullunch < Sinatra::Base
   end
 
   put '/check-in/guests/:token' do
-    'CHECKED IN'
+    guest = Guest.by_token(params[:token])
+
+    unless guest.nil?
+      guest.image_url   = params[:image_url]
+      guest.arrived     = true
+      guest.arrived_at  = Time.now.utc
+      guest.save
+    end
 
     redirect to('/check-in')
   end
