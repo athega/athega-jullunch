@@ -1,0 +1,47 @@
+%script#ads_tpl{ type: 'text/html' }
+  #large_ad.sixteen.columns
+    %img{ src: "{{random_url}}" }
+
+%script#check_ins_tpl{ type: 'text/html' }
+  .sixteen.columns
+    %h1 Senaste incheckade besökare
+  .row
+    %ul.check_in
+      {{#items}}
+      %li.one-third.column
+        %img{ src: "{{image_url}}", width: 300, height: 400 }
+        %br
+        %span.user {{name}}
+        %span.timestamp{ data: { timestamp: "{{arrived_at}}" } } {{arrived_at}}
+        %div
+          %small.company ({{company}})
+      {{/items}}
+
+%script#images_tpl{ type: 'text/html' }
+  .sixteen.columns
+    %h1 Senaste bilderna
+  .row
+    %div.images
+      {{#items}}
+      .one-third.column
+        %img{ src: '{{url}}', width: 300, height: 300 }
+      {{/items}}
+
+%script#tweets_tpl{ type: 'text/html' }
+  .sixteen.columns
+    %h1
+      Tweets taggade
+      %a{ href: 'https://twitter.com/#!/search/realtime/%23athegajul' } #athegajul
+  .sixteen.columns.alpha.omega
+    %ul.tweets
+      {{#items}}
+      %li.tweet.row
+        .two.columns
+          %img{ src: "{{profile_image_url}}", width: 100, height: 100 }
+        .ten.columns
+          %a.user{ href: "{{url}}"} {{from_user}}
+          %span.name {{from_user_name}}
+        .thirteen.columns
+          %span.text {{{html}}}
+          %div.timestamp{ data: { timestamp: "{{created_at}}" } } {{created_at}}
+      {{/items}}
