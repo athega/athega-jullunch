@@ -100,6 +100,9 @@ class Jullunch < Sinatra::Base
   get '/check-in/guests' do
     redirect to('/check-in') if params[:company].blank?
 
+    arrived_guests = Guest.arrived.sort([:name, 1]).
+                                   all_by_company(params[:company])
+
     guests = Guest.not_arrived_yet.sort([:name, 1]).
                                    all_by_company(params[:company])
 
@@ -108,7 +111,11 @@ class Jullunch < Sinatra::Base
     end
 
     haml :'check_in/guests/index',
-      locals: { company: params[:company], guests:  guests },
+      locals: {
+        company: params[:company],
+        guests:  guests,
+        arrived_guests: arrived_guests
+      },
       layout: :'check_in/layout'
   end
 
