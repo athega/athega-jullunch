@@ -18,7 +18,7 @@
 
 .hidden { display: none; }
 
-.alert-message, .info-message {
+.alert-message, .info-message, .tweet {
   padding: 0.5em 0.9em;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -99,6 +99,54 @@
   }
 }
 
+.tweet {
+  padding-bottom: 10px;
+  min-height: 100px;
+  background-color: rgba(48, 128, 203, 0.1);
+  border-color: rgba(48, 128, 203, 0.15);
+
+  img {
+    margin-top: 0.2em;
+  }
+
+  span {
+    font-size: 1.2em;
+    line-height: 1.3em;
+  }
+
+  .user {
+    color: #000;
+    text-decoration: none;
+    margin-top: 0.4em;
+    margin-bottom: 0.5em;
+    font-size: 1.3em;
+    font-weight: bold;
+  }
+
+  .name {
+    display: inline-block;
+    font-size: 0.9em;
+    color: #999;
+    line-height: 1.3em;
+    vertical-align: bottom;
+    margin-left: 0.2em;
+  }
+
+  .text {
+    display: block;
+    margin-top: 0.5em;
+    min-height: 48px;
+  }
+
+}
+
+.timestamp {
+  margin-top: 0.8em;
+  color: #999;
+  font-size: 0.8em;
+}
+
+
 iframe.scale-with-grid { width: 100%; height: 450px; }
 
 a, a:focus, a:visited { color: $athega_orange; }
@@ -107,6 +155,17 @@ a:hover { color: brighten($athega_orange, 20); }
 body {
   border-top: 8px solid $athega_orange;
   background: #fff url('/images/bg.png') repeat-x;
+}
+
+#backbone {
+  background: #fff;
+
+  h1 {
+    font-size: 3.85em;
+    line-height: 1.4em;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+  }
 }
 
 h1,h2,h3,h4,h5 {
@@ -129,7 +188,6 @@ header {
   }
 }
 
-
 /* #Page Styles
 ================================================== */
 
@@ -150,6 +208,15 @@ header {
 #check_in .guest img {
   width: 50px;
   vertical-align: top;
+}
+
+#large_ad {
+  margin-top: 40px;
+  text-align: center;
+
+  img {
+    max-height: 900px;
+  }
 }
 
 /* #Media Queries
