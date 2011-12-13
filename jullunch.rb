@@ -44,7 +44,7 @@ class Jullunch < Sinatra::Base
 
   helpers do
     def has_valid_token?
-      !guest_by_token.nil? && (Time.now.utc < Time.parse('2011-12-14').utc)
+      !guest_by_token.nil?
     end
 
     def guest_by_token
