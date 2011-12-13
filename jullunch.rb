@@ -56,6 +56,10 @@ class Jullunch < Sinatra::Base
       "http://www.gravatar.com/avatar/#{hash}?d=mm&s=50"
     end
 
+    def uri_escape(str)
+      URI.escape(str).gsub('+', '%2B')
+    end
+
     include Rack::Utils
     alias_method :h, :escape_html
   end
