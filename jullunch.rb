@@ -60,6 +60,12 @@ class Jullunch < Sinatra::Base
       URI.escape(str).gsub('+', '%2B')
     end
 
+    def public_json_response(obj)
+      content_type 'application/json', :charset => 'utf-8'
+      response['Access-Control-Allow-Origin'] = '*'
+      Yajl::Encoder.encode(obj)
+    end
+
     include Rack::Utils
     alias_method :h, :escape_html
   end
@@ -74,6 +80,11 @@ class Jullunch < Sinatra::Base
     haml :index, locals: {
       page_title: 'Athega Jullunch', sittings: sittings, guest: guest_by_token
     }
+  end
+
+  get '/data/latest_check_ins.json' do
+    guests = Guest.arrived.limit(20).sort([:arrived_at, -1]).all.to_a
+    public_json_response(guests)
   end
 
   get '/check-in' do
