@@ -14,7 +14,7 @@ class Guest
 
   scope :not_invited_yet,  invitation_email_sent: false, invited_manually: false
   scope :not_reminded_yet, reminder_email_sent: false, invited_manually: false
-  scope :not_arrived_yet,  arrived:  false
+  scope :not_arrived_yet,  arrived:  false, sitting_key: { _in: [1130, 1200, 1230, 1300, 1330] }
 
   scope :invited,  invitation_email_sent: true
   scope :reminded, reminder_email_sent: true

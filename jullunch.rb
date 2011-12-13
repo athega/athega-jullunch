@@ -1,6 +1,7 @@
 # encoding: UTF-8
 
 require 'uri'
+require 'digest/md5'
 
 require_relative 'lib/database'
 require_relative 'jullunch_admin'
@@ -17,6 +18,8 @@ class Jullunch < Sinatra::Base
 
   configure do
     set :root, File.dirname(__FILE__)
+
+    use Rack::MethodOverride
   end
 
   configure :production do
@@ -48,6 +51,11 @@ class Jullunch < Sinatra::Base
       Guest.by_token(params[:token]) unless params[:token].nil?
     end
 
+    def gravatar(email)
+      hash = Digest::MD5.hexdigest(email.downcase)
+      "http://www.gravatar.com/avatar/#{hash}?d=mm&s=50"
+    end
+
     include Rack::Utils
     alias_method :h, :escape_html
   end
@@ -65,7 +73,8 @@ class Jullunch < Sinatra::Base
   end
 
   get '/check-in' do
-    guests    = Guest.not_arrived_yet.all
+   guests    = Guest.not_arrived_yet.all
+
     companies = guests.to_a.map(&:company).uniq.sort
     haml :'check_in/index',
       locals: { companies: companies },
@@ -76,6 +85,10 @@ class Jullunch < Sinatra::Base
     redirect to('/check-in') if params[:company].blank?
 
     guests = Guest.not_arrived_yet.all_by_company(params[:company])
+
+    if params[:guests] == 'all'
+      guests = Guest.all_by_company(params[:company])
+    end
 
     haml :'check_in/guests/index',
       locals: { company: params[:company], guests:  guests },
@@ -94,6 +107,12 @@ class Jullunch < Sinatra::Base
     haml :'check_in/guests/show',
       locals: { guest: guest, latest_images: latest_images },
       layout: :'check_in/layout'
+  end
+
+  put '/check-in/guests/:token' do
+    'CHECKED IN'
+
+    redirect to('/check-in')
   end
 
   post '/rsvp' do

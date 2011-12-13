@@ -3,5 +3,7 @@
 .row.alpha.omega
   - latest_images.each do |url|
     .four.columns
-      %form{ action: '/check-in/guests', method: 'POST', onsubmit: "return confirm('Vill du checka in med denna bild?')" }
+      %form{ action: "/check-in/guests/#{guest.token}", method: 'POST', onsubmit: "return confirm('Vill du checka in med denna bild?')" }
+        %input{ type: 'hidden', name: '_method', value: 'PUT' }
+        %input{ type: 'hidden', name: 'image_url', value: url }
         %input.button{ style: "width: 100%;", type: 'image', src: url }

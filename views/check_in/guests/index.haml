@@ -4,4 +4,5 @@
   .guests
     - guests.each do |guest|
       %h1.guest.add-bottom
+        %img{ src: gravatar(guest.email) }
         %a{ href: "/check-in/guests/#{guest.token}" }= guest.name
