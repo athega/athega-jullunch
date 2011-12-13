@@ -63,7 +63,7 @@ class Jullunch < Sinatra::Base
     def public_json_response(obj)
       content_type 'application/json', :charset => 'utf-8'
       response['Access-Control-Allow-Origin'] = '*'
-      response['X-XSS-Protection'] = '0'
+
       Yajl::Encoder.encode(obj)
     end
 
@@ -159,5 +159,15 @@ class Jullunch < Sinatra::Base
   get '/about' do
     cache_control :public, :max_age => 5
     haml :about, locals: { page_title: 'Om applikationen - Athega Jullunch' }
+  end
+
+  #############################################################################
+  # Backbone.js app routes
+  #############################################################################
+
+  ['/loop', '/ads', '/check-ins', '/images', '/tweets'].each do |path|
+    get path do
+      haml :backbone, :layout => false
+    end
   end
 end
