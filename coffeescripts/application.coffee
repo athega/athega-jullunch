@@ -51,7 +51,6 @@ class window.ListView extends Backbone.View
     $(@el).find('.timestamp').each (index, element) =>
       e = $(element)
       e.html(pd.parse(e.attr('data-timestamp')))
-
     @
 
   data: ->
@@ -100,7 +99,7 @@ class window.Router extends Backbone.Router
   tweets: ->
     tweets.fetch()
 
-  loop: -> new PresentationLoop(12000)
+  loop: -> new PresentationLoop(11000)
 
 ###############################################################################
 # Models

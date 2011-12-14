@@ -197,7 +197,7 @@
     };
 
     Router.prototype.loop = function() {
-      return new PresentationLoop(12000);
+      return new PresentationLoop(11000);
     };
 
     return Router;
