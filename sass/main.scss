@@ -207,18 +207,11 @@ header {
   vertical-align: top;
 }
 
-#app {
-  .images {
-    .one-third {
-      min-height: 409px;
-    }
-  }
-}
 
 #large_ad {
   margin-top: 30px;
   text-align: center;
-  height: 92%;
+  height: 90%;
 
   img {
     max-height: 100%;
@@ -230,12 +223,17 @@ header {
 
   /* Larger than standard 960 (devices and browsers) */
   @media only screen and (min-width: 960px) {
+    #app {
+      .images {
+        .one-third {
+          min-height: 415px;
+        }
+      }
+    }
   }
 
   /* Smaller than standard 960 (devices and browsers) */
   @media only screen and (max-width: 959px) {
-    iframe.scale-with-grid { height: 400px; }
-
     h1 { font-size: 38px; line-height: 40px; }
     h2 { font-size: 28px; line-height: 34px; }
     h3 { font-size: 21px; line-height: 30px; }
@@ -253,13 +251,10 @@ header {
 
   /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
   @media only screen and (min-width: 480px) and (max-width: 767px) {
-    iframe.scale-with-grid { height: 350px; }
   }
 
   /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
   @media only screen and (max-width: 479px) {
-    iframe.scale-with-grid { height: 300px; }
-
     body {
       background: #fff;
       font: 14px/21px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -273,4 +268,35 @@ header {
     h1 { font-size: 28px; line-height: 34px; }
     h2 { font-size: 21px; line-height: 30px; }
     h3 { font-size: 17px; line-height: 24px; }
+  }
+
+  @media only screen and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
+    #app {
+      .images_header {
+        display: none;
+      }
+      .images {
+        margin-top: 0.8em;
+        .one-third {
+          min-height: 20.5em;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  @media only screen and (device-width: 768px) and (device-height: 1024px) and (orientation:landscape) {
+    #app {
+      .images_header {
+        display: none;
+      }
+      .images {
+        margin-top: 30px;
+
+        .one-third {
+          min-height: 380px;
+          width: 220px;
+        }
+      }
+    }
   }
