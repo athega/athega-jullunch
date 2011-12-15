@@ -4,4 +4,4 @@
     - companies.each do |company|
       %hr
       %h1.company.add-bottom
-        %a{ href: "javascript:window.location.assign('/check-in/guests?company=#{uri_escape(company)}');" }= company
+        %a{ href: "javascript:window.location.assign('/check-in/guests?company=' + encodeURIComponent('#{uri_escape(company)}'));" }= company

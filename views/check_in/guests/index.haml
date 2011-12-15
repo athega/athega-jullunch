@@ -13,3 +13,6 @@
         %h1.guest.add-bottom
           %img{ src: gravatar(guest.email) }
           %a{ href: "javascript:window.location.assign('/check-in/guests/#{guest.token}');" }= guest.name
+
+  %hr
+  %a.button{ href: "javascript:window.location.assign('/check-in')" } Välj ett annat företag
