@@ -22,12 +22,20 @@
 
       $(function() {
         var ua    = navigator.userAgent,
-            event = (ua.match(/iPad/i)) ? "touchstart" : "click";
+            ipad = (ua.match(/iPad/i)) ? true : false;
 
-        $('a').bind(event, function(e) {
-          var href = $(this).attr('href');
-          window.location=href;
-        });
+        if(ipad === true) {
+          $('a').bind({
+            touchstart: function(e) {
+              var href = $(this).attr('href');
+              window.location=href;
+            },
+            click: function(e) {
+              // Do nothing
+              e.preventDefault();
+            }
+          });
+        }
       });
 
   %body#check_in
