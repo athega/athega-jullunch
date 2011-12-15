@@ -280,7 +280,7 @@ header {
       }
 
       form {
-        min-height: 130px;
+        min-height: 210px;
       }
     }
 
@@ -303,6 +303,14 @@ header {
       border-top: 28px solid #F60;
       header {
         margin-top: 40px;
+      }
+
+      form {
+        min-height: 160px;
+      }
+
+      .latest_images .three {
+        width: 100px;
       }
     }
 
