@@ -202,9 +202,11 @@ header {
   a, a:visited, a:hover { color: #AAA; text-decoration: none; }
 }
 
-#check_in .guest img {
-  width: 50px;
-  vertical-align: top;
+#check_in {
+  .guest img {
+    width: 50px;
+    vertical-align: top;
+  }
 }
 
 
@@ -271,6 +273,13 @@ header {
   }
 
   @media only screen and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
+    #check_in {
+      border-top: 28px solid #F60;
+      header {
+        margin-top: 40px;
+      }
+    }
+
     #app {
       .images_header {
         display: none;
@@ -286,6 +295,13 @@ header {
   }
 
   @media only screen and (device-width: 768px) and (device-height: 1024px) and (orientation:landscape) {
+    #check_in {
+      border-top: 28px solid #F60;
+      header {
+        margin-top: 40px;
+      }
+    }
+
     #app {
       .images_header {
         display: none;

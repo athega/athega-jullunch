@@ -10,12 +10,26 @@
 
     / Apple
     %meta{ :name => "apple-mobile-web-app-capable", :content => "yes" }
-    %meta{ :name => "apple-mobile-web-app-status-bar-style", :content => "black-translucent" }
+    %meta{ :name => "apple-mobile-web-app-status-bar-style", :content => "black" }
 
     / Favicon
     %link{ :rel => "shortcut icon", :href => "/favicon.ico", :type => "image/x-icon" }
 
     %link{ :rel => "stylesheet", :href => "/stylesheets/main.css", :type => "text/css" }
+
+    %script{ src: '/javascripts/jquery-1.7.1.min.js' }
+    :javascript
+
+      $(function() {
+        var ua    = navigator.userAgent,
+            event = (ua.match(/iPad/i)) ? "touchstart" : "click";
+
+        $('a').bind(event, function(e) {
+          var href = $(this).attr('href');
+          window.location=href;
+        });
+      });
+
   %body#check_in
     .container
       .row
