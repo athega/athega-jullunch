@@ -31,8 +31,10 @@
               window.location=href;
             },
             click: function(e) {
-              // Do nothing
               e.preventDefault();
+
+              var href = $(this).attr('href');
+              window.location=href;
             }
           });
         }
