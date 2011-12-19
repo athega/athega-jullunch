@@ -76,11 +76,13 @@ class Jullunch < Sinatra::Base
   #############################################################################
 
   get '/' do
-    sittings = Sitting.sort([:starts_at, 1]).all
+    redirect to('http://athega.se/')
 
-    haml :index, locals: {
-      page_title: 'Athega Jullunch', sittings: sittings, guest: guest_by_token
-    }
+    #sittings = Sitting.sort([:starts_at, 1]).all
+    #
+    #haml :index, locals: {
+    #  page_title: 'Athega Jullunch', sittings: sittings, guest: guest_by_token
+    #}
   end
 
   get '/data/latest_check_ins.json' do
