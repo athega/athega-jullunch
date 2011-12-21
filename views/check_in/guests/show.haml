@@ -9,6 +9,8 @@
   %h1
     = guest.name
     %small= "(#{guest.company})"
+  - unless guest.image_url.nil?
+    %img{ src: guest.image_url }
   %p.alert-message
     Vald sittning:
     %strong= guest.sitting
