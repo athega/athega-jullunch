@@ -31,7 +31,7 @@ class Guest
   end
 
   def thumbnail_url
-    image_url.gsub('hatified', 'thumb')
+    image_url.nil? ? '' : image_url.gsub('hatified', 'thumb')
   end
 
   def sitting
