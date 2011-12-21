@@ -90,6 +90,14 @@ class Jullunch < Sinatra::Base
     public_json_response(guests)
   end
 
+  get '/arrived_guests' do
+    arrived_guests = Guest.arrived.sort([:name, 1]).all
+    haml :arrived_guests, locals: {
+      arrived_guests: arrived_guests,
+      page_title: 'Alla gäster på Jullunchen'
+    }
+  end
+
   get '/check-in' do
    guests    = Guest.not_arrived_yet.all
 

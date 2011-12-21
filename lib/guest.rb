@@ -30,6 +30,10 @@ class Guest
     sitting_key == sitting.key
   end
 
+  def thumbnail_url
+    image_url.gsub('hatified', 'thumb')
+  end
+
   def sitting
     s = Sitting.by_key(sitting_key)
 
