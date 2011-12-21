@@ -13,7 +13,7 @@
     Vald sittning:
     %strong= guest.sitting
 .row.alpha.omega.latest_images
-  - latest_images.each do |url|
+  - all_images.each do |url|
     .three.columns
       %form{ action: "/check-in/guests/#{guest.token}", method: 'POST', onsubmit: "return confirm('Vill du checka in med denna bild?')" }
         %input{ type: 'hidden', name: '_method', value: 'PUT' }

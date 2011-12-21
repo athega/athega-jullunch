@@ -99,7 +99,7 @@ class Jullunch < Sinatra::Base
   end
 
   get '/check-in' do
-   guests    = Guest.not_arrived_yet.all
+   guests = Guest.all
 
     companies = guests.to_a.map(&:company).uniq.sort
     haml :'check_in/index',
@@ -132,14 +132,15 @@ class Jullunch < Sinatra::Base
   get '/check-in/guests/:token' do
     guest = Guest.by_token(params[:token])
 
-    # Get the latest images
-    url  = 'http://assets.athega.se/jullunch/latest_images.json'
+    # Get all images
+    url  = 'http://assets.athega.se/jullunch/all_images.json'
+
     data = Yajl::Parser.parse(RestClient.get(url))
 
-    latest_images = data[0, 16].map { |image| image['url'] }
+    all_images = data.map { |image| image['url'] }
 
     haml :'check_in/guests/show',
-      locals: { guest: guest, latest_images: latest_images },
+      locals: { guest: guest, all_images: all_images },
       layout: :'check_in/layout'
   end
 
@@ -149,7 +150,7 @@ class Jullunch < Sinatra::Base
     unless guest.nil?
       guest.image_url   = params[:image_url]
       guest.arrived     = true
-      guest.arrived_at  = Time.now.utc
+      guest.arrived_at  = Time.now.utc if guest.arrived_at.nil?
       guest.save
     end
 
