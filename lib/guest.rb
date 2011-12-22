@@ -7,19 +7,19 @@ class Guest
 
   attr_accessor :name, :company, :email, :image_url
   attr_accessor :invited_by, :sitting_key, :status, :token
-  attr_accessor :invited_manually, :invitation_email_sent, :reminder_email_sent
+  attr_accessor :invited_manually, :invitation_email_sent, :thank_you_email_sent
   attr_accessor :arrived, :arrived_at
 
   scope :invited_manually, invited_manually: true
   scope :not_invited_manually, invited_manually: false
 
   scope :not_invited_yet,  invitation_email_sent: false, invited_manually: false
-  scope :not_reminded_yet, reminder_email_sent: false, invited_manually: false
   scope :not_arrived_yet,  arrived:  false, sitting_key: { _in: [1130, 1200, 1230, 1300, 1330] }
+  scope :not_thanked_yet, thank_you_email_sent: nil
 
-  scope :invited,  invitation_email_sent: true
-  scope :reminded, reminder_email_sent: true
-  scope :arrived,  arrived:  true
+  scope :arrived, arrived:  true
+  scope :invited, invitation_email_sent: true
+  scope :thanked, thank_you_email_sent: true
 
   validates_presence_of :name
   validates_presence_of :company
@@ -49,7 +49,7 @@ class Guest
 
     if invitation_email_sent
       output  = 'Fått inbjudan'
-      output += ', blivit påmind' if reminder_email_sent
+      output += ', blivit tackad' if thank_you_email_sent
       output += ' och har dykt upp på Jullunchen' if arrived
     end
 
@@ -74,7 +74,6 @@ class Guest
     @token                  = _id if @token.nil?
     @invited_manually       = false if @invited_manually.nil?
     @invitation_email_sent  = false
-    @reminder_email_sent    = false
     @arrived                = false
 
     save

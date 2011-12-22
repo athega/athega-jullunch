@@ -10,8 +10,20 @@
         %strong= params[:number_of_invitations_sent]
         inbjudningar!
 
+    - unless params[:number_of_thank_you_notes_sent].nil?
+      %div.alert-message
+        Skickade
+        %strong= params[:number_of_thank_you_notes_sent]
+        tack-meddelanden!
+
     %form{ action: '/admin/notifications/send_all_pending_invitations', method: 'POST' }
       %label.half-bottom
         Bjud in gäster som inte redan fått en inbjudan.
         %small (Max 1 mail per gäst)
       %input{ type: 'submit', value: 'Skicka inbjudningar (30 i taget)', onclick: 'return confirm("Är du HELT säker på att du vill skicka inbjudningarna?");' }
+
+    %form{ action: '/admin/notifications/send_all_pending_thank_you_notes', method: 'POST' }
+      %label.half-bottom
+        Tacka alla gäster som kom på jullunchen.
+        %small (Max 1 mail per gäst)
+      %input{ type: 'submit', value: 'Skicka tack-meddelanden (30 i taget)', onclick: 'return confirm("Är du HELT säker på att du vill skicka tack meddelandena?");' }

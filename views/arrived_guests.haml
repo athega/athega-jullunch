@@ -1,9 +1,9 @@
 .arrived_guests
   - arrived_guests.each do |guest|
-    %div.four.columns
+    %div.add-bottom.four.columns.alpha.omega
       - unless guest.image_url.nil?
         %img{ src: guest.thumbnail_url }
-      %label
+      %a{ href: "/check-in/guests/#{guest.token}" }
         = guest.name
         %small= "(#{guest.company})"
 

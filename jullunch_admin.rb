@@ -92,7 +92,6 @@ class JullunchAdmin < Sinatra::Base
     statistics = [
       OpenStruct.new(text: 'TOTALT:',       count: Guest.count),
       OpenStruct.new(text: 'Inbjudningar:', count: Guest.invited.count),
-      OpenStruct.new(text: 'Påminnelser:',  count: Guest.reminded.count),
       OpenStruct.new(text: 'Manuella:',     count: Guest.invited_manually.count),
       OpenStruct.new(text: '11:30:',        count: Guest.all_by_sitting_key(1130).count),
       OpenStruct.new(text: '12:00:',        count: Guest.all_by_sitting_key(1200).count),
@@ -183,6 +182,11 @@ class JullunchAdmin < Sinatra::Base
   post '/admin/notifications/send_all_pending_invitations' do
     sent_count = Notification.send_all_pending_invitations!
     redirect to("/admin/notifications?number_of_invitations_sent=#{sent_count}")
+  end
+
+  post '/admin/notifications/send_all_pending_thank_you_notes' do
+    sent_count = Notification.send_all_pending_thank_you_notes!
+    redirect to("/admin/notifications?number_of_thank_you_notes_sent=#{sent_count}")
   end
 
   get '/admin/prepare_db_qwerty1234' do
