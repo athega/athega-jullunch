@@ -50,7 +50,7 @@ class Notification
     text = html.gsub(/<\/?[^>]*>/, "")
 
     Guest.not_thanked_yet.arrived.where(company: { _ne: 'Vänner & Familj' }).limit(30).each do |g|
-      response = Mailer.mail(from, g.email, subject, text, html, true)
+      response = Mailer.mail(from, g.email, subject, text, html)
 
       if response["message"] == "Queued. Thank you."
         g.thank_you_email_sent = true
