@@ -76,8 +76,6 @@ class Jullunch < Sinatra::Base
   #############################################################################
 
   get '/' do
-    redirect to('http://athega.se/') if params[:show].nil?
-
     sittings = Sitting.sort([:starts_at, 1]).all
 
     haml :index, locals: {
