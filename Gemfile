@@ -20,7 +20,7 @@ group :development do
   gem "heroku"
   gem "rake"
   gem "sass",               "~> 3.1"
-  gem "rb-fsevent",         "~> 0.4.3.1"
+#  gem "rb-fsevent",         "~> 0.4.3.1"
   gem "guard",              "~> 0.8"
   gem "guard-sass",         "~> 0.5"
   gem "guard-shell",        "~> 0.1"
