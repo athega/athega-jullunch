@@ -95,7 +95,7 @@ class JullunchAdmin < Sinatra::Base
       OpenStruct.new(text: 'Manuella:',     count: Guest.invited_manually.count),
       OpenStruct.new(text: '11:30:',        count: Guest.all_by_sitting_key(1130).count),
       OpenStruct.new(text: '12:00:',        count: Guest.all_by_sitting_key(1200).count),
-      OpenStruct.new(text: '12:30:',        count: Guest.all_by_sitting_key(1200).count),
+      OpenStruct.new(text: '12:30:',        count: Guest.all_by_sitting_key(1230).count),
       OpenStruct.new(text: '13:00:',        count: Guest.all_by_sitting_key(1300).count),
       OpenStruct.new(text: '13:30:',        count: Guest.all_by_sitting_key(1330).count),
       OpenStruct.new(text: 'Tackat nej:',   count: Guest.all_by_sitting_key(0).count),
