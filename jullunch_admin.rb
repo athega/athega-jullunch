@@ -147,9 +147,10 @@ class JullunchAdmin < Sinatra::Base
     if sitting.nil?
       sitting = Sitting.new
 
-      sitting.key       = params[:key].to_i
-      sitting.title     = params[:title]
-      sitting.starts_at = Time.parse(params[:starts_at]).utc
+      sitting.key                      = params[:key].to_i
+      sitting.title                    = params[:title]
+      sitting.starts_at                = Time.parse(params[:starts_at]).utc
+      sitting.number_of_guests_allowed = params[:number_of_guests_allowed].to_i
 
       sitting.save
     end
@@ -166,6 +167,7 @@ class JullunchAdmin < Sinatra::Base
       else
         sitting.title = params[:title]
         sitting.starts_at = Time.parse(params[:starts_at]).utc
+        sitting.number_of_guests_allowed = params[:number_of_guests_allowed].to_i
         sitting.save
       end
     end
@@ -192,11 +194,13 @@ class JullunchAdmin < Sinatra::Base
   get '/admin/prepare_db_qwerty1234' do
     Sitting.delete_all
 
-    Sitting.new(key: 1130, title: '11:30', starts_at: Time.parse('2011-12-16 11:30:00 CET').utc).save
-    Sitting.new(key: 1200, title: '12:00', starts_at: Time.parse('2011-12-16 12:00:00 CET').utc).save
-    Sitting.new(key: 1230, title: '12:30', starts_at: Time.parse('2011-12-16 12:30:00 CET').utc).save
-    Sitting.new(key: 1300, title: '13:00', starts_at: Time.parse('2011-12-16 13:00:00 CET').utc).save
-    Sitting.new(key: 1330, title: '13:30', starts_at: Time.parse('2011-12-16 13:30:00 CET').utc).save
+    number_of_guests_allowed = params[:number_of_guests_allowed].to_i
+
+    Sitting.new(key: 1130, title: '11:30', starts_at: Time.parse('2013-12-13 11:30:00 CET').utc, number_of_guests_allowed: number_of_guests_allowed).save
+    Sitting.new(key: 1200, title: '12:00', starts_at: Time.parse('2013-12-13 12:00:00 CET').utc, number_of_guests_allowed: number_of_guests_allowed).save
+    Sitting.new(key: 1230, title: '12:30', starts_at: Time.parse('2013-12-13 12:30:00 CET').utc, number_of_guests_allowed: number_of_guests_allowed).save
+    Sitting.new(key: 1300, title: '13:00', starts_at: Time.parse('2013-12-13 13:00:00 CET').utc, number_of_guests_allowed: number_of_guests_allowed).save
+    Sitting.new(key: 1330, title: '13:30', starts_at: Time.parse('2013-12-13 13:30:00 CET').utc, number_of_guests_allowed: number_of_guests_allowed).save
     Sitting.new(key: 0000, title: 'Jag måste tyvärr tacka nej').save
 
     redirect '/admin/guests'

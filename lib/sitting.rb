@@ -3,12 +3,15 @@
 class Sitting
   inherit Mongo::Model
 
+  SEAT_COUNT_DOWN_THRESHOLD = 10
+
   collection "sittings_#{Time.now.year}"
 
-  attr_accessor :title, :key, :starts_at
+  attr_accessor :title, :key, :starts_at, :number_of_guests_allowed
 
   validates_numericality_of :key
   validates_presence_of :title
+  validates_numericality_of :number_of_guests_allowed
 
   def local_time
     starts_at.nil? ? '' : starts_at.getlocal
@@ -30,11 +33,29 @@ class Sitting
 
   def guest_status_text
     return '' if key == 0
+    return '(Tyvärr är den här sittningen fullbokad)' if full?
 
     case guest_count
       when  0..8 then '(Det finns gott om plats)'
       when  9..20 then '(Det finns plats)'
-      else '(Det kan bli lite trångt)'
+      else red_status_text
     end
+  end
+
+  def red_status_text
+    if free_seats < SEAT_COUNT_DOWN_THRESHOLD
+     "(#{free_seats} plats#{free_seats > 1 ? 'er' : ''} kvar. Det kan bli lite trångt)"
+    else
+      "(Det kan bli lite trångt)"
+    end
+  end
+
+  def free_seats
+    number_of_guests_allowed - guest_count
+  end
+
+  def full?
+    return false if number_of_guests_allowed.nil?
+    (number_of_guests_allowed - guest_count) < 1
   end
 end

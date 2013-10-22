@@ -11,7 +11,9 @@
             %input{ :type => 'text', :name => 'key' }
           .three.columns
             %input{ :type => 'text', :name => 'title' }
-          .four.columns
+          .two.columns
+            %input{ :type => 'text', :name => 'number_of_guests_allowed' }
+          .tow.columns
             %input{ :type => 'text', :name => 'starts_at' }
           .two.columns.omega
             %input{ :type => 'submit', :value => 'Lägg till' }
@@ -24,7 +26,9 @@
               %input{ :type => 'text', :name => 'key', :value => sitting.key, :disabled => '' }
             .three.columns
               %input{ :type => 'text', :name => 'title', :value => sitting.title }
-            .four.columns
+            .two.columns
+              %input{ :type => 'text', :name => 'number_of_guests_allowed', :value => sitting.number_of_guests_allowed}
+            .two.columns
               %input{ :type => 'text', :name => 'starts_at', :value => sitting.local_time }
             .two.columns.omega
               %input{ :type => 'submit', :value => 'Uppdatera' }
