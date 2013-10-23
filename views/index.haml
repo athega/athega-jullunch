@@ -23,7 +23,7 @@
               - sittings.each do |sitting|
                 %li.sitting{ class: sitting.guest_status_class }
                   %label
-                    - unless sitting.full?
+                    - if sitting.seats_available?
                       - if guest.has_checked_sitting?(sitting)
                         %input{ type: 'radio', name: 'sitting_key', value: sitting.key, checked: '' }
                       - else

@@ -58,4 +58,8 @@ class Sitting
     return false if number_of_guests_allowed.nil?
     (number_of_guests_allowed - guest_count) < 1
   end
+
+  def seats_available?
+    !full?
+  end
 end
