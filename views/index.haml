@@ -17,7 +17,7 @@
 
             %small.add-bottom.alert-message Om alla kommer samtidigt kan det bli lite |
                                  trångt. Vi skulle därför uppskatta om ni  |
-                                 vill ange när ni planerar att komma till oss. |
+                                 vill ange nar ni planerar att komma till oss. |
 
             %ul.sittings
               - sittings.each do |sitting|
@@ -63,7 +63,9 @@
       och ser till att faten är fyllda och stämningen hög fram till
       %strong ca. 14.30.
 
-    %p #{'<a href="mailto:torbjorn.nilsson@athega.se">Torbjörn Nilsson</a>'} svarar gärna på dina frågor.
+    %p
+      %a{ href: 'mailto:torbjorn.nilsson@athega.se'} Torbjörn Nilsson
+      svarar gärna pa dina frågor.
 
     %p
       = succeed '.' do
