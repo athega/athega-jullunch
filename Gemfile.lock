@@ -1,5 +1,5 @@
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     addressable (2.2.6)
     bson (1.4.0)
@@ -8,6 +8,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.1.3)
+    daemon_controller (1.1.7)
     daemons (1.1.4)
     dalli (1.1.3)
     em-websocket (0.3.5)
@@ -46,6 +47,10 @@ GEM
       oa-core (= 0.3.2)
       rack-openid (~> 1.3.1)
       ruby-openid-apps-discovery (~> 1.2.0)
+    passenger (4.0.21)
+      daemon_controller (>= 1.1.0)
+      rack
+      rake (>= 0.8.1)
     rack (1.3.5)
     rack-cache (1.1)
       rack (>= 0.4)
@@ -91,6 +96,7 @@ DEPENDENCIES
   mongo (~> 1.4.0)
   mongodb_model (~> 2.0)
   oa-openid (~> 0.3)
+  passenger
   rack-cache (~> 1.1)
   rake
   rest-client (~> 1.6.7)
