@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+ruby "2.0.0"
+
 gem "dalli",              "~> 2.6", require: "dalli"
 gem "rack-cache",         "~> 1.2",   require: "rack/cache"
 
