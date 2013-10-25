@@ -2,15 +2,16 @@ source "https://rubygems.org"
 
 ruby "2.0.0"
 
-gem "dalli",              "~> 2.6", require: "dalli"
-gem "rack-cache",         "~> 1.2",   require: "rack/cache"
+gem "passenger", require: false
 
-gem "passenger",                      require: false
+gem "dalli",              "~> 2.6", require: "dalli"
+gem "rack-cache",         "~> 1.2", require: "rack/cache"
+
 gem "oa-openid",          "~> 0.3"
 gem "yajl-ruby",          "~> 1.1.0", require: "yajl"
 gem "rest-client",        "~> 1.6.7"
 
-gem "sinatra",            "~> 1.4",   require: "sinatra/base"
+gem "sinatra",            "~> 1.4", require: "sinatra/base"
 gem "haml",               "~> 4.0"
 
 gem "bson",               "~> 1.4.0"
@@ -25,4 +26,5 @@ group :development do
   gem "guard-sass",         "~> 1.3"
   gem "guard-shell",        "~> 0.5"
   gem "guard-coffeescript", "~> 1.3"
+  gem "guard-livereload",   "~> 2.0", require: false
 end
