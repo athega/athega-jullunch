@@ -7,11 +7,10 @@ class Sitting
 
   collection "sittings_#{Time.now.year}"
 
-  attr_accessor :title, :key, :starts_at, :number_of_guests_allowed
+  attr_accessor :title, :key, :starts_at, :number_of_guests_allowed, :number_of_reserved_seats
 
   validates_numericality_of :key
   validates_presence_of :title
-  validates_numericality_of :number_of_guests_allowed
 
   def local_time
     starts_at.nil? ? '' : starts_at.getlocal
@@ -51,12 +50,12 @@ class Sitting
   end
 
   def free_seats
-    number_of_guests_allowed - guest_count
+    (number_of_guests_allowed - number_of_reserved_seats) - guest_count
   end
 
   def full?
     return false if number_of_guests_allowed.nil?
-    (number_of_guests_allowed - guest_count) < 1
+    free_seats < 1
   end
 
   def seats_available?

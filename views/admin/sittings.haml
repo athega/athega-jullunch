@@ -11,8 +11,10 @@
             %input{ :type => 'text', :name => 'key' }
           .three.columns
             %input{ :type => 'text', :name => 'title' }
-          .two.columns
+          .one.column
             %input{ :type => 'text', :name => 'number_of_guests_allowed' }
+          .one.column
+            %input{ :type => 'text', :name => 'number_of_reserved_seats' }
           .two.columns
             %input{ :type => 'text', :name => 'starts_at' }
           .two.columns.omega
@@ -26,8 +28,10 @@
               %input{ :type => 'text', :name => 'key', :value => sitting.key, :disabled => '' }
             .three.columns
               %input{ :type => 'text', :name => 'title', :value => sitting.title }
-            .two.columns
-              %input{ :type => 'text', :name => 'number_of_guests_allowed', :value => sitting.number_of_guests_allowed}
+            .one.column
+              %input{ :type => 'text', :name => 'number_of_guests_allowed', :value => sitting.number_of_guests_allowed }
+            .one.column
+              %input{ :type => 'text', :name => 'number_of_reserved_seats', :value => sitting.number_of_reserved_seats }
             .two.columns
               %input{ :type => 'text', :name => 'starts_at', :value => sitting.local_time }
             .two.columns.omega
