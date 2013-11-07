@@ -211,7 +211,7 @@ class JullunchAdmin < Sinatra::Base
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
     Sitting.new(key: 1330, title: '13:30', starts_at: Time.parse('2013-12-13 13:30:00 CET').utc,
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
-    Sitting.new(key: 0000, title: 'Jag måste tyvärr taa nej').save
+    Sitting.new(key: 0000, title: 'Jag måste tyvärr tacka nej').save
 
     redirect '/admin/guests'
   end
