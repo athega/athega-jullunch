@@ -177,6 +177,14 @@ class Jullunch < Sinatra::Base
     haml :about, locals: { page_title: 'Om applikationen - Athega Jullunch' }
   end
 
+  get '/companies.json' do
+    content_type 'application/json', :charset => 'utf-8'
+    guests = Guest.all
+    companies = guests.group_by(&:company)
+
+    Yajl::Encoder.encode(companies)
+  end
+
   #############################################################################
   # Backbone.js app routes
   #############################################################################
