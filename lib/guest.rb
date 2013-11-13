@@ -20,6 +20,7 @@ class Guest
   scope :arrived, arrived:  true
   scope :invited, invitation_email_sent: true
   scope :thanked, thank_you_email_sent: true
+  scope :said_yes, sitting_key: { _in: [1130, 1200, 1230, 1300, 1330] }
 
   validates_presence_of :name
   validates_presence_of :company

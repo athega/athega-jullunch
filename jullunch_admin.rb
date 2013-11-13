@@ -98,6 +98,7 @@ class JullunchAdmin < Sinatra::Base
       OpenStruct.new(text: '12:30:',        count: Guest.all_by_sitting_key(1230).count),
       OpenStruct.new(text: '13:00:',        count: Guest.all_by_sitting_key(1300).count),
       OpenStruct.new(text: '13:30:',        count: Guest.all_by_sitting_key(1330).count),
+      OpenStruct.new(text: 'Tackat ja:',    count: Guest.said_yes.count),
       OpenStruct.new(text: 'Tackat nej:',   count: Guest.all_by_sitting_key(0).count),
       OpenStruct.new(text: 'Ej valt:',      count: Guest.all_by_sitting_key(nil).count),
     ]
