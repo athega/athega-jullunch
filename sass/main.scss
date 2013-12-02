@@ -146,7 +146,10 @@
   font-size: 0.8em;
 }
 
-a, a:focus, a:visited { color: $athega_orange; }
+a, a:focus, a:visited {
+  color: $athega_orange;
+  text-decoration: none;
+}
 a:hover { color: brighten($athega_orange, 20); }
 
 body {
@@ -165,11 +168,14 @@ body {
 }
 
 h1,h2,h3,h4,h5 {
-  color: #504935;
+  color: #444444;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight: 500;
 }
+h1 { font-size: 40px; line-height: 42px; }
 
 header {
-  margin-top: 60px; margin-bottom: 40px;
+  margin-top: 45px; margin-bottom: 25px;
 
   a {
     text-decoration: none;
@@ -188,8 +194,9 @@ header {
 ================================================== */
 
 #logo {
-  height: 72px;
+  height: 80px;
   background: transparent url("/images/athega_logo.png") no-repeat top left;
+  background-size: auto 80px;
   text-indent: -5000em;
   margin: 0;
 }
