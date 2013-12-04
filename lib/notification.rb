@@ -9,7 +9,7 @@ class Notification
   def self.send_all_pending_invitations!
     # Config
     from     = 'athega@athega.se'
-    subject  = 'Välkommen till Athegas Jullunch den 13/12'
+    subject  = 'Välkommen till Athegas Jullunch'
 
     # Get the templates
     template = IO.read('views/notifications/invitation.haml')
