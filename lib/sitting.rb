@@ -22,10 +22,11 @@ class Sitting
 
   def guest_status_class
     return 'sitting' if key == 0
+    return 'sitting red' if full?
 
     case guest_count
       when  0..8 then 'sitting green'
-      when  9..20 then 'sitting yellow'
+      when  9..15 then 'sitting yellow'
       else 'sitting red'
     end
   end
@@ -36,7 +37,7 @@ class Sitting
 
     case guest_count
       when  0..8 then '(Det finns gott om plats)'
-      when  9..20 then '(Det finns plats)'
+      when  9..15 then '(Det finns plats)'
       else red_status_text
     end
   end
