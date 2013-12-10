@@ -32,7 +32,10 @@
 
                     %span
                       = sitting.title
-                      %small= sitting.guest_status_text
+                      - if sitting.full? and guest.has_checked_sitting?(sitting)
+                        %small= 'Du har valt den här sittningen som nu är fullbokad.'
+                      -else
+                        %small= sitting.guest_status_text
             %input{ type: 'hidden', name: 'token', value: guest.token }
             %input{ :type => 'submit', :value => 'Skicka' }
       - else
