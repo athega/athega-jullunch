@@ -64,7 +64,11 @@
           %a{ href: 'http://www.flickr.com/photos/vek/5313269500/' } Kevin Spencer
 
       %p Anmälningen till årets jullunch är stängd.
-      %p Hoppas vi ses på fredag.
+      - if guest.coming?
+        %p
+          Enligt våra noteringar har du angett att du vill komma  fredag klockan
+          %strong #{guest.sitting}.
+        %p Vi ses!
 
   .nine.offset-by-one.columns
     %h1 Nu är det snart dags för Athegas traditionella jullunch!
