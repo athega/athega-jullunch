@@ -64,7 +64,7 @@
           %a{ href: 'http://www.flickr.com/photos/vek/5313269500/' } Kevin Spencer
 
       %p Anmälningen till årets jullunch är stängd.
-      - if guest.coming?
+      - if is_coming?
         %p
           Enligt våra noteringar har du angett att du vill komma  fredag klockan
           %strong #{guest.sitting}.

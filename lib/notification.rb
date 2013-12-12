@@ -37,6 +37,37 @@ class Notification
     sent_count
   end
 
+  def self.send_all_pending_welcomes!
+    # Config
+    from     = 'athega@athega.se'
+    subject  = 'Kul att du vill komma på Athegas Jullunch'
+
+    # Get the templates
+    template = IO.read('views/notifications/welcome.haml')
+    renderer = Haml::Engine.new(template).render_proc({}, :name, :company, :invited_by, :sitting)
+
+    sent_count = 0
+
+    Guest.said_yes.not_welcomed_yet.sort([:company, 1], [:name, 1]).limit(30).each do |g|
+      html = renderer.call name:       g.name,
+                           company:    g.company,
+                           invited_by: g.invited_by,
+                           sitting:    g.sitting
+
+      text     = html.gsub(/<\/?[^>]*>/, "")
+      response = Mailer.mail(from, g.email, subject, text, html)
+
+      if response["message"] == "Queued. Thank you."
+        g.invitation_email_sent = true
+        g.save
+
+        sent_count += 1
+      end
+    end
+
+    sent_count
+  end
+
   def self.send_all_pending_thank_you_notes!
     from     = 'athega@athega.se'
     subject  = 'Tack för senast'

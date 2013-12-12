@@ -22,8 +22,14 @@
         %small (Max 1 mail per gäst)
       %input{ type: 'submit', value: 'Skicka inbjudningar (30 i taget)', onclick: 'return confirm("Är du HELT säker på att du vill skicka inbjudningarna?");' }
 
+    %form{ action: '/admin/notifications/send_all_pending_welcomes', method: 'POST' }
+      %label.half-bottom
+        Skicka välkomstmeddelande till alla gäster som meddelat att de kommer.
+        %small (Max 1 mail per gäst)
+      %input{ type: 'submit', value: 'Skicka välkomstmeddelanden (30 i taget)', onclick: 'return confirm("Är du HELT säker på att du vill skicka välkomstmeddelandena?");' }
+
     %form{ action: '/admin/notifications/send_all_pending_thank_you_notes', method: 'POST' }
       %label.half-bottom
         Tacka alla gäster som kom på jullunchen.
         %small (Max 1 mail per gäst)
-      %input{ type: 'submit', value: 'Skicka tack-meddelanden (30 i taget)', onclick: 'return confirm("Är du HELT säker på att du vill skicka tack meddelandena?");' }
+      %input{ type: 'submit', value: 'Skicka tackmeddelanden (30 i taget)', onclick: 'return confirm("Är du HELT säker på att du vill skicka tackmeddelandena?");' }

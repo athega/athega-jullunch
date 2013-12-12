@@ -189,6 +189,11 @@ class JullunchAdmin < Sinatra::Base
     redirect to("/admin/notifications?number_of_invitations_sent=#{sent_count}")
   end
 
+  post '/admin/notifications/send_all_pending_welcomes' do
+    sent_count = Notification.send_all_pending_welcomes!
+    redirect to("/admin/notifications?number_of_invitations_sent=#{sent_count}")
+  end
+
   post '/admin/notifications/send_all_pending_thank_you_notes' do
     sent_count = Notification.send_all_pending_thank_you_notes!
     redirect to("/admin/notifications?number_of_thank_you_notes_sent=#{sent_count}")
