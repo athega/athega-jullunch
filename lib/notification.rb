@@ -58,7 +58,7 @@ class Notification
       response = Mailer.mail(from, g.email, subject, text, html)
 
       if response["message"] == "Queued. Thank you."
-        g.invitation_email_sent = true
+        g.welcome_email_sent = true
         g.save
 
         sent_count += 1
