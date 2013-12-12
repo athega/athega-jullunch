@@ -51,6 +51,10 @@ class Jullunch < Sinatra::Base
       Guest.by_token(params[:token]) unless params[:token].nil?
     end
 
+    def is_coming?
+      !guest_by_token.nil? && guest_by_token.coming?
+    end
+
     def gravatar(email)
       hash = Digest::MD5.hexdigest(email.downcase)
       "http://www.gravatar.com/avatar/#{hash}?d=mm&s=50"
