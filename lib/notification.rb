@@ -70,7 +70,7 @@ class Notification
 
   def self.send_all_pending_thank_you_notes!
     from     = 'athega@athega.se'
-    subject  = 'Tack för senast'
+    subject  = 'Med önskan om en God Jul'
 
     template = IO.read('views/notifications/thank_you.haml')
     renderer = Haml::Engine.new(template).render_proc({})
