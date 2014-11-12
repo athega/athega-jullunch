@@ -1,4 +1,5 @@
 .powenv
 .sass-cache
+.bundle
 tmp
 log
