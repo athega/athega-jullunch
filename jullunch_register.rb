@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 require_relative 'lib/database'
-require_relative 'lib/notification'
+require_relative 'lib/helpers'
 
 ###############################################################################
 # Web Application
@@ -23,18 +23,7 @@ class JullunchRegister < Sinatra::Base
     set :static_cache_control, [:public, :max_age => 300]
   end
 
-  #############################################################################
-  # Helpers
-  #############################################################################
-
-  helpers do
-    def public_json_response(obj)
-      content_type 'application/json', :charset => 'utf-8'
-      response['Access-Control-Allow-Origin'] = '*'
-
-      Yajl::Encoder.encode(obj)
-    end
-  end
+  helpers Sinatra::JullunchHelpers
 
   #############################################################################
   # Application routes
