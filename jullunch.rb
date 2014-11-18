@@ -162,6 +162,13 @@ class Jullunch < Sinatra::Base
     Yajl::Encoder.encode(companies)
   end
 
+  get '/guest.json' do
+    guest = guest_by_token
+    guest = guest_by_rfid if guest.nil?
+
+    public_json_response(guest)
+  end
+
   #############################################################################
   # Backbone.js app routes
   #############################################################################
