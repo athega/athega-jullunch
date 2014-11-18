@@ -3,11 +3,16 @@ require 'sinatra/base'
 module Sinatra
   module JullunchHelpers
     def has_valid_token?
-      !guest_by_token.nil? && (Time.now.utc < Time.parse('2013-12-11').utc)
+      !guest_by_token.nil? && (Time.now.utc < Time.parse('2014-12-13').utc)
     end
 
     def guest_by_token
       Guest.by_token(params[:token]) unless params[:token].nil?
+    end
+
+    def guest_by_rfid(rfid = params[:rfid])
+      raise Sinatra::NotFound if rfid.nil?
+      Guest.by_rfid(rfid) or raise Sinatra::NotFound
     end
 
     def is_coming?
