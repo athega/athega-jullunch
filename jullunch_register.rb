@@ -58,7 +58,7 @@ class JullunchRegister < Sinatra::Base
     guest.arrived_at  = Time.now.utc if guest.arrived_at.nil?
     guest.save
 
-    send_to_event_stream('arrival', "{rfid: \"#{params[:rfid]}\"}")
+    send_to_event_stream('arrival', "{\"rfid\": \"#{params[:rfid]}\"}")
     public_json_response(guest)
   end
 
@@ -70,7 +70,7 @@ class JullunchRegister < Sinatra::Base
     guest.departed_at  = Time.now.utc if guest.departed_at.nil?
     guest.save
 
-    send_to_event_stream('departure', "{rfid: \"#{params[:rfid]}\"}")
+    send_to_event_stream('departure', "{\"rfid\": \"#{params[:rfid]}\"}")
     public_json_response(guest)
   end
 
@@ -106,7 +106,7 @@ class JullunchRegister < Sinatra::Base
     guest.instance_variable_set("@#{action}", guest.instance_variable_get("@#{action}").to_i + 1)
     guest.save
 
-    send_to_event_stream(action, "{rfid: \"#{rfid}\"}")
+    send_to_event_stream(action, "{\"rfid\": \"#{rfid}\"}")
     public_json_response(guest)
   end
 
@@ -125,12 +125,17 @@ class JullunchRegister < Sinatra::Base
 
   ## Event stream
   get '/register/events', provides: 'text/event-stream' do
+    response['Access-Control-Allow-Origin'] = '*'
     stream :keep_open do |out|
       out << "event: init\n"
       out << "data: there are now #{settings.subscribers.count+1} stream(s).\n\n"
       settings.subscribers << out
       out.callback { settings.subscribers.delete(out) }
     end
+  end
+
+  options '/register/events' do
+    response['Access-Control-Allow-Origin'] = '*'
   end
 
 end
