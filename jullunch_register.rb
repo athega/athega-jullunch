@@ -15,6 +15,7 @@ class JullunchRegister < Sinatra::Base
 
   configure do
     set :root, File.dirname(__FILE__)
+    set :subscribers => []
 
     use Rack::MethodOverride
   end
@@ -24,6 +25,26 @@ class JullunchRegister < Sinatra::Base
   end
 
   helpers Sinatra::JullunchHelpers
+
+  helpers do
+    def send_to_event_stream(event, data, id=nil)
+      settings.subscribers.each { |out|
+        out << "id: #{id}\n" if id
+        out << "event: #{event}\n"
+        out << "data: #{data}\n\n"
+      }
+    end
+  end
+
+  #############################################################################
+  # Keep the event stream alive
+  #############################################################################
+  Thread.new do
+    while true do
+      sleep 20
+      settings.subscribers.each { |out| out << ": hearbeat\n\n" }
+    end
+  end
 
   #############################################################################
   # Application routes
@@ -37,6 +58,7 @@ class JullunchRegister < Sinatra::Base
     guest.arrived_at  = Time.now.utc if guest.arrived_at.nil?
     guest.save
 
+    send_to_event_stream('arrival', "{rfid: \"#{params[:rfid]}\"}")
     public_json_response(guest)
   end
 
@@ -48,6 +70,7 @@ class JullunchRegister < Sinatra::Base
     guest.departed_at  = Time.now.utc if guest.departed_at.nil?
     guest.save
 
+    send_to_event_stream('departure', "{rfid: \"#{params[:rfid]}\"}")
     public_json_response(guest)
   end
 
@@ -72,6 +95,7 @@ class JullunchRegister < Sinatra::Base
     guest.photo = JSON.parse request.body.read
     guest.save
 
+    send_to_event_stream('photo', { rfid: params[:rfid], photo: guest.photo }.to_json)
     public_json_response(guest)
   end
 
@@ -82,7 +106,32 @@ class JullunchRegister < Sinatra::Base
     guest.instance_variable_set("@#{action}", guest.instance_variable_get("@#{action}").to_i + 1)
     guest.save
 
+    send_to_event_stream(action, "{rfid: \"#{rfid}\"}")
     public_json_response(guest)
   end
-  
+
+  ## Data
+  get '/register/data' do
+    guests = Guest.all
+    public_json_response({
+      arrived:     Guest.arrived.count,
+      departed:    Guest.departed.count,
+      mulled_wine: guests.map { |g| g.mulled_wine.to_i }.reduce(:+),
+      food:        guests.map { |g| g.food.to_i }.reduce(:+),
+      drink:       guests.map { |g| g.drink.to_i }.reduce(:+),
+      coffee:      guests.map { |g| g.coffee.to_i }.reduce(:+)
+    })
+  end
+
+  ## Event stream
+  ## Todo: Add heartbeat
+  get '/register/events', provides: 'text/event-stream' do
+    stream :keep_open do |out|
+      out << "event: init\n"
+      out << "data: there are now #{settings.subscribers.count+1} stream(s).\n\n"
+      settings.subscribers << out
+      out.callback { settings.subscribers.delete(out) }
+    end
+  end
+
 end
