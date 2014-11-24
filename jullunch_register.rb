@@ -124,7 +124,6 @@ class JullunchRegister < Sinatra::Base
   end
 
   ## Event stream
-  ## Todo: Add heartbeat
   get '/register/events', provides: 'text/event-stream' do
     stream :keep_open do |out|
       out << "event: init\n"
