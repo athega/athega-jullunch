@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby "2.1.4"
 
-gem "passenger", require: false
+gem "thin", require: false
 
 gem "dalli",              "~> 2.6", require: "dalli"
 gem "rack-cache",         "~> 1.2", require: "rack/cache"
