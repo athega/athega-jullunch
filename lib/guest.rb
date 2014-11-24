@@ -20,8 +20,8 @@ class Guest
   scope :not_welcomed_yet, welcome_email_sent: nil
   scope :not_thanked_yet, thank_you_email_sent: nil
 
-  scope :arrived, arrived:  true
-  scope :departed, departed:  true
+  scope :arrived, arrived: true
+  scope :departed, departed: true
   scope :invited, invitation_email_sent: true
   scope :welcomed, welcome_email_sent: true
   scope :thanked, thank_you_email_sent: true
