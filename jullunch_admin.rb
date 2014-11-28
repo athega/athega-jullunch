@@ -1,5 +1,8 @@
 # encoding: UTF-8
 
+require 'openid/store/filesystem'
+require 'omniauth/strategies/google_apps'
+
 require_relative 'lib/database'
 require_relative 'lib/notification'
 
@@ -30,16 +33,14 @@ class JullunchAdmin < Sinatra::Base
   configure :production do
     set :static_cache_control, [:public, :max_age => 300]
 
-    require 'openid'
-
     OpenID.fetcher.ca_file = './config/ca-bundle.crt'
 
-    require 'openid/store/filesystem'
-
-    use OmniAuth::Strategies::GoogleApps,
-        OpenID::Store::Filesystem.new('./tmp'),
-          :name   => 'athega',
-          :domain => 'athega.se'
+    use OmniAuth::Builder do
+      provider :google_apps,
+      :store => OpenID::Store::Filesystem.new('./tmp'),
+      :name => 'athega',
+      :domain => 'athega.se'
+    end
   end
 
   helpers do
@@ -62,7 +63,7 @@ class JullunchAdmin < Sinatra::Base
 
   post '/auth/:name/callback' do
     auth = request.env['omniauth.auth']
-    session[:current_user_email] = auth['user_info']['email']
+    session[:current_user_email] = auth['info']['email']
     redirect '/admin'
   end
 

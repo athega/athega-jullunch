@@ -39,6 +39,7 @@ GEM
       guard (>= 1.1.0)
     haml (4.0.3)
       tilt
+    hashie (3.3.2)
     http_parser.rb (0.5.3)
     listen (2.1.1)
       celluloid (>= 0.15.2)
@@ -56,11 +57,17 @@ GEM
       ruby_ext
       validatable2
     multi_json (1.8.2)
-    oa-core (0.3.2)
-    oa-openid (0.3.2)
-      oa-core (= 0.3.2)
-      rack-openid (~> 1.3.1)
+    omniauth (1.2.2)
+      hashie (>= 1.2, < 4)
+      rack (~> 1.0)
+    omniauth-google-apps (0.1.0)
+      omniauth (~> 1.0)
+      omniauth-openid (~> 1.0)
+      ruby-openid (~> 2.3.0)
       ruby-openid-apps-discovery (~> 1.2.0)
+    omniauth-openid (1.0.1)
+      omniauth (~> 1.0)
+      rack-openid (~> 1.3.1)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -114,7 +121,7 @@ DEPENDENCIES
   haml (~> 4.0)
   mongo (~> 1.4.0)
   mongodb_model (~> 2.0.2)
-  oa-openid (~> 0.3)
+  omniauth-google-apps (~> 0.1.0)
   rack-cache (~> 1.2)
   rake
   rest-client (~> 1.6.7)
