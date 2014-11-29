@@ -4,20 +4,20 @@ ruby "2.1.4"
 
 gem "thin", require: false
 
-gem "dalli",                "~> 2.6", require: "dalli"
-gem "rack-cache",           "~> 1.2", require: "rack/cache"
+gem "dalli",             "~> 2.6", require: "dalli"
+gem "rack-cache",        "~> 1.2", require: "rack/cache"
 
-gem "omniauth-google-apps", "~> 0.1.0"
-gem "yajl-ruby",            "~> 1.1.0", require: "yajl"
-gem "rest-client",          "~> 1.6.7"
+gem "google-api-client", "~> 0.7.1"
+gem "yajl-ruby",         "~> 1.1.0", require: "yajl"
+gem "rest-client",       "~> 1.6.7"
 
-gem "sinatra",              "~> 1.4", require: "sinatra/base"
-gem "haml",                 "~> 4.0"
+gem "sinatra",           "~> 1.4", require: "sinatra/base"
+gem "haml",              "~> 4.0"
 
-gem "bson",                 "~> 1.4.0"
-gem "bson_ext",             "~> 1.4.0"
-gem "mongo",                "~> 1.4.0"
-gem "mongodb_model",        "~> 2.0.2"
+gem "bson",              "~> 1.4.0"
+gem "bson_ext",          "~> 1.4.0"
+gem "mongo",             "~> 1.4.0"
+gem "mongodb_model",     "~> 2.0.2"
 
 group :development do
   gem "rake"

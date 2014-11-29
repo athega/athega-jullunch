@@ -3,3 +3,4 @@
 .bundle
 tmp
 log
+client_secrets.json

@@ -1,7 +1,8 @@
 # encoding: UTF-8
 
-require 'openid/store/filesystem'
-require 'omniauth/strategies/google_apps'
+require 'google/api_client'
+require 'google/api_client/client_secrets'
+require 'google/api_client/auth/file_storage'
 
 require_relative 'lib/database'
 require_relative 'lib/notification'
@@ -17,13 +18,26 @@ class JullunchAdmin < Sinatra::Base
   use Rack::Session::Cookie, key:    'athega_jullunch',
                              secret: 'Knowledge is power and true Sith do not share power.'
 
+  def api_client; settings.api_client; end
+  def user_credentials
+    # Build a per-request oauth credential based on token stored in session
+    # which allows us to use a shared API client.
+    @authorization ||= (
+      auth = api_client.authorization.dup
+      auth.redirect_uri = to('/auth/admin/callback')
+      auth.update_token!(session)
+      auth
+    )
+  end
+
   #############################################################################
   # Configuration
   #############################################################################
 
   configure do
     set :root, File.dirname(__FILE__)
-    set :sessions, true
+    set :credential_store_file, "./tmp/jullunch_admin-oauth2.json"
+    enable :sessions
   end
 
   configure :development do
@@ -33,51 +47,67 @@ class JullunchAdmin < Sinatra::Base
   configure :production do
     set :static_cache_control, [:public, :max_age => 300]
 
-    OpenID.fetcher.ca_file = './config/ca-bundle.crt'
+    client = Google::APIClient.new(:application_name => 'Athega Jullunch',
+                                   :application_version => '1.0.0')
 
-    use OmniAuth::Builder do
-      provider :google_apps,
-      :store => OpenID::Store::Filesystem.new('./tmp'),
-      :name => 'athega',
-      :domain => 'athega.se'
+    file_storage = Google::APIClient::FileStorage.new(settings.credential_store_file)
+    if file_storage.authorization.nil?
+      client_secrets = Google::APIClient::ClientSecrets.load
+      client.authorization = client_secrets.to_authorization
+      client.authorization.scope = 'https://www.googleapis.com/auth/userinfo.email'
+    else
+      client.authorization = file_storage.authorization
     end
+
+    set :api_client, client
   end
 
   helpers do
     def logged_in?
       return true if settings.respond_to?(:forced_authentication)
-      !session[:current_user_email].nil?
+      return user_credentials.access_token ? true : false
     end
 
     include Rack::Utils
     alias_method :h, :escape_html
   end
 
-  before /\/admin.*/ do
-    redirect '/auth/athega' unless logged_in?
-  end
-
   #############################################################################
   # Authentication routes
   #############################################################################
 
-  post '/auth/:name/callback' do
-    auth = request.env['omniauth.auth']
-    session[:current_user_email] = auth['info']['email']
-    redirect '/admin'
+  before '/admin/*' do
+    redirect to('/auth/authorize') unless logged_in?
   end
 
-  get '/auth/logout' do
-    session.clear
-    redirect '/'
+  after do
+    unless settings.respond_to?(:forced_authentication)
+      # Serialize the access/refresh token to the session and credential store.
+      session[:access_token] = user_credentials.access_token
+      session[:refresh_token] = user_credentials.refresh_token
+      session[:expires_in] = user_credentials.expires_in
+      session[:issued_at] = user_credentials.issued_at
+
+      file_storage = Google::APIClient::FileStorage.new(settings.credential_store_file)
+      file_storage.write_credentials(user_credentials)
+    end
+  end
+
+  get '/auth/authorize' do
+    # Request authorization
+    redirect user_credentials.authorization_uri.to_s, 303
+  end
+
+  get '/auth/admin/callback' do
+    # Exchange token
+    user_credentials.code = params[:code] if params[:code]
+    user_credentials.fetch_access_token!
+    redirect to('/admin')
   end
 
   get '/logout/?' do
-    redirect '/auth/logout'
-  end
-
-  get '/login/?' do
-    redirect '/auth/athega'
+    session.clear
+    redirect '/'
   end
 
   #############################################################################
