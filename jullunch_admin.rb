@@ -52,7 +52,9 @@ class JullunchAdmin < Sinatra::Base
 
     file_storage = Google::APIClient::FileStorage.new(settings.credential_store_file)
     if file_storage.authorization.nil?
-      client_secrets = Google::APIClient::ClientSecrets.load
+      client_secrets = ENV['CLIENT_SECRETS'] ?
+                       Google::APIClient::ClientSecrets.new(JSON.parse(ENV['CLIENT_SECRETS'])) :
+                       Google::APIClient::ClientSecrets.load
       client.authorization = client_secrets.to_authorization
       client.authorization.scope = 'https://www.googleapis.com/auth/userinfo.email'
     else
