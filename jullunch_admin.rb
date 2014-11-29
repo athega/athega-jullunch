@@ -255,6 +255,13 @@ class JullunchAdmin < Sinatra::Base
     redirect '/admin/guests'
   end
 
+  get '/admin/guest/untagged' do
+    haml :'register/tag', locals: {
+      page_title: 'Taggning - Athega Jullunch',
+      remaining: Guest.untagged.count
+    }
+  end
+
   get '/admin/load_test_users_qwerty1234' do
     import_count = ImportFromSpreadsheet.test!
     redirect "/admin/guests?imported_test_users=#{import_count}"

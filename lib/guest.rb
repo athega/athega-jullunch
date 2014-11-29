@@ -9,7 +9,7 @@ class Guest
   attr_accessor :invited_by, :sitting_key, :status, :token
   attr_accessor :invited_manually, :invitation_email_sent, :thank_you_email_sent, :welcome_email_sent
   attr_accessor :arrived, :arrived_at, :departed, :departed_at
-  attr_accessor :photo
+  attr_accessor :photo, :rfid
   attr_accessor :mulled_wine, :food, :drink, :coffee
 
   scope :invited_manually, invited_manually: true
@@ -26,6 +26,8 @@ class Guest
   scope :welcomed, welcome_email_sent: true
   scope :thanked, thank_you_email_sent: true
   scope :said_yes, sitting_key: { _in: [1130, 1200, 1230, 1300, 1330] }
+
+  scope :untagged, rfid: nil
 
   validates_presence_of :name
   validates_presence_of :company

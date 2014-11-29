@@ -110,6 +110,31 @@ class JullunchRegister < Sinatra::Base
     public_json_response(guest)
   end
 
+  ## Tag
+  put '/register/tag/:rfid' do
+    raise Sinatra::NotFound if params[:rfid].nil?
+
+    guest = Guest.by_rfid(params[:rfid])
+    message = 'Alla gäster är taggade!';
+
+    if guest
+      message = 'var redan taggad'
+    else
+      untagged = Guest.untagged.first
+      if untagged
+        untagged.rfid = params[:rfid]
+        untagged.save
+
+        message = 'har taggats med'
+        guest = untagged;
+      end
+    end
+
+    send_to_event_stream('untagged', Guest.untagged.count)
+    send_to_event_stream('tag', "{\"message\": \"#{message}\", \"guest\": #{Yajl::Encoder.encode(guest)}}")
+    public_json_response(guest)
+  end
+
   ## Data
   get '/register/data' do
     guests = Guest.all
