@@ -1,8 +1,8 @@
 # Nu är det snart dags för Athegas traditionella jullunch!
 
-## Sista anmälningsdatum: 11/12
+## Sista anmälningsdatum: 9/12
 
-Vi dukar fram det goda julbordet fredagen 14 december kl. 11.30 och ser
+Vi dukar fram det goda julbordet fredagen 12 december kl. 11.30 och ser
 till att faten är fyllda och stämningen hög fram till ca. 14.30.
 
 [Torbjörn Nilsson](mailto:torbjorn.nilsson@athega.se) svarar gärna på dina frågor.

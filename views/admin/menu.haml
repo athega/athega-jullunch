@@ -6,3 +6,6 @@
       %a.notifications.button{ :href => '/admin/notifications' } Hantera notiﬁeringar
   %li
     %a.sittings.button{ :href => '/admin/sittings' } Uppdatera sittningar
+  - if Guest.untagged.count > 0
+    %li
+      %a.notifications.button{ :href => '/admin/guest/untagged' } Tagga gäster

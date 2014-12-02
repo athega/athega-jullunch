@@ -8,7 +8,9 @@ class Guest
   attr_accessor :name, :company, :email, :image_url
   attr_accessor :invited_by, :sitting_key, :status, :token
   attr_accessor :invited_manually, :invitation_email_sent, :thank_you_email_sent, :welcome_email_sent
-  attr_accessor :arrived, :arrived_at
+  attr_accessor :arrived, :arrived_at, :departed, :departed_at
+  attr_accessor :photo, :rfid
+  attr_accessor :mulled_wine, :food, :drink, :coffee
 
   scope :invited_manually, invited_manually: true
   scope :not_invited_manually, invited_manually: false
@@ -18,11 +20,14 @@ class Guest
   scope :not_welcomed_yet, welcome_email_sent: nil
   scope :not_thanked_yet, thank_you_email_sent: nil
 
-  scope :arrived, arrived:  true
+  scope :arrived, arrived: true
+  scope :departed, departed: true
   scope :invited, invitation_email_sent: true
   scope :welcomed, welcome_email_sent: true
   scope :thanked, thank_you_email_sent: true
   scope :said_yes, sitting_key: { _in: [1130, 1200, 1230, 1300, 1330] }
+
+  scope :untagged, rfid: nil
 
   validates_presence_of :name
   validates_presence_of :company
@@ -54,7 +59,8 @@ class Guest
       output  = 'Fått inbjudan'
       output += ', blivit välkomnad' if welcome_email_sent
       output += ', blivit tackad' if thank_you_email_sent
-      output += ' och har dykt upp på Jullunchen' if arrived
+      output += ', har dykt upp' if arrived
+      output += ' och lämnat Jullunchen' if departed
     end
 
     output
@@ -83,6 +89,11 @@ class Guest
     @invited_manually       = false if @invited_manually.nil?
     @invitation_email_sent  = false
     @arrived                = false
+    @departed               = false
+    @mulled_wine            = 0
+    @food                   = 0
+    @drink                  = 0
+    @coffee                 = 0
 
     save
   end

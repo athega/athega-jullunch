@@ -1,5 +1,9 @@
 # encoding: UTF-8
 
+require 'google/api_client'
+require 'google/api_client/client_secrets'
+require 'google/api_client/auth/file_storage'
+
 require_relative 'lib/database'
 require_relative 'lib/notification'
 
@@ -14,13 +18,26 @@ class JullunchAdmin < Sinatra::Base
   use Rack::Session::Cookie, key:    'athega_jullunch',
                              secret: 'Knowledge is power and true Sith do not share power.'
 
+  def api_client; settings.api_client; end
+  def user_credentials
+    # Build a per-request oauth credential based on token stored in session
+    # which allows us to use a shared API client.
+    @authorization ||= (
+      auth = api_client.authorization.dup
+      auth.redirect_uri = to('/auth/admin/callback')
+      auth.update_token!(session)
+      auth
+    )
+  end
+
   #############################################################################
   # Configuration
   #############################################################################
 
   configure do
     set :root, File.dirname(__FILE__)
-    set :sessions, true
+    set :credential_store_file, "./tmp/jullunch_admin-oauth2.json"
+    enable :sessions
   end
 
   configure :development do
@@ -30,53 +47,69 @@ class JullunchAdmin < Sinatra::Base
   configure :production do
     set :static_cache_control, [:public, :max_age => 300]
 
-    require 'openid'
+    client = Google::APIClient.new(:application_name => 'Athega Jullunch',
+                                   :application_version => '1.0.0')
 
-    OpenID.fetcher.ca_file = './config/ca-bundle.crt'
+    file_storage = Google::APIClient::FileStorage.new(settings.credential_store_file)
+    if file_storage.authorization.nil?
+      client_secrets = ENV['CLIENT_SECRETS'] ?
+                       Google::APIClient::ClientSecrets.new(JSON.parse(ENV['CLIENT_SECRETS'])) :
+                       Google::APIClient::ClientSecrets.load
+      client.authorization = client_secrets.to_authorization
+      client.authorization.scope = 'https://www.googleapis.com/auth/userinfo.email'
+    else
+      client.authorization = file_storage.authorization
+    end
 
-    require 'openid/store/filesystem'
-
-    use OmniAuth::Strategies::GoogleApps,
-        OpenID::Store::Filesystem.new('./tmp'),
-          :name   => 'athega',
-          :domain => 'athega.se'
+    set :api_client, client
   end
 
   helpers do
     def logged_in?
       return true if settings.respond_to?(:forced_authentication)
-      !session[:current_user_email].nil?
+      return user_credentials.access_token ? true : false
     end
 
     include Rack::Utils
     alias_method :h, :escape_html
   end
 
-  before /\/admin.*/ do
-    redirect '/auth/athega' unless logged_in?
-  end
-
   #############################################################################
   # Authentication routes
   #############################################################################
 
-  post '/auth/:name/callback' do
-    auth = request.env['omniauth.auth']
-    session[:current_user_email] = auth['user_info']['email']
-    redirect '/admin'
+  before '/admin/*' do
+    redirect to('/auth/authorize') unless logged_in?
   end
 
-  get '/auth/logout' do
-    session.clear
-    redirect '/'
+  after do
+    unless settings.respond_to?(:forced_authentication)
+      # Serialize the access/refresh token to the session and credential store.
+      session[:access_token] = user_credentials.access_token
+      session[:refresh_token] = user_credentials.refresh_token
+      session[:expires_in] = user_credentials.expires_in
+      session[:issued_at] = user_credentials.issued_at
+
+      file_storage = Google::APIClient::FileStorage.new(settings.credential_store_file)
+      file_storage.write_credentials(user_credentials)
+    end
+  end
+
+  get '/auth/authorize' do
+    # Request authorization
+    redirect user_credentials.authorization_uri.to_s, 303
+  end
+
+  get '/auth/admin/callback' do
+    # Exchange token
+    user_credentials.code = params[:code] if params[:code]
+    user_credentials.fetch_access_token!
+    redirect to('/admin')
   end
 
   get '/logout/?' do
-    redirect '/auth/logout'
-  end
-
-  get '/login/?' do
-    redirect '/auth/athega'
+    session.clear
+    redirect '/'
   end
 
   #############################################################################
@@ -205,21 +238,28 @@ class JullunchAdmin < Sinatra::Base
     number_of_guests_allowed = params[:number_of_guests_allowed].to_i
     number_of_reserved_seats = params[:number_of_reserved_seats].to_i
 
-    Sitting.new(key: 1130, title: '11:30', starts_at: Time.parse('2013-12-13 11:30:00 CET').utc, 
+    Sitting.new(key: 1130, title: '11:30', starts_at: Time.parse('2014-12-12 11:30:00 CET').utc, 
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
-    Sitting.new(key: 1200, title: '12:00', starts_at: Time.parse('2013-12-13 12:00:00 CET').utc,
+    Sitting.new(key: 1200, title: '12:00', starts_at: Time.parse('2014-12-12 12:00:00 CET').utc,
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
-    Sitting.new(key: 1230, title: '12:30', starts_at: Time.parse('2013-12-13 12:30:00 CET').utc,
+    Sitting.new(key: 1230, title: '12:30', starts_at: Time.parse('2014-12-12 12:30:00 CET').utc,
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
-    Sitting.new(key: 1230, title: '12:30', starts_at: Time.parse('2013-12-13 12:30:00 CET').utc,
+    Sitting.new(key: 1230, title: '12:30', starts_at: Time.parse('2014-12-12 12:30:00 CET').utc,
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
-    Sitting.new(key: 1300, title: '13:00', starts_at: Time.parse('2013-12-13 13:00:00 CET').utc,
+    Sitting.new(key: 1300, title: '13:00', starts_at: Time.parse('2014-12-12 13:00:00 CET').utc,
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
-    Sitting.new(key: 1330, title: '13:30', starts_at: Time.parse('2013-12-13 13:30:00 CET').utc,
+    Sitting.new(key: 1330, title: '13:30', starts_at: Time.parse('2014-12-12 13:30:00 CET').utc,
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
     Sitting.new(key: 0000, title: 'Jag måste tyvärr tacka nej').save
 
     redirect '/admin/guests'
+  end
+
+  get '/admin/guest/untagged' do
+    haml :'register/tag', locals: {
+      page_title: 'Taggning - Athega Jullunch',
+      remaining: Guest.untagged.count
+    }
   end
 
   get '/admin/load_test_users_qwerty1234' do
