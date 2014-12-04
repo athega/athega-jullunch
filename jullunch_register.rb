@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# encoding: utf-8
 
 require_relative 'lib/database'
 require_relative 'lib/helpers'
@@ -58,7 +58,9 @@ class JullunchRegister < Sinatra::Base
     guest.arrived_at  = Time.now.utc if guest.arrived_at.nil?
     guest.save
 
-    send_to_event_stream('arrival', "{\"rfid\": \"#{params[:rfid]}\"}")
+    send_to_event_stream('arrival', Yajl::Encoder.encode(guest))
+    send_to_event_stream('arrived', Guest.arrived.count)
+    send_to_event_stream('arrived-company', Guest.all_by_company(guest.company).count)
     public_json_response(guest)
   end
 
@@ -70,7 +72,7 @@ class JullunchRegister < Sinatra::Base
     guest.departed_at  = Time.now.utc if guest.departed_at.nil?
     guest.save
 
-    send_to_event_stream('departure', "{\"rfid\": \"#{params[:rfid]}\"}")
+    send_to_event_stream('departure', Yajl::Encoder.encode(guest))
     public_json_response(guest)
   end
 
@@ -95,7 +97,7 @@ class JullunchRegister < Sinatra::Base
     guest.photo = JSON.parse request.body.read
     guest.save
 
-    send_to_event_stream('photo', { rfid: params[:rfid], photo: guest.photo }.to_json)
+    send_to_event_stream('photo', Yajl::Encoder.encode(guest))
     public_json_response(guest)
   end
 
