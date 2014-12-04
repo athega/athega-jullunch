@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# encoding: utf-8
 
 require 'google/api_client'
 require 'google/api_client/client_secrets'
@@ -19,6 +19,7 @@ class JullunchAdmin < Sinatra::Base
                              secret: 'Knowledge is power and true Sith do not share power.'
 
   def api_client; settings.api_client; end
+  def oauth2; settings.oauth2; end
   def user_credentials
     # Build a per-request oauth credential based on token stored in session
     # which allows us to use a shared API client.
@@ -62,12 +63,13 @@ class JullunchAdmin < Sinatra::Base
     end
 
     set :api_client, client
+    set :oauth2, client.discovered_api('oauth2', 'v2')
   end
 
   helpers do
     def logged_in?
       return true if settings.respond_to?(:forced_authentication)
-      return user_credentials.access_token ? true : false
+      return (user_credentials.access_token && session[:user_email].end_with?("@athega.se")) ? true : false
     end
 
     include Rack::Utils
@@ -104,6 +106,11 @@ class JullunchAdmin < Sinatra::Base
     # Exchange token
     user_credentials.code = params[:code] if params[:code]
     user_credentials.fetch_access_token!
+
+    # Store email
+    result = api_client.execute!(:api_method => settings.oauth2.userinfo.get, :authorization => user_credentials)
+    session[:user_email] = result.data.email
+
     redirect to('/admin')
   end
 
