@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	'use strict';
 
-	var EVT_SRC_URL = 'https://jullunch.athega.se/register/events',
+	var EVT_SRC_URL = 'https://athega-jullunch.herokuapp.com/register/events',
 		evtSource = new EventSource(EVT_SRC_URL),
 		$error = $('error'),
 		autoshiftTimeout,
