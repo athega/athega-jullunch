@@ -1,0 +1,305 @@
+@import url(http://fonts.googleapis.com/css?family=PT+Sans+Narrow);
+@font-face {
+	font-family: "Oswald";
+	font-style: normal;
+	font-weight: 700;
+	src: local("Oswald Bold"), local("Oswald-Bold"), url("http://fonts.gstatic.com/s/oswald/v10/bH7276GfdCjMjApa_dkG6bO3LdcAZYWl9Si6vvxL-qU.woff") format("woff");
+}
+
+body {
+	margin: 0;
+	border-top: 8px solid #F60;
+	font-family: 'PT Sans Narrow', sans-serif;
+	font-size: 200%;
+}
+
+#logo {
+	height: 80px;
+	background: url('/images/athega_logo.png') no-repeat scroll left top / auto 80px transparent;
+	text-indent: -5000em;
+	margin: 40px 0;
+}
+
+.container {
+	position: relative;
+	width: 960px;
+	margin: 0 auto;
+}
+
+.hidden {
+	display: none;
+}
+
+#arrival-names li {
+	font-size: 200%;
+	display: block;
+	text-align: center;
+}
+
+#arrival {
+	overflow: hidden;
+}
+
+#arrival h2 {
+	margin-top: 0;
+}
+
+#arrival h3 {
+	margin-top: 27px;
+}
+
+#arrival-photo {
+	width: 40%;
+	float: left;
+	margin-top: 37px;
+
+	-webkit-transform: scale(0);
+	transform: scale(0);
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+	-moz-box-shadow: 20px 20px 20px 0 #aaa;
+	-webkit-box-shadow: 20px 20px 20px 0 #aaa;
+	box-shadow: 20px 20px 20px 0 #aaa;
+}
+
+.arrival-text {
+	width: 40%;
+	float: right;
+	margin: 0 10% 0;
+	opacity: 0;
+}
+
+.arrival-text span, #departure span {
+	color: #2d88a6;
+	font-size: 110%;
+}
+
+#donation-logo {
+	height: 23px;
+	background-color: #09C;
+	padding: 3px;
+	vertical-align: middle;
+}
+
+#mulled_wine {
+	margin-top: 50px;
+}
+.number {
+	font-family: "Oswald";
+	float: left;
+	color: #348FAD;
+	margin-right: 2%;
+}
+.info-number {
+	font-size: 6.5rem;
+	font-weight: 700;
+	margin: 0;
+	line-height: 1;
+	text-shadow: 0px -2px 1px rgba(0, 0, 0, 0.15);
+}
+.number span {
+	color: #595959;
+	font-weight: 100;
+	font-size: 60%;
+}
+.items {
+	float: left;
+	width: 80%
+}
+.list-items {
+	list-style: none;
+	-webkit-perspective: 800px;
+	perspective: 800px;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	margin-top: 0;
+}
+.list-items li {
+	float: left;
+	margin: 0 2% 2% 0;
+	opacity: 0;
+}
+li.mulled_wine {
+	width: 32px;
+	height: 30px;
+	background-image: url('images/mulled_wine.png');
+}
+li.drink {
+	width: 33px;
+	height: 33px;
+	background-image: url('images/drink.png');
+}
+li.food {
+	width: 43px;
+	height: 32px;
+	background-image: url('images/food.png');
+}
+li.coffee {
+	width: 32px;
+	height: 32px;
+	background-image: url('images/coffee.png');
+}
+li.arrived, li.present, li.invited {
+	width: 32px;
+	height: 42px;
+	background-image: url('images/ginger.png');
+}
+li.present {
+	background-color: #efefff;
+	border-radius: 5px;
+}
+li.invited {
+	background-image: none;
+}
+li.invited:before {
+	content:  url('images/ginger.png');
+	opacity: 0.4;
+}
+
+
+/* Anim */
+@-webkit-keyframes popIn {
+	0% {
+		-webkit-transform: scale(0);
+		transform: scale(0);
+	}
+
+	70% {
+		-webkit-transform: scale(1.05);
+		transform: scale(1.05);
+	}
+
+	100% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+}
+
+@keyframes popIn {
+	0% {
+		-webkit-transform: scale(0);
+		transform: scale(0);
+	}
+
+	70% {
+		-webkit-transform: scale(1.05);
+		transform: scale(1.05);
+	}
+
+	100% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+}
+
+.photo-anim-in {
+	-webkit-animation: popIn 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045) both;
+	animation: popIn 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045) both;
+}
+
+@-webkit-keyframes swingIn {
+	0% {
+		-webkit-transform: rotateY(90deg);
+		transform: rotateY(90deg);
+		-webkit-animation-timing-function: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+		animation-timing-function: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+	}
+
+	5% {
+		opacity: .5;
+		-webkit-animation-timing-function: linear;
+		animation-timing-function: linear;
+	}
+
+	60% {
+		-webkit-transform: rotateY(-20deg);
+		transform: rotateY(-20deg);
+		-webkit-animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+		animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+	}
+
+	100% {
+		opacity: 1;
+		-webkit-transform: rotateY(0deg);
+		transform: rotateY(0deg);
+	}
+}
+
+@keyframes swingIn {
+	0% {
+		-webkit-transform: rotateY(90deg);
+		transform: rotateY(90deg);
+		-webkit-animation-timing-function: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+		animation-timing-function: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+	}
+
+	5% {
+		opacity: .5;
+		-webkit-animation-timing-function: linear;
+		animation-timing-function: linear;
+	}
+
+	60% {
+		-webkit-transform: rotateY(-20deg);
+		transform: rotateY(-20deg);
+		-webkit-animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+		animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+	}
+
+	100% {
+		opacity: 1;
+		-webkit-transform: rotateY(0deg);
+		transform: rotateY(0deg);
+	}
+}
+
+.swing-in:nth-of-type(1n+1) {
+	-webkit-animation: swingIn 0.9s 0.55s linear both;
+	animation: swingIn 0.9s 0.55s linear both;
+}
+
+.swing-in:nth-of-type(2n+1) {
+	-webkit-animation: swingIn 0.9s 0.6s linear both;
+	animation: swingIn 0.9s 0.6s linear both;
+}
+
+.swing-in:nth-of-type(3n+1) {
+	-webkit-animation: swingIn 0.9s 0.65s linear both;
+	animation: swingIn 0.9s 0.65s linear both;
+}
+
+.swing-in:nth-of-type(4n+1) {
+	-webkit-animation: swingIn 0.9s 0.7s linear both;
+	animation: swingIn 0.9s 0.7s linear both;
+}
+
+.swing-in:nth-of-type(5n+1) {
+	-webkit-animation: swingIn 0.9s 0.75s linear both;
+	animation: swingIn 0.9s 0.75s linear both;
+}
+
+.swing-in:nth-of-type(6n+1) {
+	-webkit-animation: swingIn 0.9s 0.8s linear both;
+	animation: swingIn 0.9s 0.8s linear both;
+}
+
+.swing-in:nth-of-type(7n+1) {
+	-webkit-animation: swingIn 0.9s 0.85s linear both;
+	animation: swingIn 0.9s 0.85s linear both;
+}
+
+.swing-in:nth-of-type(8n+1) {
+	-webkit-animation: swingIn 0.9s 0.9s linear both;
+	animation: swingIn 0.9s 0.9s linear both;
+}
+
+.swing-in:nth-of-type(9n+1) {
+	-webkit-animation: swingIn 0.9s 0.95s linear both;
+	animation: swingIn 0.9s 0.95s linear both;
+}
+
+.swing-in:nth-of-type(10n+1) {
+	-webkit-animation: swingIn 0.9s 1s linear both;
+	animation: swingIn 0.9s 1s linear both;
+}

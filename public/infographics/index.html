@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Athegas Jullunch</title>
+		<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+		<meta content='yes' name='apple-mobile-web-app-capable'>
+		<meta content='black' name='apple-mobile-web-app-status-bar-style'>
+		<link rel="stylesheet" href="main.css">
+	</head>
+	<body>
+
+	<div class="container">
+
+		<h1 id="logo">Athega</h1>
+
+		<div id="arrival-ping" class="actions hidden">
+			<h2>Ankomster</h2>
+			<ul id="arrival-names"></ul>
+		</div>
+
+		<div id="arrival" class="actions hidden">
+			<h2>Välkommen till Athegas årliga jullunch</h2>
+			<img id="arrival-photo" src="images/placeholder.svg">
+			<div class="arrival-text">
+				<h3>Hej <span id="arrival-name">…</span>!</h3>
+				<p>
+					Du är gäst nummer <span id="arrival-arrived">…</span> att anlända
+					och nummer <span id="arrival-arrived-company">…</span> av dina
+					kollegor på <span id="arrival-company">…</span>.
+				</p>
+				<p>Hjärtligt välkommen!</p>
+			</div>
+		</div>
+
+		<div id="departure" class="actions hidden">
+			<h3>Tack för den här gången!</h3>
+			<p>
+				Vi önskar dig en God Jul & ett Gott Nytt År, <span id="departure-name">…</span>.
+			</p>
+			<p>
+				Vi kommer att sätta in ett bidrag till
+				<img id="donation-logo" src="http://polstjarna.se/wp-content/themes/polstjarna/images/polstjarnalogga.png" alt="Polstjärna">
+				i ditt namn.</p>
+		</div>
+
+		<div id="mulled_wine" class="actions autoshift hidden">
+			<div class="number">
+				<h3 class="info-number" id="mulled_wine-count">…</h3>
+				<span>Serverade glas glögg</span>
+			</div>
+			<div class="items">
+				<ul id="mulled_wine-items" class="list-items"></ul>
+			</div>
+		</div>
+
+		<div id="drink" class="actions autoshift hidden">
+			<div class="number">
+				<h3 class="info-number" id="drink-count">…</h3>
+				<span>Besök i baren</span>
+			</div>
+			<div class="items">
+				<ul id="drink-items" class="list-items"></ul>
+			</div>
+		</div>
+
+		<div id="food" class="actions autoshift hidden">
+			<div class="number">
+				<h3 class="info-number" id="food-count">…</h3>
+				<span>Besök vid julbordet</span>
+			</div>
+			<div class="items">
+				<ul id="food-items" class="list-items"></ul>
+			</div>
+		</div>
+
+		<div id="coffee" class="actions autoshift hidden">
+			<div class="number">
+				<h3 class="info-number" id="coffee-count">…</h3>
+				<span>Kaffe på maten</span>
+			</div>
+			<div class="items">
+				<ul id="coffee-items" class="list-items"></ul>
+			</div>
+		</div>
+
+		<div id="attendance" class="actions autoshift hidden">
+			<div class="number" style="margin-right:10%">
+				<h3 class="info-number" id="attendance-arrived">…</h3>
+				<span>Anlända gäster</span>
+			</div>
+			<div class="number" style="margin-right:10%">
+				<h3 class="info-number" id="attendance-present">…</h3>
+				<span>Gäster i lokalen</span>
+			</div>
+			<div class="number">
+				<h3 class="info-number" id="attendance-departed">…</h3>
+				<span>Mätta och belåtna gäster</span>
+			</div>
+			<div class="items" style="width:100%; margin-top:20px;">
+				<ul id="attendance-items" class="list-items" style="padding-left:0;"></ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="error"></div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="main.js"></script>
+	</body>
+</html>
