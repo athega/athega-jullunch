@@ -145,7 +145,7 @@ class JullunchRegister < Sinatra::Base
     public_json_response({
       arrived:     Guest.arrived.count,
       departed:    Guest.departed.count,
-      invited:     Guest.invited.count + Guest.invited_manually.count,
+      rsvped:      Guest.said_yes.count,
       mulled_wine: guests.map { |g| g.mulled_wine.to_i }.reduce(:+),
       food:        guests.map { |g| g.food.to_i }.reduce(:+),
       drink:       guests.map { |g| g.drink.to_i }.reduce(:+),

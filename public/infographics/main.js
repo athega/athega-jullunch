@@ -81,7 +81,7 @@ $(document).ready(function () {
 
 		arrivedGuests = data.arrived;
 		departedGuests = data.departed;
-		totalGuests = data.invited;
+		totalGuests = data.rsvped;
 		$('#attendance-arrived').text(arrivedGuests);
 		$('#attendance-departed').text(departedGuests);
 		attendanceHelper();
