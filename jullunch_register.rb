@@ -73,6 +73,7 @@ class JullunchRegister < Sinatra::Base
     guest.save
 
     send_to_event_stream('departure', Yajl::Encoder.encode(guest))
+    send_to_event_stream('departed', Guest.departed.count)
     public_json_response(guest)
   end
 
@@ -95,6 +96,7 @@ class JullunchRegister < Sinatra::Base
     guest = guest_by_rfid
 
     guest.photo = JSON.parse request.body.read
+    guest.image_url = guest.photo["data"]["img_url"]
     guest.save
 
     send_to_event_stream('photo', Yajl::Encoder.encode(guest))
@@ -108,7 +110,7 @@ class JullunchRegister < Sinatra::Base
     guest.instance_variable_set("@#{action}", guest.instance_variable_get("@#{action}").to_i + 1)
     guest.save
 
-    send_to_event_stream(action, "{\"rfid\": \"#{rfid}\"}")
+    send_to_event_stream(action, Guest.all.map { |g| g.instance_variable_get("@#{action}").to_i }.reduce(:+))
     public_json_response(guest)
   end
 
@@ -143,6 +145,7 @@ class JullunchRegister < Sinatra::Base
     public_json_response({
       arrived:     Guest.arrived.count,
       departed:    Guest.departed.count,
+      invited:     Guest.invited.count + Guest.invited_manually.count,
       mulled_wine: guests.map { |g| g.mulled_wine.to_i }.reduce(:+),
       food:        guests.map { |g| g.food.to_i }.reduce(:+),
       drink:       guests.map { |g| g.drink.to_i }.reduce(:+),
