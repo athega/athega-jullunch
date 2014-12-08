@@ -1,9 +1,7 @@
 $(document).ready(function () {
 	'use strict';
 
-//	var EVT_SRC_URL = 'http://jullunch.athega.se/register/events',
-
-	var EVT_SRC_URL = 'http://127.0.0.1:3000/register/events',
+	var EVT_SRC_URL = 'http://jullunch.athega.se/register/events',
 		evtSource = new EventSource(EVT_SRC_URL),
 		$error = $('error'),
 		autoshiftTimeout,
