@@ -111,6 +111,7 @@ $(document).ready(function () {
 		arrivedGuests = e.data;
 		$('#arrival-arrived').text(arrivedGuests);
 		$('#attendance-arrived').text(arrivedGuests);
+		attendanceHelper();
 	});
 	evtSource.addEventListener("arrived-company", function(e) { $('#arrival-arrived-company').text(e.data); });
 
@@ -131,17 +132,8 @@ $(document).ready(function () {
 	}, false);
 	evtSource.addEventListener("departed", function(e) {
 		departedGuests = e.data;
-		var present = (arrivedGuests-departedGuests),
-			$items = $('#attendance-items'), li;
 		$('#attendance-departed').text(departedGuests);
-		$('#attendance-present').text(present >= 0 ? present : 0);
-		$items.empty();
-		for (var i=0; i<count; i++) {
-			li = $('<li class="' + itemName + '"></li>');
-			$items.append(li);
-			li.addClass('swing-in');
-		}
-
+		attendanceHelper();
 	});
 
 	// Mulled wine, drink, food, coffee (auto shifting)
