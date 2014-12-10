@@ -52,7 +52,17 @@ class JullunchRegister < Sinatra::Base
 
   ## Arrival
   put '/register/arrival/:rfid' do
-    guest = guest_by_rfid
+    guest = Guest.by_rfid(params[:rfid])
+
+    # If using untagged card, see if there are any untagged check-ins
+    if guest.nil?
+      guest = Guest.arrived.untagged.first
+      unless guest.nil?
+        guest.rfid = params[:rfid]
+      else
+        raise Sinatra::NotFound
+      end
+    end
 
     guest.arrived     = true
     guest.arrived_at  = Time.now.utc if guest.arrived_at.nil?
