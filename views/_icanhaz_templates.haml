@@ -37,11 +37,14 @@
       {{#items}}
       %li.tweet.row
         .two.columns
-          %img{ src: "{{profile_image_url}}", width: 100, height: 100 }
+          %img{ src: "{{#user}}{{profile_image_url_https}}{{/user}}", width: 100, height: 100 }
         .ten.columns
-          %a.user{ href: "{{url}}"} {{from_user}}
-          %span.name {{from_user_name}}
+          %a.user{ href: "https://twitter.com/{{#user}}{{screen_name}}{{/user}}"} {{#user}}{{screen_name}}{{/user}}
+          %span.name {{#user}}{{name}}{{/user}}
         .thirteen.columns
           %span.text {{{html}}}
+          {{#entities}}{{#media}}
+          %img{ src: "{{media_url}}", width: "{{#sizes}}{{#small}}{{w}}{{/small}}{{/sizes}}", height: "{{#sizes}}{{#small}}{{h}}{{/small}}{{/sizes}}" }
+          {{/media}}{{/entities}}
           %div.timestamp{ data: { timestamp: "{{created_at}}" } } {{created_at}}
       {{/items}}
