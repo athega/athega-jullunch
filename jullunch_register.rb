@@ -134,7 +134,7 @@ class JullunchRegister < Sinatra::Base
     if guest
       message = 'var redan taggad'
     else
-      untagged = Guest.untagged.first
+      untagged = Guest.said_yes.untagged.first
       if untagged
         untagged.rfid = params[:rfid]
         untagged.save
