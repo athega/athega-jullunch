@@ -263,7 +263,7 @@ class JullunchAdmin < Sinatra::Base
   get '/admin/guest/untagged' do
     haml :'register/tag', locals: {
       page_title: 'Taggning - Athega Jullunch',
-      remaining: Guest.untagged.count
+      remaining: Guest.said_yes.untagged.count
     }
   end
 
