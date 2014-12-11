@@ -144,7 +144,7 @@ class JullunchRegister < Sinatra::Base
       end
     end
 
-    send_to_event_stream('untagged', Guest.untagged.count)
+    send_to_event_stream('untagged', Guest.said_yes.untagged.count)
     send_to_event_stream('tag', "{\"message\": \"#{message}\", \"guest\": #{Yajl::Encoder.encode(guest)}}")
     public_json_response(guest)
   end
