@@ -1,12 +1,57 @@
-%div Hej!
+%p Hej!
 %br
-%div Vad trevligt att du ville komma och äta jullunch tillsammans med oss. Vi uppskattade ditt sällskap väldigt mycket och hoppas att du blev riktigt mätt :)
-%div
-  Vi hade ett reportageteam på plats som tog lite mingelbilder och snappade upp en och annan konversation. Du hittar reportaget här
-  %a{ href: 'http://athega.se/jullunch-mingel' } http://athega.se/jullunch-mingel.
+%p
+  Vad trevligt att du ville komma och äta jullunch tillsammans med oss.
+%p
+  - if photo && photo["data"]
+    <a href="#{photo["data"]["img_url"]}"><img src="#{photo["data"]["thumb_url"]}" style="float:right;width:33%;margin:0 8px;"></a>
+    Till höger kan du se hur bilden blev. Ibland var det litet svårt att sikta
+    med bröstfickan.
+%p
+  - if mulled_wine == 0 && food == 0 && coffee == 0
+    Du verkar dock ha haft litet otur med kortet eftersom vi inte lyckades registrera
+    något besök vid julbordet.
+  - else
+    Under årets jullunch drack du <strong>#{mulled_wine}</strong> glas glögg, gjorde <strong>#{food}</strong> besök vid julbordet och
+    - if coffee == 0
+      hoppade över kaffet.
+    - elsif coffee == 1
+      avslutade med <strong>en</strong> kopp kaffe.
+    - else
+      avslutade med <strong>#{coffee}</strong> koppar kaffe.
+%p
+  Årets julklapp är en donation till organisationen Polstjärna, som hjälper barn och ungdomar i Svergie
+  genom att motverka utanförskap. Läs mer om deras <a href="http://polstjarna.se/polstjarna/bakgrund-och-vision/">vision och värdegrund</a>.
+%p
+  Tillsammans donerade vi 3 750:- till projektet
+  %a(href='http://polstjarna.se/polstjarna/bakgrund-och-vision/') Sportlovsläger för tjejer
+  som beskrivs så här:
+  %br
+  %blockquote
+    ”Nathalie, Hanna, Amanda och Tove vill genomföra ett vinterläger i Säfsen för cirka 10 tjejer i
+    åldrarna 15-20 år som av ekonomiska eller sociala skäl inte haft möjlighet att åka på vintersemester
+    med familjen eller skidresor med skolan.”
+  %br
+%p
+  Till sist vill vi passa på att önska dig en riktigt God Jul och ett Gott Nytt År!
+  %br
+%p // Vi på Athega
 %br
-%div Vem vet, du kanske hittar någon bild där du är med?
 %br
-%div Vi vill också passa på att önska dig en riktigt God Jul och ett Gott Nytt År!
-%br
-%div // Vi på Athega
+%p
+  PS.
+  %br
+  Årets teknik baserade sig på <a href="https://tessel.io/">Tessel</a>, som är en mikrokontroller som
+  kör JavaScript (Node.js). Du fick ett Athega-kort med ett RFID som var kopplat till dig. Med detta
+  registrerades bland annat ankomst, foto, besök vid julbordet och donationer. Med hjälp av denna
+  information kunde vi uppdatera grafiken på skärmarna samt sammanställa all möjlig statistik.
+  %br
+  Exempelvis:
+  %br
+  %img(src='http://jullunch.athega.se/images/athega_jullunch_2014_stats.png')
+  %br
+  eller
+  %br
+  %img(src='http://jullunch.athega.se/images/athega_jullunch_2014_visits.png')
+  %br
+  DS.

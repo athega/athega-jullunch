@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# encoding: utf-8
 
 require 'yajl'
 
@@ -73,14 +73,17 @@ class Notification
     subject  = 'Med önskan om en God Jul'
 
     template = IO.read('views/notifications/thank_you.haml')
-    renderer = Haml::Engine.new(template).render_proc({})
+    renderer = Haml::Engine.new(template).render_proc({}, :mulled_wine, :food, :coffee, :photo)
 
     sent_count = 0
 
-    html = renderer.call
-    text = html.gsub(/<\/?[^>]*>/, "")
-
     Guest.not_thanked_yet.arrived.where(company: { _ne: 'Vänner & Familj' }).limit(30).each do |g|
+      html = renderer.call mulled_wine: g.mulled_wine,
+                           food:        g.food,
+                           coffee:      g.coffee,
+                           photo:       g.photo
+
+      text = html.gsub(/<\/?[^>]*>/, "")
       response = Mailer.mail(from, g.email, subject, text, html)
 
       if response["message"] == "Queued. Thank you."
