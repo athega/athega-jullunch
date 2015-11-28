@@ -3,7 +3,7 @@ require 'sinatra/base'
 module Sinatra
   module JullunchHelpers
     def has_valid_token?
-      !guest_by_token.nil? && (Time.now.utc < Time.parse('2014-12-10').utc)
+      !guest_by_token.nil? && (Time.now.utc < Time.parse('2015-12-09').utc)
     end
 
     def guest_by_token
