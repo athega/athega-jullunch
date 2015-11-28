@@ -1,6 +1,7 @@
 .powenv
 .sass-cache
 .bundle
+.idea
 tmp
 log
 client_secrets.json
