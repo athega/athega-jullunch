@@ -6,8 +6,9 @@ GEM
       addressable (>= 2.3.1)
       extlib (>= 0.9.15)
       multi_json (>= 1.0.0)
-    bson (1.4.0)
-    bson_ext (1.4.0)
+    bson (1.12.4)
+    bson_ext (1.12.4)
+      bson (~> 1.12.4)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     coderay (1.0.9)
@@ -69,8 +70,8 @@ GEM
     lumberjack (1.0.4)
     method_source (0.8.2)
     mime-types (1.25)
-    mongo (1.4.0)
-      bson (= 1.4.0)
+    mongo (1.12.4)
+      bson (= 1.12.4)
     mongodb (2.0.2)
       mongo (~> 1.4)
     mongodb_model (2.0.2)
@@ -122,8 +123,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bson (~> 1.4.0)
-  bson_ext (~> 1.4.0)
+  bson (~> 1.12.0)
+  bson_ext (~> 1.12.0)
   dalli (~> 2.6)
   google-api-client (~> 0.7.1)
   guard (~> 2.2)
@@ -132,7 +133,7 @@ DEPENDENCIES
   guard-sass (~> 1.3)
   guard-shell (~> 0.5)
   haml (~> 4.0)
-  mongo (~> 1.4.0)
+  mongo (~> 1.12.0)
   mongodb_model (~> 2.0.2)
   rack-cache (~> 1.2)
   rake

@@ -14,9 +14,9 @@ gem "rest-client",       "~> 1.6.7"
 gem "sinatra",           "~> 1.4", require: "sinatra/base"
 gem "haml",              "~> 4.0"
 
-gem "bson",              "~> 1.4.0"
-gem "bson_ext",          "~> 1.4.0"
-gem "mongo",             "~> 1.4.0"
+gem "bson",              "~> 1.12.0"
+gem "bson_ext",          "~> 1.12.0"
+gem "mongo",             "~> 1.12.0"
 gem "mongodb_model",     "~> 2.0.2"
 
 group :development do
