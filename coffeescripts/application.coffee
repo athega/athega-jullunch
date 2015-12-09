@@ -167,7 +167,7 @@ class window.PresentationLoop
 
   ads: ->
     ads.fetch()
-    setTimeout 'window.loop.iterate()', @delay
+    setTimeout 'window.loop.iterate()', @delay*2
 
   iterate: ->
     @iteration += 1
