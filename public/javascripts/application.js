@@ -358,7 +358,7 @@
 
     PresentationLoop.prototype.ads = function() {
       ads.fetch();
-      return setTimeout('window.loop.iterate()', this.delay);
+      return setTimeout('window.loop.iterate()', this.delay * 2);
     };
 
     PresentationLoop.prototype.iterate = function() {
