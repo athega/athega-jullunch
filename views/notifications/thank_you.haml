@@ -1,12 +1,14 @@
+%p
+  - if photo && photo["data"]
+    <a href="#{photo["data"]["img_url"]}"><img src="#{photo["data"]["thumb_url"]}" style="float:right;width:33%;margin:0 8px;"></a>
 %p Hej!
 %br
 %p
   Vad trevligt att du ville komma och äta jullunch tillsammans med oss.
 %p
   - if photo && photo["data"]
-    <a href="#{photo["data"]["img_url"]}"><img src="#{photo["data"]["thumb_url"]}" style="float:right;width:33%;margin:0 8px;"></a>
     Till höger kan du se hur bilden blev. Ibland var det litet svårt att sikta
-    med bröstfickan.
+    med bröstfickan. ;)
 %p
   - if mulled_wine == 0 && food == 0 && coffee == 0
     Du verkar dock ha haft litet otur med kortet eftersom vi inte lyckades registrera
@@ -20,26 +22,24 @@
     - else
       avslutade med <strong>#{coffee}</strong> koppar kaffe.
 %p
-  Totalt serverades <strong>84</strong> glas glögg och vid julbordet gjordes <strong>104</strong> besök.
-  Till sist rundade <strong>70</strong> koppar kaffe av jullunchen.
+  Totalt serverades <strong>85</strong> glas glögg och vid julbordet gjordes <strong>106</strong> besök.
+  Till sist rundade <strong>54</strong> koppar kaffe av jullunchen.
 %p
   Årets julklapp är en donation till organisationen Polstjärna, som hjälper barn och ungdomar i Svergie
-  genom att motverka utanförskap. Läs mer om deras <a href="http://polstjarna.se/polstjarna/bakgrund-och-vision/">vision och värdegrund</a>.
+  genom att motverka utanförskap.
 %p
-  Vi har donerat 50:- i ditt namn till projektet
-  %a(href='http://polstjarna.se/polstjarna/bakgrund-och-vision/') Sportlovsläger för tjejer
-  som beskrivs så här:
-  %br
-  %blockquote
-    ”Nathalie, Hanna, Amanda och Tove vill genomföra ett vinterläger i Säfsen för cirka 10 tjejer i
-    åldrarna 15-20 år som av ekonomiska eller sociala skäl inte haft möjlighet att åka på vintersemester
-    med familjen eller skidresor med skolan.”
-  %br
-  Vi sköt till det sista, så nu finns det förutsättningar för tjejerna att komma iväg!
+  Den här <a href="http://www.youtube.com/watch?v=LeHC15YohhI">filmen</a>
+  ger en bra bild av vad de gör.
+%p
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/LeHC15YohhI" frameborder="0" allowfullscreen></iframe>
+%p
+  Vi har donerat 50:- i ditt namn till
+  <a href="http://polstjarna.se/projects/stod-till-framtida-insamlingar/">Framtida insamlingar</a>.
 %p
   Till sist vill vi passa på att önska dig en riktigt God Jul och ett Gott Nytt År!
   %br
-%p // Vi på Athega
+%p
+  %em // Athegagänget
 %br
 %br
 %p
@@ -52,10 +52,10 @@
   %br
   Exempelvis:
   %br
-  %img(src='http://jullunch.athega.se/images/athega_jullunch_2014_stats.png')
+  %img(src='http://jullunch.athega.se/images/athega_jullunch_2015_stats.png')
   %br
   eller
   %br
-  %img(src='http://jullunch.athega.se/images/athega_jullunch_2014_visits.png')
+  %img(src='http://jullunch.athega.se/images/athega_jullunch_2015_visits.png')
   %br
   DS.
