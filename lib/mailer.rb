@@ -10,7 +10,7 @@ class Mailer
     response = '{ "error": "No Mailgun API key" }'
 
     unless api_key.nil?
-      api_url = "https://api:#{api_key}@api.mailgun.net/v2/athega.mailgun.org"
+      api_url = "https://api:#{api_key}@api.mailgun.net/v3/mailer.athega.se"
 
       response = RestClient.post api_url+"/messages",
         :from => from,
