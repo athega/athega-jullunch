@@ -77,7 +77,7 @@ class Notification
 
     sent_count = 0
 
-    Guest.not_thanked_yet.arrived.where(company: { _eq: 'Athega' }).limit(1).each do |g|
+    Guest.not_thanked_yet.arrived.where(company: { _in: ['Athega'] }).limit(1).each do |g|
       html = renderer.call mulled_wine: g.mulled_wine,
                            food:        g.food,
                            coffee:      g.coffee,
