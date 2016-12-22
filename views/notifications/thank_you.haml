@@ -1,20 +1,22 @@
 %p
-  - if photo && photo["data"]
-    <a href="#{photo["data"]["img_url"]}"><img src="#{photo["data"]["thumb_url"]}" style="float:right;width:33%;margin:0 8px;"></a>
+  - if image_url
+    <img src="#{image_url}" style="float:right;width:33%;margin:0 8px;"></a>
 %p Hej!
 %br
 %p
   Vad trevligt att du ville komma och äta jullunch tillsammans med oss.
 %p
-  - if photo && photo["data"]
-    Till höger kan du se hur bilden blev. Ibland var det litet svårt att sikta
-    med bröstfickan. ;)
+  - if image_url
+    Till höger kan du se hur bilden blev. Portalen letade hela tiden efter ansikten och
+    lyckades oftast hitta just ditt! ;)
 %p
-  - if mulled_wine == 0 && food == 0 && coffee == 0
+  - if mulled_wine == 0 && food == 0 && coffee == 0 && drink == 0
     Du verkar dock ha haft litet otur med kortet eftersom vi inte lyckades registrera
     något besök vid julbordet.
   - else
-    Under årets jullunch drack du <strong>#{mulled_wine}</strong> glas glögg, gjorde <strong>#{food}</strong> besök vid julbordet och
+    Under årets jullunch drack du <strong>#{mulled_wine}</strong> glas glögg,
+    gjorde <strong>#{food}</strong> besök vid julbordet,
+    <strong>#{drink}</strong> vändor till baren och
     - if coffee == 0
       hoppade över kaffet.
     - elsif coffee == 1
@@ -22,19 +24,12 @@
     - else
       avslutade med <strong>#{coffee}</strong> koppar kaffe.
 %p
-  Totalt serverades <strong>85</strong> glas glögg och vid julbordet gjordes <strong>106</strong> besök.
-  Till sist rundade <strong>54</strong> koppar kaffe av jullunchen.
+  Totalt serverades <strong>76</strong> glas glögg och vid julbordet gjordes <strong>101</strong> besök.
+  <strong>59</strong> barrundor och till sist rundade <strong>109</strong> koppar kaffe av jullunchen.
 %p
-  Årets julklapp är en donation till organisationen Polstjärna, som hjälper barn och ungdomar i Sverige
-  genom att motverka utanförskap.
-%p
-  Den här <a href="http://www.youtube.com/watch?v=LeHC15YohhI">filmen</a>
-  ger en bra bild av vad de gör:
-%p
-  <a href="http://www.youtube.com/watch?v=LeHC15YohhI"><img src="http://img.youtube.com/vi/LeHC15YohhI/mqdefault.jpg"></a>
-%p
-  Vi har donerat 50:- i ditt namn till
-  <a href="http://polstjarna.se/projects/stod-till-framtida-insamlingar/">Framtida insamlingar</a>.
+  Årets julklapp är en donation till Naturskyddsföreningens
+  <a href="http://www.naturskyddsforeningen.se/nyheter/sa-har-vill-vi-radda-ostersjon">Östersjösatsning</a>.
+  Var och en som kom på årets jullunch har bidragit med 50:- till organisationen.
 %p
   Till sist vill vi passa på att önska dig en riktigt God Jul och ett Gott Nytt År!
   %br
@@ -48,14 +43,10 @@
   Årets teknik baserade sig på <a href="https://tessel.io/">Tessel</a>, som är en mikrokontroller som
   kör JavaScript (Node.js). Du fick ett Athega-kort med ett RFID som var kopplat till dig. Med detta
   registrerades bland annat ankomst, foto, besök vid julbordet och donationer. Med hjälp av denna
-  information kunde vi uppdatera grafiken på skärmarna samt sammanställa all möjlig statistik.
+  information kunde vi uppdatera grafiken på skärmarna.
   %br
-  Exempelvis:
-  %br
-  %img(src='http://jullunch.athega.se/images/athega_jullunch_2015_stats.png')
-  %br
-  eller
-  %br
-  %img(src='http://jullunch.athega.se/images/athega_jullunch_2015_visits.png')
+  Portalen du gick igenom när du kom använde en hemsnickrad anisktsdetektor skriven i C++. Med hjälp av
+  <a href="http://opencv.org/">OpenCV</a> och sinnrik filtrering, hittade den ditt ansikte och tog en
+  fint beskuren bild.
   %br
   DS.
