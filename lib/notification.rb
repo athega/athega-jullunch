@@ -73,7 +73,7 @@ class Notification
     subject  = 'Med önskan om en God Jul'
 
     template = IO.read('views/notifications/thank_you.haml')
-    renderer = Haml::Engine.new(template).render_proc({}, :mulled_wine, :food, :coffee, :image_url)
+    renderer = Haml::Engine.new(template).render_proc({}, :mulled_wine, :food, :coffee, :drink, :image_url)
 
     sent_count = 0
 
