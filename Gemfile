@@ -19,6 +19,8 @@ gem "bson_ext",          "~> 1.12.0"
 gem "mongo",             "~> 1.12.0"
 gem "mongodb_model",     "~> 2.0.2"
 
+gem 'retriable', '3.0.1'
+
 group :development do
   gem "rake"
   gem "sass",               "~> 3.1"
