@@ -1,23 +1,30 @@
 # encoding: UTF-8
 
 class Sitting
-  inherit Mongo::Model
+  include Mongoid::Document
 
   SEAT_COUNT_DOWN_THRESHOLD = 10
 
-  collection "sittings_#{Time.now.year}"
+  store_in collection: "sittings_#{Time.now.year}"
 
-  attr_accessor :title, :key, :starts_at, :number_of_guests_allowed, :number_of_reserved_seats
+  field :title
+  field :key
+  field :starts_at
+  field :number_of_guests_allowed
+  field :number_of_reserved_seats
 
   validates_numericality_of :key
-  validates_presence_of :title
+  validates :title, presence: true
+
+  scope :by_key, -> (id) { where(key: id) }
 
   def local_time
     starts_at.nil? ? '' : starts_at.getlocal
   end
 
   def guest_count
-    Guest.count(sitting_key: key)
+    return 0
+#    Guest.count(sitting_key: key)
   end
 
   def guest_status_class

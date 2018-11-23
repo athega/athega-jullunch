@@ -20,6 +20,10 @@ class JullunchRegister < Sinatra::Base
     use Rack::MethodOverride
   end
 
+  configure :development do
+    register Sinatra::Reloader
+  end
+
   configure :production do
     set :static_cache_control, [:public, :max_age => 300]
   end

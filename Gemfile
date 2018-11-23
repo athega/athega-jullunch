@@ -9,15 +9,15 @@ gem "rack-cache",        "~> 1.2", require: "rack/cache"
 
 gem "google-api-client", "~> 0.7.1"
 gem "yajl-ruby",         "~> 1.3.0", require: "yajl"
-gem "rest-client",       "~> 1.7.3"
+gem "rest-client",       "~> 2"
 
 gem "sinatra",           "~> 1.4", require: "sinatra/base"
+gem "sinatra-contrib", "~> 1.4"
 gem "haml",              "~> 4.0"
 
-gem "bson",              "~> 1.12.0"
-gem "bson_ext",          "~> 1.12.0"
-gem "mongo",             "~> 1.12.0"
-gem "mongodb_model",     "~> 2.0.2"
+gem "bson",              "~> 4.3.0"
+gem "mongo",             "~> 2.5.0"
+gem "mongoid",           "~> 7.0"
 
 gem 'retriable', '3.0.1'
 

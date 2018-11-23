@@ -24,6 +24,10 @@ class Jullunch < Sinatra::Base
     use Rack::MethodOverride
   end
 
+  configure :development do
+    register Sinatra::Reloader
+  end
+
   configure :production do
     set :static_cache_control, [:public, :max_age => 300]
 
@@ -53,7 +57,7 @@ class Jullunch < Sinatra::Base
   #############################################################################
 
   get '/' do
-    sittings = Sitting.sort([:starts_at, 1]).all
+    sittings = Sitting.order_by(:starts_at.asc).all
 
     haml :index, locals: {
       page_title: 'Athega Jullunch', sittings: sittings, guest: guest_by_token
@@ -61,12 +65,12 @@ class Jullunch < Sinatra::Base
   end
 
   get '/data/latest_check_ins.json' do
-    guests = Guest.arrived.limit(20).sort([:arrived_at, -1]).all.to_a
+    guests = Guest.arrived.limit(20).order_by(:arrived_at.desc).all.to_a
     public_json_response(guests)
   end
 
   get '/arrived_guests' do
-    arrived_guests = Guest.arrived.sort([:name, 1]).all
+    arrived_guests = Guest.arrived.order_by(:name.asc)
     haml :arrived_guests, locals: {
       arrived_guests: arrived_guests,
       page_title: 'Alla gäster på Jullunchen'
@@ -85,14 +89,12 @@ class Jullunch < Sinatra::Base
   get '/check-in/guests' do
     redirect to('/check-in') if params[:company].blank?
 
-    arrived_guests = Guest.arrived.sort([:name, 1]).
-                                   all_by_company(params[:company])
+    arrived_guests = Guest.arrived.order_by(:name.asc).where(company: params[:company])
 
-    guests = Guest.not_arrived_yet.sort([:name, 1]).
-                                   all_by_company(params[:company])
+    guests = Guest.not_arrived_yet.order_by(:name.asc).where(company: params[:company])
 
     if params[:guests] == 'all'
-      guests = Guest.all_by_company(params[:company])
+      guests = Guest.find_by(company: params[:company])
     end
 
     haml :'check_in/guests/index',
@@ -105,7 +107,7 @@ class Jullunch < Sinatra::Base
   end
 
   get '/check-in/guests/:token' do
-    guest = Guest.by_token(params[:token])
+    guest = Guest.find_by(token: params[:token])
 
     # Get all images
     url  = 'http://assets.athega.se/jullunch/all_images.json'
@@ -120,7 +122,7 @@ class Jullunch < Sinatra::Base
   end
 
   put '/check-in/guests/:token' do
-    guest = Guest.by_token(params[:token])
+    guest = Guest.find_by(token: params[:token])
 
     unless guest.nil?
       guest.image_url   = params[:image_url]

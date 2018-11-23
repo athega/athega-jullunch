@@ -1,0 +1,14 @@
+development:
+  clients:
+    default:
+      database: athega_jullunch
+      hosts:
+      - localhost:27017
+  options:
+    raise_not_found_error: false
+production:
+  clients:
+    default:
+      uri: <%= ENV['MONGOLAB_URI'] %>
+  options:
+    raise_not_found_error: false

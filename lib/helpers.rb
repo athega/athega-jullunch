@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require "sinatra/reloader"
 
 module Sinatra
   module JullunchHelpers
@@ -7,12 +8,12 @@ module Sinatra
     end
 
     def guest_by_token
-      Guest.by_token(params[:token]) unless params[:token].nil?
+      Guest.find_by(token: params[:token]) unless params[:token].nil?
     end
 
     def guest_by_rfid(rfid = params[:rfid])
       raise Sinatra::NotFound if rfid.nil?
-      Guest.by_rfid(rfid) or raise Sinatra::NotFound
+      Guest.find_by(rfid: rfid) or raise Sinatra::NotFound
     end
 
     def is_coming?

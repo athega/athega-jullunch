@@ -4,6 +4,33 @@
   .four.columns
     = haml :'admin/menu', :layout => false
   .twelve.columns
+    .row.remove-bottom
+      .one.column.alpha
+        %label
+          id
+          %small
+            %em 1130
+      .three.columns
+        %label
+          Namn
+          %small
+            %em 11:30
+      .one.column
+        %label
+          Gäster
+          %small
+            %em 20
+      .one.column
+        %label
+          Reserv.
+          %small
+            %em 1
+      .four.columns.omega
+        %label
+          Startdatum
+          %small
+            %em 2018-12-14 11:30:00 +0000
+
     %form{ :action => "/admin/sittings", :method => 'POST' }
       %fieldset
         .row.remove-bottom

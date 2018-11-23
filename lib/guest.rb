@@ -1,38 +1,57 @@
 # encoding: UTF-8
 
 class Guest
-  inherit Mongo::Model
+  include Mongoid::Document
 
-  collection "guests_#{Time.now.year}"
+  store_in collection: "guests_#{Time.now.year}"
 
-  attr_accessor :name, :company, :email, :image_url
-  attr_accessor :invited_by, :sitting_key, :status, :token
-  attr_accessor :invited_manually, :invitation_email_sent, :thank_you_email_sent, :welcome_email_sent
-  attr_accessor :arrived, :arrived_at, :departed, :departed_at
-  attr_accessor :image_url, :rfid
-  attr_accessor :mulled_wine, :food, :drink, :coffee
+  field :name
+  field :company
+  field :email
+  field :image_url
 
-  scope :invited_manually, invited_manually: true
-  scope :not_invited_manually, invited_manually: false
+  field :invited_by
+  field :sitting_key
+  field :status
+  field :token, type: String
 
-  scope :not_invited_yet,  invitation_email_sent: false, invited_manually: false
-  scope :not_arrived_yet,  arrived:  false, sitting_key: { _in: [1130, 1200, 1230, 1300, 1330] }
-  scope :not_welcomed_yet, welcome_email_sent: nil
-  scope :not_thanked_yet, thank_you_email_sent: nil
+  field :invited_manually, default: false
+  field :invitation_email_sent, default: false
+  field :thank_you_email_sent, default: false
+  field :welcome_email_sent, default: false
 
-  scope :arrived, arrived: true
-  scope :departed, departed: true
-  scope :invited, invitation_email_sent: true
-  scope :welcomed, welcome_email_sent: true
-  scope :thanked, thank_you_email_sent: true
-  scope :said_yes, sitting_key: { _in: [1130, 1200, 1230, 1300, 1330] }
+  field :arrived, default: false
+  field :arrived_at
+  field :departed, default: false
+  field :departed_at
 
-  scope :untagged, rfid: nil
+  field :rfid
+  field :mulled_wine, default: 0
+  field :food, default: 0
+  field :drink, default: 0
+  field :coffee, default: 0
 
-  validates_presence_of :name
-  validates_presence_of :company
-  validates_presence_of :email
-  validates_presence_of :invited_by
+  scope :invited_manually,     -> { where(invited_manually: true) }
+  scope :not_invited_manually, -> { where( invited_manually: false) }
+
+  scope :not_invited_yet,  -> { where(invitation_email_sent: false, invited_manually: false) }
+  scope :not_arrived_yet,  -> { where(arrived: false).in(sitting_key: [1130, 1200, 1230, 1300, 1330]) }
+  scope :not_welcomed_yet, -> { where(welcome_email_sent: nil) }
+  scope :not_thanked_yet,  -> { where(thank_you_email_sent: nil) }
+
+  scope :arrived,  -> { where(arrived: true) }
+  scope :departed, -> { where(departed: true) }
+  scope :invited,  -> { where(invitation_email_sent: true) }
+  scope :welcomed, -> { where(welcome_email_sent: true) }
+  scope :thanked,  -> { where(thank_you_email_sent: true) }
+  scope :said_yes, -> { where(:sitting_key.in => [1130, 1200, 1230, 1300, 1330]) }
+
+  scope :untagged, -> { where(rfid: nil) }
+
+  validates :name, presence: true
+  validates :company, presence: true
+  validates :email, presence: true
+  validates :invited_by, presence: true
 
   def has_checked_sitting?(sitting)
     sitting_key == sitting.key
@@ -43,7 +62,7 @@ class Guest
   end
 
   def sitting
-    s = Sitting.by_key(sitting_key)
+    s = Sitting.find_by(key: sitting_key)
 
     if s.nil?
       'Ej valt'
@@ -84,21 +103,13 @@ class Guest
 
   protected
 
-  def set_default_values
-    @token                  = _id if @token.nil?
-    @invited_manually       = false if @invited_manually.nil?
-    @invitation_email_sent  = false
-    @arrived                = false
-    @departed               = false
-    @mulled_wine            = 0
-    @food                   = 0
-    @drink                  = 0
-    @coffee                 = 0
+  def set_token
+    self.token = self._id if self.token.nil?
 
     save
   end
 
-  after_create :set_default_values
+  after_create :set_token
 
   private
 

@@ -42,6 +42,7 @@ class JullunchAdmin < Sinatra::Base
   end
 
   configure :development do
+    register Sinatra::Reloader
     set :forced_authentication, true
   end
 
@@ -57,10 +58,10 @@ class JullunchAdmin < Sinatra::Base
                        Google::APIClient::ClientSecrets.new(JSON.parse(ENV['CLIENT_SECRETS'])) :
                        Google::APIClient::ClientSecrets.load
       client.authorization = client_secrets.to_authorization
-      client.authorization.scope = 'https://www.googleapis.com/auth/userinfo.email'
     else
       client.authorization = file_storage.authorization
     end
+    client.authorization.scope = 'https://www.googleapis.com/auth/userinfo.email'
 
     set :api_client, client
     set :oauth2, client.discovered_api('oauth2', 'v2')
@@ -69,7 +70,7 @@ class JullunchAdmin < Sinatra::Base
   helpers do
     def logged_in?
       return true if settings.respond_to?(:forced_authentication)
-      return (user_credentials.access_token && session[:user_email].end_with?("@athega.se")) ? true : false
+      return (user_credentials.access_token && session[:user_email] && session[:user_email].end_with?("@athega.se")) ? true : false
     end
 
     include Rack::Utils
@@ -133,19 +134,19 @@ class JullunchAdmin < Sinatra::Base
       OpenStruct.new(text: 'TOTALT:',       count: Guest.count),
       OpenStruct.new(text: 'Inbjudningar:', count: Guest.invited.count),
       OpenStruct.new(text: 'Manuella:',     count: Guest.invited_manually.count),
-      OpenStruct.new(text: '11:30:',        count: Guest.all_by_sitting_key(1130).count),
-      OpenStruct.new(text: '12:00:',        count: Guest.all_by_sitting_key(1200).count),
-      OpenStruct.new(text: '12:30:',        count: Guest.all_by_sitting_key(1230).count),
-      OpenStruct.new(text: '13:00:',        count: Guest.all_by_sitting_key(1300).count),
-      OpenStruct.new(text: '13:30:',        count: Guest.all_by_sitting_key(1330).count),
+      OpenStruct.new(text: '11:30:',        count: Guest.where(sitting_key: 1130).count),
+      OpenStruct.new(text: '12:00:',        count: Guest.where(sitting_key: 1200).count),
+      OpenStruct.new(text: '12:30:',        count: Guest.where(sitting_key: 1230).count),
+      OpenStruct.new(text: '13:00:',        count: Guest.where(sitting_key: 1300).count),
+      OpenStruct.new(text: '13:30:',        count: Guest.where(sitting_key: 1330).count),
       OpenStruct.new(text: 'Tackat ja:',    count: Guest.said_yes.count),
-      OpenStruct.new(text: 'Tackat nej:',   count: Guest.all_by_sitting_key(0).count),
-      OpenStruct.new(text: 'Ej valt:',      count: Guest.all_by_sitting_key(nil).count),
+      OpenStruct.new(text: 'Tackat nej:',   count: Guest.where(sitting_key: 0).count),
+      OpenStruct.new(text: 'Ej valt:',      count: Guest.where(sitting_key: nil).count),
     ]
 
     haml :'admin/guests/index', locals: {
       page_title: 'Gäster - Athega Jullunch',
-      guests: Guest.sort([:company, 1], [:name, 1]).all,
+      guests: Guest.order_by(:company.desc, :name.desc).all,
       statistics: statistics
     }
   end
@@ -168,7 +169,7 @@ class JullunchAdmin < Sinatra::Base
   end
 
   delete '/admin/guests/:token' do
-    guest = Guest.by_token(params[:token])
+    guest = Guest.find_by(token: params[:token])
 
     guest.delete unless guest.nil?
 
@@ -178,12 +179,12 @@ class JullunchAdmin < Sinatra::Base
   get '/admin/sittings' do
     haml :'admin/sittings', locals: {
       page_title: 'Sittningar - Athega Jullunch',
-      sittings: Sitting.sort([:starts_at, -1]).all
+      sittings: Sitting.order_by(:starts_at.asc)
     }
   end
 
   post '/admin/sittings' do
-    sitting = Sitting.by_key(params[:key].to_i)
+    sitting = Sitting.find_by(key: params[:key])
 
     if sitting.nil?
       sitting = Sitting.new
@@ -194,14 +195,14 @@ class JullunchAdmin < Sinatra::Base
       sitting.number_of_guests_allowed = params[:number_of_guests_allowed].to_i
       sitting.number_of_reserved_seats = params[:number_of_reserved_seats].to_i
 
-      sitting.save
+      sitting.save!
     end
 
     redirect to('/admin/sittings')
   end
 
   post '/admin/sittings/:key' do
-    sitting = Sitting.by_key(params[:key].to_i)
+    sitting = Sitting.find_by(key: params[:key].to_i)
 
     unless sitting.nil?
       if params[:title].empty? || params[:starts_at].empty?
