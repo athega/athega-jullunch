@@ -16,4 +16,4 @@ Vårt kontor ligger på **Hantverkargatan 21, 3tr.**
 
 Närmaste tunnelbanestation är Rådhuset _(uppgång Parmmätargatan)_.
 
-[![Athega Map](https://maps.googleapis.com/maps/api/staticmap?center=Athega%20AB,%20Hantverkargatan%2021,%20Stockholm&markers=color:0xFF6600|Hantverkargatan%2021&zoom=15&size=245x245&sensor=false&scale=2&key=AIzaSyAb1UOKlC3CAIjBrGtBPYymHg3hcbQhrTQ)](http://g.co/maps/ndcuq)
+[![Athega Map](https://maps.googleapis.com/maps/api/staticmap?center=Athega%20AB,%20Hantverkargatan%2021,%20Stockholm&markers=color:0xFF6600|Hantverkargatan%2021&zoom=15&size=245x245&sensor=false&scale=2&key=AIzaSyDIJ9XX2ZvRKCJcFRrl-lRanEtFUow4piM)](http://g.co/maps/ndcuq)
