@@ -36,8 +36,8 @@ class Guest
 
   scope :not_invited_yet,  -> { where(invitation_email_sent: false, invited_manually: false) }
   scope :not_arrived_yet,  -> { where(arrived: false).in(sitting_key: [1130, 1200, 1230, 1300, 1330]) }
-  scope :not_welcomed_yet, -> { where(welcome_email_sent: nil) }
-  scope :not_thanked_yet,  -> { where(thank_you_email_sent: nil) }
+  scope :not_welcomed_yet, -> { where(welcome_email_sent: false) }
+  scope :not_thanked_yet,  -> { where(thank_you_email_sent: false) }
 
   scope :arrived,  -> { where(arrived: true) }
   scope :departed, -> { where(departed: true) }
