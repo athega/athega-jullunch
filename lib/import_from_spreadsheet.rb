@@ -25,7 +25,7 @@ class ImportFromSpreadsheet
           email       = row[2].strip.downcase
           invited_by  = row[3].strip
 
-          unless Guest.exist?(email: email)
+          unless Guest.where(email: email).exists?
             Guest.create name: name, company: company, email: email, invited_by: invited_by
             import_count += 1
           end
