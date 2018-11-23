@@ -48,7 +48,7 @@ class Notification
 
     sent_count = 0
 
-    Guest.said_yes.not_welcomed_yet.order([:company, 1], [:name, 1]).limit(30).each do |g|
+    Guest.said_yes.not_welcomed_yet.order_by(:company.asc, :name.asc).limit(30).each do |g|
       html = renderer.call name:       g.name,
                            company:    g.company,
                            invited_by: g.invited_by,
