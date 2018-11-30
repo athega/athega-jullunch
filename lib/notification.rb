@@ -48,7 +48,7 @@ class Notification
 
     sent_count = 0
 
-    Guest.not_reminded_yet.not_rsvped.sort([:company, 1], [:name, 1]).limit(30).each do |g|
+    Guest.not_reminded_yet.not_rsvped.order_by(:company, :name).limit(30).each do |g|
       html = renderer.call link:       g.token_uri,
                            name:       g.name,
                            company:    g.company,
