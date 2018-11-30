@@ -22,6 +22,12 @@
         %small (Max 1 mail per gäst)
       %input{ type: 'submit', value: 'Skicka inbjudningar (30 i taget)', onclick: 'return confirm("Är du HELT säker på att du vill skicka inbjudningarna?");' }
 
+    %form{ action: '/admin/notifications/send_all_pending_reminders', method: 'POST' }
+      %label.half-bottom
+        Påminn gäster som fått en inbjudan, men inte svarat.
+        %small (Max 1 mail per gäst)
+      %input{ type: 'submit', value: 'Skicka påminnelser (30 i taget)', onclick: 'return confirm("Är du HELT säker på att du vill skicka påminnelserna?");' }
+
     %form{ action: '/admin/notifications/send_all_pending_welcomes', method: 'POST' }
       %label.half-bottom
         Skicka välkomstmeddelande till alla gäster som meddelat att de kommer.

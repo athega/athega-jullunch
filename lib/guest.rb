@@ -17,8 +17,9 @@ class Guest
 
   field :invited_manually, default: false
   field :invitation_email_sent, default: false
-  field :thank_you_email_sent, default: false
+  field :reminder_email_sent, default: false
   field :welcome_email_sent, default: false
+  field :thank_you_email_sent, default: false
 
   field :arrived, default: false
   field :arrived_at
@@ -32,10 +33,12 @@ class Guest
   field :coffee, default: 0
 
   scope :invited_manually,     -> { where(invited_manually: true) }
-  scope :not_invited_manually, -> { where( invited_manually: false) }
+  scope :not_invited_manually, -> { where(invited_manually: false) }
+  scope :not_rsvped,           -> { where(sitting_key: false) }
 
   scope :not_invited_yet,  -> { where(invitation_email_sent: false, invited_manually: false) }
   scope :not_arrived_yet,  -> { where(arrived: false).in(sitting_key: [1130, 1200, 1230, 1300, 1330]) }
+  scope :not_reminded_yet, -> { where(reminder_email_sent: false) }
   scope :not_welcomed_yet, -> { where(welcome_email_sent: false) }
   scope :not_thanked_yet,  -> { where(thank_you_email_sent: false) }
 
