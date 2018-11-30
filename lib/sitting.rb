@@ -23,8 +23,7 @@ class Sitting
   end
 
   def guest_count
-    return 0
-#    Guest.count(sitting_key: key)
+    Guest.where(sitting_key: key).count
   end
 
   def guest_status_class
