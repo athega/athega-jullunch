@@ -12,13 +12,19 @@ class Mailer
     unless api_key.nil?
       api_url = "https://api:#{api_key}@api.mailgun.net/v3/mailer.athega.se"
 
-      response = RestClient.post api_url+"/messages",
-        :from => from,
-        :to => to,
-        :subject => subject,
-        :text => text,
-        :html => html,
-        :'o:testmode' => testmode ? 'yes' : 'no'
+      puts "Sending mail to #{to}"
+
+      begin
+        response = RestClient.post api_url+"/messages",
+                                   :from => from,
+                                   :to => to,
+                                   :subject => subject,
+                                   :text => text,
+                                   :html => html,
+                                   :'o:testmode' => testmode ? 'yes' : 'no'
+      rescue => e
+        puts "Failed to send to #{to} with error: #{e.response}"
+      end
     end
 
     Yajl::Parser.parse(response)
