@@ -37,6 +37,36 @@ class Notification
     sent_count
   end
 
+  def self.send_all_pending_reminders!
+    # Config
+    from     = 'athega@athega.se'
+    subject  = 'Du har väl inte missat att det är dags för Athegas jullunch?'
+
+    # Get the templates
+    template = IO.read('views/notifications/reminder.haml')
+    renderer = Haml::Engine.new(template).render_proc({}, :link, :name, :company, :invited_by)
+
+    sent_count = 0
+
+    Guest.not_reminded_yet.not_rsvped.sort([:company, 1], [:name, 1]).limit(50).each do |g|
+      html = renderer.call link:       g.token_uri,
+                           name:       g.name,
+                           company:    g.company,
+                           invited_by: g.invited_by
+
+      text     = html.gsub(/<\/?[^>]*>/, "")
+
+      response = Mailer.mail(from, g.email, subject, text, html)
+
+      if response["message"] == "Queued. Thank you."
+        g.reminder_email_sent = true
+        g.save
+        sent_count += 1
+      end
+    end
+    sent_count
+  end
+
   def self.send_all_pending_welcomes!
     # Config
     from     = 'athega@athega.se'
