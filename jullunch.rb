@@ -60,7 +60,7 @@ class Jullunch < Sinatra::Base
     sittings = Sitting.order_by(:starts_at.asc).all
 
     haml :index, locals: {
-      page_title: 'Athega Jullunch', sittings: sittings, guest: guest_by_token
+      page_title: 'Athega jullunch', sittings: sittings, guest: guest_by_token
     }
   end
 
@@ -73,7 +73,7 @@ class Jullunch < Sinatra::Base
     arrived_guests = Guest.arrived.order_by(:name.asc)
     haml :arrived_guests, locals: {
       arrived_guests: arrived_guests,
-      page_title: 'Alla gäster på Jullunchen'
+      page_title: 'Alla gäster på jullunchen'
     }
   end
 
@@ -153,7 +153,7 @@ class Jullunch < Sinatra::Base
 
   get '/about' do
     cache_control :public, :max_age => 5
-    haml :about, locals: { page_title: 'Om applikationen - Athega Jullunch' }
+    haml :about, locals: { page_title: 'Om applikationen - Athega jullunch' }
   end
 
   get '/companies.json' do

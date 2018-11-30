@@ -49,7 +49,7 @@ class JullunchAdmin < Sinatra::Base
   configure :production do
     set :static_cache_control, [:public, :max_age => 300]
 
-    client = Google::APIClient.new(:application_name => 'Athega Jullunch',
+    client = Google::APIClient.new(:application_name => 'Athega jullunch',
                                    :application_version => '1.0.0')
 
     file_storage = Google::APIClient::FileStorage.new(settings.credential_store_file)
@@ -145,7 +145,7 @@ class JullunchAdmin < Sinatra::Base
     ]
 
     haml :'admin/guests/index', locals: {
-      page_title: 'Gäster - Athega Jullunch',
+      page_title: 'Gäster - Athega jullunch',
       guests: Guest.order_by(:company.desc, :name.desc).all,
       statistics: statistics
     }
@@ -178,7 +178,7 @@ class JullunchAdmin < Sinatra::Base
 
   get '/admin/sittings' do
     haml :'admin/sittings', locals: {
-      page_title: 'Sittningar - Athega Jullunch',
+      page_title: 'Sittningar - Athega jullunch',
       sittings: Sitting.order_by(:starts_at.asc)
     }
   end
@@ -221,7 +221,7 @@ class JullunchAdmin < Sinatra::Base
 
   get '/admin/notifications' do
     haml :'admin/notifications', locals: {
-      page_title: 'Notifikationer - Athega Jullunch'
+      page_title: 'Notifikationer - Athega jullunch'
     }
   end
 
@@ -268,7 +268,7 @@ class JullunchAdmin < Sinatra::Base
 
   get '/admin/guest/untagged' do
     haml :'register/tag', locals: {
-      page_title: 'Taggning - Athega Jullunch',
+      page_title: 'Taggning - Athega jullunch',
       remaining: Guest.said_yes.untagged.count
     }
   end

@@ -82,7 +82,7 @@ class Guest
       output += ', blivit välkomnad' if welcome_email_sent
       output += ', blivit tackad' if thank_you_email_sent
       output += ', har dykt upp' if arrived
-      output += ' och lämnat Jullunchen' if departed
+      output += ' och lämnat jullunchen' if departed
     end
 
     output
