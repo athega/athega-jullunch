@@ -78,6 +78,24 @@ class JullunchRegister < Sinatra::Base
     public_json_response(guest)
   end
 
+  put '/register/qr_arrival/:token' do
+    guest = Guest.find_by(token: params[:token])
+
+    # If using untagged card, see if there are any untagged check-ins
+    if guest.nil?
+      raise Sinatra::NotFound
+    end
+
+    guest.arrived    = true
+    guest.arrived_at = Time.now.utc if guest.arrived_at.nil?
+    guest.save
+
+    send_to_event_stream('arrival', Yajl::Encoder.encode(guest))
+    send_to_event_stream('arrived', Guest.arrived.count)
+    send_to_event_stream('arrived-company', Guest.where(company: guest.company).count)
+    public_json_response(guest)
+  end
+
   ## Departure
   put '/register/departure/:rfid' do
     guest = guest_by_rfid

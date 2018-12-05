@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Athegas jullunch</title>
+		<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+		<meta content='yes' name='apple-mobile-web-app-capable'>
+		<meta content='black' name='apple-mobile-web-app-status-bar-style'>
+		<link rel="stylesheet" href="../infographics/main.css">
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+	</head>
+	<body>
+
+		<div class="container">
+
+			<h1 id="logo">Athega</h1>
+
+			<video id="preview" style="width:50%;"></video>
+			<div id="qr-result" style="float:right;"></div>
+
+			<script type="text/javascript">
+				const result = $('#qr-result');
+				const beep = new Audio('snappy-R2D2.mp3');
+                const scanner = new Instascan.Scanner({
+					video: document.getElementById('preview'),
+                    continuous: true,
+                    refractoryPeriod: 3000,
+                });
+                scanner.addListener('scan', function (content) {
+                    console.log('Scan:', content);
+                    result.append(content);
+                    $.ajax({
+						url: 'https://athega-jullunch.herokuapp.com/register/qr_arrival/' + content,
+						type: 'PUT',
+						success: () => result.append(' OK<br>'),
+						error: (_, err) => result.append(' ' + err + '<br>'),
+					});
+                    beep.play();
+                });
+                Instascan.Camera.getCameras().then(function (cameras) {
+                    if (cameras.length > 0) {
+                        scanner.start(cameras[0]);
+                    } else {
+                        console.error('No cameras found.');
+                    }
+                }).catch(function (e) {
+                    console.error(e);
+                });
+			</script>
+		</div>
+
+	</body>
+</html>
