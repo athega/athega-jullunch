@@ -9,32 +9,163 @@
 		<link rel="stylesheet" href="../infographics/main.css">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+		<script src="https://yahoo.github.io/gifshot/js/dependencies/gifshot.min.js"></script>
+		<script src="../infographics/main.js"></script>
+		<style>
+			.container { width: 80%; }
+			#arrival { display: block; }
+			#preview {
+				position: absolute;
+				width: 25%;
+				left: 40%;
+				top: -4%;
+			}
+			#scan-info {
+				position: absolute;
+				top: -10%;
+				left: 70%;
+			}
+			#scan-info img {
+				width: 60%;
+				margin-top: 15%;
+			}
+			#scan-info div {
+				color: #F60;
+				float: left;
+				margin-top: 35%;
+				margin-right: 10%;
+				font-size: 140%;
+			}
+			#qr-result {
+				line-height: 0;
+				margin-top: 40px;
+			}
+			#qr-result img { width: 10%; }
+			#arrival-photo { width: 27%; }
+			.arrival-text { width: 50%; }
+			#logo { margin-bottom: 10%; }
+		</style>
 	</head>
 	<body>
 
 		<div class="container">
 
-			<h1 id="logo">Athega</h1>
+			<h1 id="logo" ondblclick="createGif({token: '5c052da99b0cb60004b67af7', name: 'Christian Lizell'})">Athega</h1>
 
-			<video id="preview" style="width:50%;"></video>
-			<div id="qr-result" style="float:right;"></div>
+			<video id="preview"></video>
+			<div id="scan-info">
+				<div>&#11013;</div>
+				<img src="https://assets.athega.se/jullunch/2018/qrcode/5c052da99b0cb60004b67af7.png">
+			</div>
+
+			<div id="arrival" class="actions hidden">
+				<img id="arrival-photo" src="images/placeholder.svg">
+				<div class="arrival-text">
+					<h3>Nämen hej, <span id="arrival-name">…</span>!</h3>
+					<p>
+						Du är gäst nummer <span id="arrival-arrived">…</span> att anlända
+						och nummer <span id="arrival-arrived-company">…</span> av dina
+						kollegor på <span id="arrival-company">…</span>.
+					</p>
+					<p>Hjärtligt välkommen!</p>
+				</div>
+			</div>
+
+			<div id="qr-result"></div>
+
+			<div id="error"></div>
 
 			<script type="text/javascript">
+				const key = new URLSearchParams(window.location.search).get('key');
 				const result = $('#qr-result');
+				const arrivalPhoto = $('#arrival-photo');
+				const video = document.getElementById('preview');
 				const beep = new Audio('snappy-R2D2.mp3');
+				const images = [];
                 const scanner = new Instascan.Scanner({
-					video: document.getElementById('preview'),
+					video,
                     continuous: true,
                     refractoryPeriod: 3000,
                 });
-                scanner.addListener('scan', function (content) {
+
+                if (key) {
+					jQuery.ajaxPrefilter(function(options) {
+						if (options.crossDomain && jQuery.support.cors) {
+							options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+						}
+					});
+				}
+
+				const getName = (user) => {
+					try {
+						return user.name.split(' ')[0].toUpperCase();
+					} catch (e) {
+						console.log('Failed to extract name from', user);
+					}
+					return '';
+				};
+
+				// Convert data URL to file and post it
+				const postImage = (imgSrc, token) => {
+					const binary = atob(imgSrc.split(',')[1]);
+					const array = [];
+					for(let i = 0; i < binary.length; i++) {
+						array.push(binary.charCodeAt(i));
+					}
+					const imgBlob = new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+
+					const fd = new FormData();
+					fd.append('token', token);
+					fd.append('image', imgBlob);
+
+					$.ajax({
+						url: 'https://jullunch-backend.athega.se/upload_image',
+						type: 'POST',
+						headers: { 'X-Api-Key': key },
+						data: fd,
+						processData: false,
+						contentType: false,
+						success: (res) => console.log('Image upload success', res),
+						error: (_, errStatus, err) => console.error('Image upload error', errStatus, err),
+					});
+				};
+
+				// Create the gif from the image buffer
+                const createGif = (user) => {
+					window.setTimeout(() => {
+						gifshot.createGIF({
+							images,
+							text: getName(user),
+							resizeFont: true,
+							fontSize: '24px',
+							fontColor: '#F60',
+							fontFamily: 'PT Sans Narrow' },
+							(obj) => {
+								if(!obj.error) {
+									const animatedImage = document.createElement('img');
+									animatedImage.src = obj.image;
+									result.prepend(animatedImage);
+
+									arrivalPhoto.removeClass('photo-anim-in');
+									arrivalPhoto.attr('src', obj.image);
+									window.setTimeout(() => arrivalPhoto.addClass('photo-anim-in'), 50);
+
+									postImage(obj.image, user.token);
+								} else {
+									console.error('Gif creation error', obj.error);
+								}
+						});
+					}, 1100);
+				};
+
+                // Initiate the QR scanner
+				scanner.addListener('scan', function (content) {
                     console.log('Scan:', content);
-                    result.append(content);
                     $.ajax({
 						url: 'https://athega-jullunch.herokuapp.com/register/qr_arrival/' + content,
 						type: 'PUT',
-						success: () => result.append(' OK<br>'),
-						error: (_, err) => result.append(' ' + err + '<br>'),
+						success: (user) => createGif(user),
+						error: (_, errStatus, err) => console.error('Scan error:', errStatus, err),
 					});
                     beep.play();
                 });
@@ -45,8 +176,25 @@
                         console.error('No cameras found.');
                     }
                 }).catch(function (e) {
-                    console.error(e);
+                    console.error('Camera init error', e);
                 });
+
+                // Capture and keep the last 10 images with a 250ms interval
+                window.setInterval(() => {
+					const scale = 0.25;
+					const canvas = document.createElement("canvas");
+					canvas.width = video.videoWidth * scale;
+					canvas.height = video.videoHeight * scale;
+					canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+					const img = document.createElement("img");
+					img.src = canvas.toDataURL();
+					images.push(img);
+
+					if (images.length > 10) {
+						images.shift();
+					}
+				}, 300);
 			</script>
 		</div>
 
