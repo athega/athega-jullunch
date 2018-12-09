@@ -74,7 +74,7 @@ class Notification
 
     # Get the templates
     template = IO.read('views/notifications/welcome.haml')
-    renderer = Haml::Engine.new(template).render_proc({}, :name, :company, :invited_by, :sitting)
+    renderer = Haml::Engine.new(template).render_proc({}, :name, :company, :invited_by, :sitting, :token)
 
     sent_count = 0
 
@@ -82,7 +82,8 @@ class Notification
       html = renderer.call name:       g.name,
                            company:    g.company,
                            invited_by: g.invited_by,
-                           sitting:    g.sitting
+                           sitting:    g.sitting,
+                           token:      g.token
 
       text     = html.gsub(/<\/?[^>]*>/, "")
       response = Mailer.mail(from, g.email, subject, text, html)
