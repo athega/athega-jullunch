@@ -37,7 +37,7 @@ class Guest
   scope :not_rsvped,           -> { where(sitting_key: nil) }
 
   scope :not_invited_yet,  -> { where(invitation_email_sent: false, invited_manually: false) }
-  scope :not_arrived_yet,  -> { where(arrived: false).in(sitting_key: [1130, 1200, 1230, 1300, 1330]) }
+  scope :not_arrived_yet,  -> { where(arrived: false).in(sitting_key: [1130, 1200, 1230, 1300, 1330, 1600]) }
   scope :not_reminded_yet, -> { where(reminder_email_sent: false) }
   scope :not_welcomed_yet, -> { where(welcome_email_sent: false) }
   scope :not_thanked_yet,  -> { where(thank_you_email_sent: false) }
@@ -47,7 +47,7 @@ class Guest
   scope :invited,  -> { where(invitation_email_sent: true) }
   scope :welcomed, -> { where(welcome_email_sent: true) }
   scope :thanked,  -> { where(thank_you_email_sent: true) }
-  scope :said_yes, -> { where(:sitting_key.in => [1130, 1200, 1230, 1300, 1330]) }
+  scope :said_yes, -> { where(:sitting_key.in => [1130, 1200, 1230, 1300, 1330, 1600]) }
 
   scope :untagged, -> { where(rfid: nil) }
 
