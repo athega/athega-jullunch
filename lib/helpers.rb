@@ -4,7 +4,7 @@ require "sinatra/reloader"
 module Sinatra
   module JullunchHelpers
     def has_valid_token?
-      !guest_by_token.nil? && (Time.now.utc < Time.parse('2018-12-12').utc)
+      !guest_by_token.nil? && (Time.now.utc < Time.parse('2019-12-11').utc)
     end
 
     def guest_by_token

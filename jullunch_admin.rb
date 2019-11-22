@@ -251,15 +251,15 @@ class JullunchAdmin < Sinatra::Base
     number_of_guests_allowed = params[:number_of_guests_allowed].to_i
     number_of_reserved_seats = params[:number_of_reserved_seats].to_i
 
-    Sitting.new(key: 1130, title: '11:30', starts_at: Time.parse('2018-12-14 11:30:00 CET').utc,
+    Sitting.new(key: 1130, title: '11:30', starts_at: Time.parse('2019-12-13 11:30:00 CET').utc,
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
-    Sitting.new(key: 1200, title: '12:00', starts_at: Time.parse('2018-12-14 12:00:00 CET').utc,
+    Sitting.new(key: 1200, title: '12:00', starts_at: Time.parse('2019-12-13 12:00:00 CET').utc,
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
-    Sitting.new(key: 1230, title: '12:30', starts_at: Time.parse('2018-12-14 12:30:00 CET').utc,
+    Sitting.new(key: 1230, title: '12:30', starts_at: Time.parse('2019-12-13 12:30:00 CET').utc,
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
-    Sitting.new(key: 1300, title: '13:00', starts_at: Time.parse('2018-12-14 13:00:00 CET').utc,
+    Sitting.new(key: 1300, title: '13:00', starts_at: Time.parse('2019-12-13 13:00:00 CET').utc,
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
-    Sitting.new(key: 1330, title: '13:30', starts_at: Time.parse('2018-12-14 13:30:00 CET').utc,
+    Sitting.new(key: 1330, title: '13:30', starts_at: Time.parse('2019-12-13 13:30:00 CET').utc,
                 number_of_guests_allowed: number_of_guests_allowed, number_of_reserved_seats: number_of_reserved_seats).save
     Sitting.new(key: 0000, title: 'Jag måste tyvärr tacka nej').save
 
