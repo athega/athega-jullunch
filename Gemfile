@@ -13,7 +13,7 @@ gem "rest-client",       "~> 2"
 
 gem "sinatra",           "~> 1.4", require: "sinatra/base"
 gem "sinatra-contrib", "~> 1.4"
-gem "haml",              "~> 4.0"
+gem "haml",              "~> 5.0"
 
 gem "bson",              "~> 4.3.0"
 gem "mongo",             "~> 2.5.0"
