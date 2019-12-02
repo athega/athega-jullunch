@@ -2,6 +2,7 @@
 
 class Guest
   include Mongoid::Document
+  include Mongoid::Token
 
   store_in collection: "guests_#{Time.now.year}"
 
@@ -13,7 +14,6 @@ class Guest
   field :invited_by
   field :sitting_key
   field :status
-  field :token, type: String
 
   field :invited_manually, default: false
   field :invitation_email_sent, default: false
@@ -55,6 +55,8 @@ class Guest
   validates :company, presence: true
   validates :email, presence: true
   validates :invited_by, presence: true
+
+  token :length => 5
 
   def has_checked_sitting?(sitting)
     sitting_key == sitting.key
@@ -105,14 +107,6 @@ class Guest
   end
 
   protected
-
-  def set_token
-    self.token = self._id if self.token.nil?
-
-    save
-  end
-
-  after_create :set_token
 
   private
 

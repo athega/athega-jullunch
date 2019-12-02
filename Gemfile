@@ -17,7 +17,8 @@ gem "haml",              "~> 5.0"
 
 gem "bson",              "~> 4.3.0"
 gem "mongo",             "~> 2.5.0"
-gem "mongoid",           "~> 7.0"
+gem "mongoid",           "~> 6.0"
+gem "mongoid_token",     :git => 'https://github.com/ritxi/mongoid_token'
 
 gem 'retriable', '3.0.1'
 
