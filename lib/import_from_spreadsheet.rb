@@ -40,8 +40,8 @@ class ImportFromSpreadsheet
 
   def csv_uri
     'https://docs.google.com/spreadsheets/d/e/' +
-    '2PACX-1vT-hvkA1NWobWqX-ey96mzPe3FiueM_BvM-qFUVtri46pIA9wQMSbhhu3qoW1ceTWPfRKsIU0ZtTMS2' +
-    '/pub?gid=2088093954&single=true&output=csv'
+    '2PACX-1vRAG7jIvJg2hKge-dzrMmpgod6LzQfRwWX3kgjeYcJH6c26B3JDvqJmV4syN1zeN8SjpPs254JnWucz' +
+    '/pub?gid=413841850&single=true&output=csv'
   end
 
   def test_csv_uri
