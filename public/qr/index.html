@@ -141,10 +141,10 @@
 					} else {
 						reportError('Ingen API-nyckel. Sätt den om du vill ladda upp filmen.');
 					}
-					};
+				};
 
 				// Create the gif from the image buffer
-                const createGif = (user) => {
+        const createGif = (user) => {
 					window.setTimeout(() => {
 						gifshot.createGIF({
 							images,
@@ -170,13 +170,13 @@
 									console.error('Gif creation error', obj.error);
 								}
 						});
-					}, 1100);
+					}, 800);
 				};
 
-                // Initiate the QR scanner
+        // Initiate the QR scanner
 				scanner.addListener('scan', function (content) {
-                    console.log('Scan:', content);
-                    $.ajax({
+					console.log('Scan:', content);
+					$.ajax({
 						url: 'https://athega-jullunch.herokuapp.com/register/qr_arrival/' + content,
 						type: 'PUT',
 						success: (user) => createGif(user),
@@ -185,20 +185,21 @@
 							reportError(`Registrering: ${err}`);
 						},
 					});
-                    beep.play();
-                });
-                Instascan.Camera.getCameras().then(function (cameras) {
-                    if (cameras.length > 0) {
-                        scanner.start(cameras[0]);
-                    } else {
-                        console.error('No cameras found.');
-                    }
-                }).catch(function (e) {
-                    console.error('Camera init error', e);
-                });
+					beep.play();
+				});
 
-                // Capture and keep the last 10 images with a 250ms interval
-                window.setInterval(() => {
+				Instascan.Camera.getCameras().then(function (cameras) {
+					if (cameras.length > 0) {
+							scanner.start(cameras[0]);
+					} else {
+							console.error('No cameras found.');
+					}
+				}).catch(function (e) {
+						console.error('Camera init error', e);
+				});
+
+				// Capture and keep the last 10 images with a 300ms interval
+				window.setInterval(() => {
 					const scale = 0.25;
 					const canvas = document.createElement("canvas");
 					canvas.width = video.videoWidth * scale;
