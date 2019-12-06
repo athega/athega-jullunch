@@ -47,13 +47,14 @@
 				margin-top: 5%;
 			}
 			#logo { margin-bottom: 10%; }
+			#error { clear: both; }
 		</style>
 	</head>
 	<body>
 
 		<div class="container">
 
-			<h1 id="logo" ondblclick="createGif({token: '5c052da99b0cb60004b67af7', name: 'Christian Lizell'})">Athega</h1>
+			<h1 id="logo" ondblclick="createGif({token: 'G826g', name: 'Christian Lizell'})">Athega</h1>
 
 			<video id="preview"></video>
 			<div id="scan-info">
@@ -74,24 +75,26 @@
 				</div>
 			</div>
 
-			<div id="qr-result"></div>
-
 			<div id="error"></div>
 
+			<div id="qr-result"></div>
+
 			<script type="text/javascript">
+				const reportError = err => $('#error').html(`<pre>${err}</pre>`).fadeIn(100).fadeOut(3000);
+
 				const key = new URLSearchParams(window.location.search).get('key');
 				const result = $('#qr-result');
 				const arrivalPhoto = $('#arrival-photo');
 				const video = document.getElementById('preview');
 				const beep = new Audio('snappy-R2D2.mp3');
 				const images = [];
-                const scanner = new Instascan.Scanner({
+				const scanner = new Instascan.Scanner({
 					video,
-                    continuous: true,
-                    refractoryPeriod: 3000,
-                });
+					continuous: true,
+					refractoryPeriod: 3000,
+				});
 
-                if (key) {
+				if (key) {
 					jQuery.ajaxPrefilter(function(options) {
 						if (options.crossDomain && jQuery.support.cors) {
 							options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
@@ -121,17 +124,24 @@
 					fd.append('token', token);
 					fd.append('image', imgBlob);
 
-					$.ajax({
-						url: 'https://jullunch-backend.athega.se/upload_image',
-						type: 'POST',
-						headers: { 'X-Api-Key': key },
-						data: fd,
-						processData: false,
-						contentType: false,
-						success: (res) => console.log('Image upload success', res),
-						error: (_, errStatus, err) => console.error('Image upload error', errStatus, err),
-					});
-				};
+					if (key) {
+						$.ajax({
+							url: 'https://jullunch-backend.athega.se/upload_image',
+							type: 'POST',
+							headers: { 'X-Api-Key': key },
+							data: fd,
+							processData: false,
+							contentType: false,
+							success: (res) => console.log('Image upload success', res),
+							error: (_, errStatus, err) => {
+								console.error('Image upload error', errStatus, err);
+								reportError('Bilduppladdningsfel');
+							},
+						});
+					} else {
+						reportError('Ingen API-nyckel. Sätt den om du vill ladda upp filmen.');
+					}
+					};
 
 				// Create the gif from the image buffer
                 const createGif = (user) => {
@@ -140,6 +150,8 @@
 							images,
 							text: getName(user),
 							resizeFont: true,
+							gifWidth: 267,
+							gifHeight: 200,
 							fontSize: '24px',
 							fontColor: '#F60',
 							fontFamily: 'PT Sans Narrow' },
@@ -168,7 +180,10 @@
 						url: 'https://athega-jullunch.herokuapp.com/register/qr_arrival/' + content,
 						type: 'PUT',
 						success: (user) => createGif(user),
-						error: (_, errStatus, err) => console.error('Scan error:', errStatus, err),
+						error: (_, errStatus, err) => {
+							console.error('Scan error:', errStatus, err);
+							reportError(`Registrering: ${err}`);
+						},
 					});
                     beep.play();
                 });
