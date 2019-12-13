@@ -11,7 +11,8 @@
     %small.three.columns
       %a{ href: "/?token=#{guest.token}", title: guest.status_string }= h guest.name
     %small.three.columns= h guest.company
-    %small.five.columns=  h guest.email
+    %small.five.columns
+      %a{ href: "https://assets.athega.se/jullunch/2018/qrcode/?text=#{guest.token}", title: guest.email }=  h guest.email
     %small.three.columns= h guest.invited_by
     %small.one.column= h guest.sitting
     .one.column
