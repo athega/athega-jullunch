@@ -1,7 +1,7 @@
 %h2.add-bottom= title
 .row.remove-bottom
-  %label.three.columns Namn
-  %label.three.columns Företag
+  %label.four.columns Namn
+  %label.two.columns Företag
   %label.five.columns  E-post
   %label.three.columns Inbjuden av
   %label.one.columns   Sittning
@@ -10,7 +10,11 @@
     %hr.half-bottom
     %small.three.columns
       %a{ href: "/?token=#{guest.token}", title: guest.status_string }= h guest.name
-    %small.three.columns= h guest.company
+    %small.one.column
+      - if guest.image_url
+        %a{ href: guest.image_url }
+          %img{ src: guest.image_url}
+    %small.two.columns= h guest.company
     %small.five.columns
       %a{ href: "https://assets.athega.se/jullunch/2018/qrcode/?text=#{guest.token}", title: guest.email }=  h guest.email
     %small.three.columns= h guest.invited_by
