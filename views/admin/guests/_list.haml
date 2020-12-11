@@ -1,8 +1,8 @@
 %h2.add-bottom= title
 .row.remove-bottom
   %label.four.columns Namn
-  %label.two.columns Företag
-  %label.five.columns  E-post
+  %label.three.columns Företag
+  %label.four.columns  E-post
   %label.three.columns Inbjuden av
   %label.one.columns   Sittning
 - guests.each do |guest|
@@ -14,8 +14,10 @@
       - if guest.image_url
         %a{ href: guest.image_url }
           %img{ src: guest.image_url}
-    %small.two.columns= h guest.company
-    %small.five.columns
+      - else
+        &nbsp;
+    %small.three.columns= h guest.company
+    %small.four.columns
       %a{ href: "https://assets.athega.se/jullunch/2018/qrcode/?text=#{guest.token}", title: guest.email }=  h guest.email
     %small.three.columns= h guest.invited_by
     %small.one.column= h guest.sitting
